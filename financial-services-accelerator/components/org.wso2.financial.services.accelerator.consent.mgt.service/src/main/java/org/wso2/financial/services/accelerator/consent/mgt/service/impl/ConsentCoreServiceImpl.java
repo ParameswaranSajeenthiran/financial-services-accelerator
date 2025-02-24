@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.oauth2.IdentityOAuth2Exception;
+import org.wso2.financial.services.accelerator.common.exception.AsgardeoUtilsException;
 import org.wso2.financial.services.accelerator.common.exception.ConsentManagementException;
 import org.wso2.financial.services.accelerator.common.util.DatabaseUtils;
 import org.wso2.financial.services.accelerator.consent.mgt.dao.ConsentCoreDAO;
@@ -987,6 +988,8 @@ public class ConsentCoreServiceImpl implements ConsentCoreService {
                         consentID.replaceAll("[\r\n]", "")), e);
                 throw new ConsentManagementException("Error occurred while revoking tokens for the consent ID: "
                         + consentID);
+            } catch (AsgardeoUtilsException e) {
+                throw new RuntimeException(e);
             }
         } finally {
             log.debug(ConsentCoreServiceConstants.DATABASE_CONNECTION_CLOSE_LOG_MSG);
@@ -1088,6 +1091,8 @@ public class ConsentCoreServiceImpl implements ConsentCoreService {
             } catch (IdentityOAuth2Exception e) {
                 log.error("Error while revoking tokens for existing consents", e);
                 throw new ConsentManagementException("Error occurred while revoking tokens for existing consents");
+            } catch (AsgardeoUtilsException e) {
+                throw new RuntimeException(e);
             }
         } finally {
             log.debug(ConsentCoreServiceConstants.DATABASE_CONNECTION_CLOSE_LOG_MSG);

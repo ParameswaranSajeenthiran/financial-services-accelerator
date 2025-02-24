@@ -21,16 +21,15 @@ package org.wso2.financial.services.accelerator.common.util;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.identity.oauth.common.OAuth2ErrorCodes;
 import org.wso2.carbon.identity.oauth.common.exception.InvalidOAuthClientException;
 import org.wso2.carbon.identity.oauth2.IdentityOAuth2Exception;
-import org.wso2.carbon.identity.oauth2.RequestObjectException;
 import org.wso2.carbon.identity.oauth2.util.OAuth2Util;
-import org.wso2.carbon.user.api.UserStoreException;
 import org.wso2.financial.services.accelerator.common.constant.FinancialServicesConstants;
 import org.wso2.financial.services.accelerator.common.exception.FinancialServicesException;
 import org.wso2.financial.services.accelerator.common.exception.FinancialServicesRuntimeException;
+import org.wso2.financial.services.accelerator.common.exception.OAuth2ServiceException;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.regex.Pattern;
 
@@ -43,7 +42,7 @@ public class FinancialServicesUtils {
 
     /**
      * Get Tenant Domain String for the client id.
-     * 
+     *
      * @param clientId the client id of the application
      * @return tenant domain of the client
      * @throws FinancialServicesException if an error occurs while retrieving the
@@ -75,7 +74,7 @@ public class FinancialServicesUtils {
             log.error("Class not found: " + classpath.replaceAll("[\r\n]", ""));
             throw new FinancialServicesRuntimeException("Cannot find the defined class", e);
         } catch (InstantiationException | InvocationTargetException | NoSuchMethodException
-                | IllegalAccessException e) {
+                 | IllegalAccessException e) {
             // Throwing a runtime exception since we cannot proceed with invalid objects
             throw new FinancialServicesRuntimeException("Defined class" + classpath + "cannot be instantiated.", e);
         }
@@ -98,22 +97,17 @@ public class FinancialServicesUtils {
 
     /**
      * Check whether the client ID belongs to a regulatory app.
-     * 
+     *
      * @param clientId client ID
      * @return true if the client ID belongs to a regulatory app
-     * @throws RequestObjectException If an error occurs while checking the client ID
+     * @throws OAuth2ServiceException If an error occurs while using OAuth2 Rest API
      */
     @Generated(message = "Excluding from code coverage since it requires a service call")
-    public static boolean isRegulatoryApp(String clientId) throws RequestObjectException {
-
+    public static boolean isRegulatoryApp(String clientId) throws OAuth2ServiceException {
         try {
-            return OAuth2Util.isFapiConformantApp(clientId);
-        } catch (InvalidOAuthClientException e) {
-            throw new RequestObjectException(OAuth2ErrorCodes.INVALID_CLIENT, "Could not find an existing app for " +
-                    "clientId: " + clientId, e);
-        } catch (IdentityOAuth2Exception e) {
-            throw new RequestObjectException(OAuth2ErrorCodes.SERVER_ERROR, "Error while obtaining the service " +
-                    "provider for clientId: " + clientId, e);
+            return AsgardeoUtils.isFAPIApplication(clientId, FinancialServicesConstants.TENANT_DOMAIN);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -135,14 +129,20 @@ public class FinancialServicesUtils {
         String username = null;
         try {
             if (userID.contains(FinancialServicesConstants.TENANT_DOMAIN)) {
-                username =  OAuth2Util.resolveUsernameFromUserId(FinancialServicesConstants.TENANT_DOMAIN,
-                        userID.split("@" + FinancialServicesConstants.TENANT_DOMAIN)[0]);
+
+                username = AsgardeoUtils.getUserNameByUserId(userID.split("@" +
+                                FinancialServicesConstants.TENANT_DOMAIN)[0],
+                        FinancialServicesConstants.TENANT_DOMAIN);
+
             } else {
-                username =  OAuth2Util.resolveUsernameFromUserId(FinancialServicesConstants.TENANT_DOMAIN, userID);
+                username =  AsgardeoUtils.getUserNameByUserId(FinancialServicesConstants.TENANT_DOMAIN, userID);
             }
-        } catch (UserStoreException e) {
-            log.debug("Returning null since user ID is not found in the database", e);
+        } catch (UnsupportedEncodingException e) {
+            log.debug("Error occurred while resolving username from user ID", e);
+        } catch (OAuth2ServiceException e) {
+            log.debug("Error occurred while resolving username from user ID", e);
             return null;
+
         }
         return username;
     }

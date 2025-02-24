@@ -31,6 +31,7 @@ import org.wso2.carbon.identity.oauth2.RequestObjectException;
 import org.wso2.carbon.identity.oauth2.model.OAuth2Parameters;
 import org.wso2.carbon.user.api.UserStoreException;
 import org.wso2.financial.services.accelerator.common.exception.ConsentManagementException;
+import org.wso2.financial.services.accelerator.common.exception.OAuth2ServiceException;
 import org.wso2.financial.services.accelerator.common.util.FinancialServicesUtils;
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.utils.ConsentCache;
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.utils.ConsentConstants;
@@ -124,7 +125,7 @@ public class ConsentAuthorizeEndpoint {
     @Produces({ "application/json; charset=utf-8" })
     public Response retrieve(@Context HttpServletRequest request, @Context HttpServletResponse response,
             @PathParam("session-data-key") String sessionDataKey) throws ConsentException,
-            ConsentManagementException, UserStoreException {
+            ConsentManagementException, UserStoreException, OAuth2ServiceException {
 
         String loggedInUser;
         String app;
@@ -146,6 +147,7 @@ public class ConsentAuthorizeEndpoint {
             throw new ConsentException(null, AuthErrorCode.INVALID_REQUEST,
                     "Invalid redirect URI", state);
         }
+
 
         Map<String, Serializable> sensitiveDataMap = ConsentUtils.getSensitiveDataWithConsentKey(sessionDataKey);
 
@@ -187,10 +189,8 @@ public class ConsentAuthorizeEndpoint {
 
         try {
             consentData.setRegulatory(FinancialServicesUtils.isRegulatoryApp(clientId));
-        } catch (RequestObjectException e) {
-            log.error("Error while getting regulatory data", e);
-            throw new ConsentException(redirectURI, AuthErrorCode.SERVER_ERROR,
-                    "Error while obtaining regulatory data", state);
+        } catch (OAuth2ServiceException e) {
+            throw new OAuth2ServiceException("Error while checking if the client is a regulatory app", e);
         }
 
         executeRetrieval(consentData, jsonObject);

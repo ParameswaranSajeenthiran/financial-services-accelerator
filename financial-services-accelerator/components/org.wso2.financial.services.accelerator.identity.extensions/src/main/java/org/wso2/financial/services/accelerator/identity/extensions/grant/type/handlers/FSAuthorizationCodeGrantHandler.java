@@ -23,6 +23,7 @@ import org.wso2.carbon.identity.oauth2.RequestObjectException;
 import org.wso2.carbon.identity.oauth2.dto.OAuth2AccessTokenRespDTO;
 import org.wso2.carbon.identity.oauth2.token.OAuthTokenReqMessageContext;
 import org.wso2.carbon.identity.oauth2.token.handlers.grant.AuthorizationCodeGrantHandler;
+import org.wso2.financial.services.accelerator.common.exception.OAuth2ServiceException;
 import org.wso2.financial.services.accelerator.common.util.FinancialServicesUtils;
 import org.wso2.financial.services.accelerator.identity.extensions.util.IdentityCommonUtils;
 
@@ -41,7 +42,7 @@ public class FSAuthorizationCodeGrantHandler extends AuthorizationCodeGrantHandl
                 tokReqMsgCtx.setScope(IdentityCommonUtils.removeInternalScopes(tokReqMsgCtx.getScope()));
                 return oAuth2AccessTokenRespDTO;
             }
-        } catch (RequestObjectException e) {
+        } catch (OAuth2ServiceException e) {
             throw new IdentityOAuth2Exception(e.getMessage());
         }
         return super.issue(tokReqMsgCtx);

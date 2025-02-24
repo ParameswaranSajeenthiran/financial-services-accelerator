@@ -41,6 +41,8 @@
     <test name="jwt-utils-test">
         <classes>
             <class name="org.wso2.financial.services.accelerator.common.test.util.JWTUtilsTest"/>
+            <class name="org.wso2.financial.services.accelerator.common.test.services.OAuthServiceTest"/>
+            <class name="org.wso2.financial.services.accelerator.common.test.util.AsgardeoUtilsTest"/>
         </classes>
     </test>
 </suite>

@@ -311,6 +311,7 @@ public class ConsentUtils {
     public static URI authorizeRequest(String consent, Map<String, String> cookies, ConsentData consentData) {
 
         String authorizeURL = IdentityUtil.getProperty("OAuth.OAuth2AuthzEPUrl");
+        System.out.println("authorizeURL: " + authorizeURL);
         try (CloseableHttpClient client = HTTPClientUtils.createClientWithCustomVerifier().build()) {
 
             BasicCookieStore cookieStore = new BasicCookieStore();
@@ -351,6 +352,11 @@ public class ConsentUtils {
             throw new ConsentException(consentData.getRedirectURI(), AuthErrorCode.SERVER_ERROR,
                     "Internal server error", consentData.getState());
         }
+    }
+
+    public static void main(String[] args) {
+        authorizeRequest("consent", new HashMap<>(), new ConsentData("sessionDataKey", "userId", "spQueryParams",
+                "scopeString", "application", new HashMap<>()));
     }
 
     public static JSONObject detailedConsentToJSON(DetailedConsentResource detailedConsentResource) {

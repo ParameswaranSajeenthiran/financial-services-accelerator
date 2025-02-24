@@ -30,6 +30,7 @@ import org.wso2.carbon.identity.oauth2.dto.OAuthRevocationRequestDTO;
 import org.wso2.carbon.identity.oauth2.dto.OAuthRevocationResponseDTO;
 import org.wso2.carbon.identity.oauth2.model.AccessTokenDO;
 import org.wso2.carbon.user.core.util.UserCoreUtil;
+import org.wso2.financial.services.accelerator.common.exception.AsgardeoUtilsException;
 import org.wso2.financial.services.accelerator.common.util.Generated;
 import org.wso2.financial.services.accelerator.consent.mgt.dao.models.DetailedConsentResource;
 import org.wso2.financial.services.accelerator.consent.mgt.service.internal.ConsentMgtDataHolder;
@@ -46,7 +47,7 @@ public class TokenRevocationUtil {
     private static final Log log = LogFactory.getLog(TokenRevocationUtil.class);
 
     public static void revokeTokens(DetailedConsentResource detailedConsentResource, String userID)
-            throws IdentityOAuth2Exception {
+            throws IdentityOAuth2Exception, AsgardeoUtilsException {
 
         OAuth2Service oAuth2Service = getOAuth2Service();
         String clientId = detailedConsentResource.getClientID();
@@ -81,6 +82,11 @@ public class TokenRevocationUtil {
                 revokeRequestDTO.setConsumerKey(clientId);
                 revokeRequestDTO.setTokenType(GrantType.REFRESH_TOKEN.toString());
 
+                //                    String clientSecret = AsgardeoUtils.getClientSecretByClientId(clientId,
+//                            FinancialServicesConstants.TENANT_DOMAIN);
+//                    revokeRequestDTO.setConsumerSecret(clientSecret);
+
+
                 for (String activeToken : activeTokens) {
                     // set access token to be revoked
                     revokeRequestDTO.setToken(activeToken);
@@ -95,6 +101,7 @@ public class TokenRevocationUtil {
                                         consentId, oAuthRevocationResponseDTO.getErrorMsg()));
                     }
                 }
+
             }
         }
     }
@@ -117,7 +124,8 @@ public class TokenRevocationUtil {
 
     @Generated(message = "Excluded from code coverage since used for testing purposes")
     public static Set<AccessTokenDO> getAccessTokenDOSet(DetailedConsentResource detailedConsentResource,
-                                                  AuthenticatedUser authenticatedUser) throws IdentityOAuth2Exception {
+                                                         AuthenticatedUser authenticatedUser) throws
+            IdentityOAuth2Exception {
 
         return OAuthTokenPersistenceFactory.getInstance().getAccessTokenDAO()
                 .getAccessTokens(detailedConsentResource.getClientID(), authenticatedUser,
@@ -126,7 +134,7 @@ public class TokenRevocationUtil {
 
     @Generated(message = "Excluded from code coverage since used for testing purposes")
     public static OAuthRevocationResponseDTO revokeTokenByClient(OAuth2Service oAuth2Service,
-                                                          OAuthRevocationRequestDTO revocationRequestDTO) {
+                                                                 OAuthRevocationRequestDTO revocationRequestDTO) {
 
         return oAuth2Service.revokeTokenByOAuthClient(revocationRequestDTO);
     }
