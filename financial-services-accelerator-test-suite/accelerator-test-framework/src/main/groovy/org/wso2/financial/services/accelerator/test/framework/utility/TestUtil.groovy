@@ -208,4 +208,31 @@ class TestUtil extends OBTestUtil{
             return new File(resource.getFile())
         }
     }
+
+
+
+    /**
+     * Remove a key from a JSON string
+     * @param json
+     * @param key
+     * @return
+     */
+    static String removeKey(String json, String key) {
+        return json.replaceAll("\"" + key + "\"\\s*:\\s*[^,}\\]]*,?", "")
+                .replaceAll(",\\s*}", "}")  // Remove trailing commas before closing brace
+                .replaceAll(",\\s*\\]", "]"); // Remove trailing commas before closing bracket
+    }
+
+    /**
+     * pass empty string to the key
+     * @param json
+     * @param key
+     */
+    static String replaceValueWithEmptyString(String json, String key) {
+        return json.replaceAll("\"" + key + "\"\\s*:\\s*[^,}\\]]*,?", "\"" + key + "\":\"\",")
+                .replaceAll(",\\s*}", "}")  // Remove trailing commas before closing brace
+                .replaceAll(",\\s*\\]", "]"); // Remove trailing commas before closing bracket
+
+
+    }
 }

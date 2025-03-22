@@ -35,9 +35,11 @@
     <url>http://wso2.org</url>
 
     <modules>
-        <module>consent-management</module>
-        <module>token</module>
-        <module>dcr</module>
+<!--        <module>consent-management</module>-->
+<!--        <module>token</module>-->
+<!--        <module>dcr</module>-->
+        <module>consent-core-service</module>
+
     </modules>
 
     <dependencies>

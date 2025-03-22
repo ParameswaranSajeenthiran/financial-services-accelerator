@@ -73,6 +73,18 @@ class ConsentRequestBuilder {
                 .accept(ConnectorTestConstants.CONTENT_TYPE_JSON)
                 .header(ConnectorTestConstants.CHARSET, ConnectorTestConstants.CHARSET_TYPE)
     }
+
+    /**
+     * Build Request Specification .
+     * @return
+     */
+    static RequestSpecification buildBasicRequest() {
+
+        return FSRestAsRequestBuilder.buildBasicRequest()
+                .contentType(ContentType.JSON)
+                .accept(ConnectorTestConstants.CONTENT_TYPE_JSON)
+                .header(ConnectorTestConstants.CHARSET, ConnectorTestConstants.CHARSET_TYPE)
+    }
     /**
      * Build Request Specification for Key Manager without Authorization header.
      * @return

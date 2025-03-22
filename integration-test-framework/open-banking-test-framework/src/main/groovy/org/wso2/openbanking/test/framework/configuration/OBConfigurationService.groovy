@@ -147,6 +147,13 @@ class OBConfigurationService {
     }
 
     /**
+     * Get CCS Server URL
+     */
+    String getCCSServerUrl() {
+        return configuration.get(OBConfigConstants.SERVER + "." + OBConfigConstants.CCS_SERVER_URL)
+
+    }
+    /**
      * Get Server Gateway URL
      */
     String getServerGatewayURL() {

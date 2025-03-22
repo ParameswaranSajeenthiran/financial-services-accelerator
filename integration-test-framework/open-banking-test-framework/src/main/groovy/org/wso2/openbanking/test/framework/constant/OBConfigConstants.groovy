@@ -43,6 +43,7 @@ class OBConfigConstants {
     public static final String SERVER_AUTHORIZATION_SERVER_URL = "AuthorisationServerURL";
     public static final String IS_SERVER_URL = "ISServerUrl";
     public static final String APIM_SERVER_URL = "APIMServerUrl";
+    public static final String CCS_SERVER_URL = "CCSServerUrl";
 
     // Provisioning config constants
     public static final String PROVISIONING = "Provisioning";
