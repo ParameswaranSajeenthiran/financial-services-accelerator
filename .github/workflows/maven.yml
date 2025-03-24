@@ -102,28 +102,28 @@ jobs:
           sudo systemctl start mysql
           mysql --version
 
-      - name: Configure MySQL Database
-        run: |
-          mysql -u root -p'root' -e "
-          CREATE DATABASE IF NOT EXISTS wso2ob;
-          CREATE USER IF NOT EXISTS 'wso2user'@'localhost' IDENTIFIED BY 'wso2password';
-          GRANT ALL PRIVILEGES ON wso2ob.* TO 'wso2user'@'localhost';
-          FLUSH PRIVILEGES;"
+#      - name: Configure MySQL Database
+#        run: |
+#          mysql -u root -p'root' -e "
+#          CREATE DATABASE IF NOT EXISTS wso2ob;
+#          CREATE USER IF NOT EXISTS 'wso2user'@'localhost' IDENTIFIED BY 'wso2password';
+#          GRANT ALL PRIVILEGES ON wso2ob.* TO 'wso2user'@'localhost';
+#          FLUSH PRIVILEGES;"
 
       - name: Download and Add MySQL JDBC Driver
         run: |
           wget -q https://repo.maven.apache.org/maven2/mysql/mysql-connector-java/5.1.44/mysql-connector-java-5.1.44.jar
           mv mysql-connector-java-5.1.44.jar $HOME/wso2is-7.0.0/repository/components/lib
 
-      - name: Configure Identity Server Settings
-        run: |
-          CONFIG_FILE="$HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0/repository/conf/configure.properties"          
-          echo "is_host=localhost" >> "$CONFIG_FILE"
-          echo "admin_username=admin" >> "$CONFIG_FILE"
-          echo "admin_password=admin" >> "$CONFIG_FILE"
-          echo "database_name=wso2ob" >> "$CONFIG_FILE"
-          echo "database_username=wso2user" >> "$CONFIG_FILE"
-          echo "database_password=wso2password" >> "$CONFIG_FILE"
+#      - name: Configure Identity Server Settings
+#        run: |
+#          CONFIG_FILE="$HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0/repository/conf/configure.properties"
+##          echo "is_host=localhost" >> "$CONFIG_FILE"
+##          echo "admin_username=admin" >> "$CONFIG_FILE"
+##          echo "admin_password=admin" >> "$CONFIG_FILE"
+##          echo "database_name=wso2ob" >> "$CONFIG_FILE"
+##          echo "database_username=wso2user" >> "$CONFIG_FILE"
+##          echo "database_password=wso2password" >> "$CONFIG_FILE"
 
       - name: Verify Configuration
         run: cat $HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0/repository/conf/configure.properties
