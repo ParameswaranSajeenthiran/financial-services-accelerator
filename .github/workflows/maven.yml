@@ -82,12 +82,54 @@ jobs:
           export MAVEN_OPTS="-Xmx4g -XX:MaxPermSize=512m"
           mvn -B install --file pom.xml
 
+
       - name: SetUp base Products
         run: |
-          unzip baseProducts/wso2am-4.4.0.zip -d $HOME
-          unzip baseProducts/wso2is-7.0.0.zip -d $HOME
+          mv baseProducts/wso2is-7.0.0 $HOME
 
       - name: Move the artifacts to the base products
         run: |
-          cp -r target/financial-services-repository-1.0.0-SNAPSHOT.war $HOME/wso2am-4.4.0/repository/deployment/server/webapps
-          cp -r target/financial-services-repository-1.0.0-SNAPSHOT.war $HOME/wso2is-7.0.0/repository/deployment/server/webapps
+          cp -r target/wso2-fsiam-accelerator-4.0.0-M3.zip $HOME/wso2is-7.0.0
+
+
+      - name: Install MySQL 8.0
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-server
+          sudo systemctl start mysql
+          mysql --version
+
+      - name: Configure MySQL Database
+        run: |
+          mysql -u root -e "
+          CREATE DATABASE IF NOT EXISTS wso2ob;
+          CREATE USER IF NOT EXISTS 'wso2user'@'localhost' IDENTIFIED BY 'wso2password';
+          GRANT ALL PRIVILEGES ON wso2ob.* TO 'wso2user'@'localhost';
+          FLUSH PRIVILEGES;"
+
+      - name: Download and Add MySQL JDBC Driver
+        run: |
+          MYSQL_JAR="mysql-connector-java-8.0.33.jar"
+          MYSQL_JAR_URL="https://dev.mysql.com/get/Downloads/Connector-J/$MYSQL_JAR"
+          wget -q $MYSQL_JAR_URL
+          mkdir -p $HOME/wso2is/repository/components/lib/
+          mv $MYSQL_JAR $HOME/wso2is/repository/components/lib/
+
+      - name: Configure Identity Server Settings
+        run: |
+          CONFIG_FILE="$HOME/wso2is/wso2-fsiam-accelerator-4.0.0/repository/conf/configure.properties"
+          mkdir -p "$(dirname $CONFIG_FILE)"
+          touch "$CONFIG_FILE"
+          
+          echo "is_host=localhost" >> "$CONFIG_FILE"
+          echo "admin_username=admin" >> "$CONFIG_FILE"
+          echo "admin_password=admin" >> "$CONFIG_FILE"
+          echo "database_name=wso2ob" >> "$CONFIG_FILE"
+          echo "database_username=wso2user" >> "$CONFIG_FILE"
+          echo "database_password=wso2password" >> "$CONFIG_FILE"
+
+      - name: Verify Configuration
+        run: cat $HOME/wso2is/wso2-fsiam-accelerator-4.0.0/repository/conf/configure.properties
+
+
+
