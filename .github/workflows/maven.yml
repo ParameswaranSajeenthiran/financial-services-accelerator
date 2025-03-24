@@ -89,6 +89,8 @@ jobs:
 
       - name: Move the artifacts to the base products
         run: |
+          wget https://github.com/ParameswaranSajeenthiran/files/raw/master/wso2-fsiam-accelerator-4.0.0-M3.zip -O wso2-fsiam-accelerator-4.0.0-M3.zip
+          unzip wso2-fsiam-accelerator-4.0.0-M3.zip -d target
           cp -r target/wso2-fsiam-accelerator-4.0.0-M3.zip $HOME/wso2is-7.0.0
 
 
