@@ -14,7 +14,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-#test comment
+#test
 name: Build Financial Services Repository
 
 on:
@@ -75,7 +75,19 @@ jobs:
                 "url": "http://resources.knopflerfish.org/repo/maven2/release"
               }
             ]
+            
+
       - name: Build with Maven
         run: |
           export MAVEN_OPTS="-Xmx4g -XX:MaxPermSize=512m"
           mvn -B install --file pom.xml
+
+      - name: SetUp base Products
+        run: |
+          unzip baseProducts/wso2am-4.4.0.zip -d $HOME
+          unzip baseProducts/wso2is-7.0.0.zip -d $HOME
+
+      - name: Move the artifacts to the base products
+        run: |
+          cp -r target/financial-services-repository-1.0.0-SNAPSHOT.war $HOME/wso2am-4.4.0/repository/deployment/server/webapps
+          cp -r target/financial-services-repository-1.0.0-SNAPSHOT.war $HOME/wso2is-7.0.0/repository/deployment/server/webapps
