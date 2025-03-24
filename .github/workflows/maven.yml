@@ -41,40 +41,40 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Cache local Maven repository
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: Setup Maven settings.xml
-        uses: whelk-io/maven-settings-xml-action@v11
-        with:
-          mirrors: >
-            [
-              {
-                "id": "wso2-nexus",
-                "mirrorOf": "wso2-nexus",
-                "url": "http://maven.wso2.org/nexus/content/groups/wso2-public/"
-              },
-              {
-                "id": "wso2.releases",
-                "mirrorOf": "wso2.releases",
-                "url": "http://maven.wso2.org/nexus/content/repositories/releases/"
-              },
-              {
-                "id": "wso2.snapshots",
-                "mirrorOf": "wso2.snapshots",
-                "url": "http://maven.wso2.org/nexus/content/repositories/snapshots/"
-              },
-              {
-                "id": "knopflerfish",
-                "mirrorOf": "knopflerfish",
-                "url": "http://resources.knopflerfish.org/repo/maven2/release"
-              }
-            ]
+#      - name: Cache local Maven repository
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.m2/repository
+#          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: |
+#            ${{ runner.os }}-maven-
+#
+#      - name: Setup Maven settings.xml
+#        uses: whelk-io/maven-settings-xml-action@v11
+#        with:
+#          mirrors: >
+#            [
+#              {
+#                "id": "wso2-nexus",
+#                "mirrorOf": "wso2-nexus",
+#                "url": "http://maven.wso2.org/nexus/content/groups/wso2-public/"
+#              },
+#              {
+#                "id": "wso2.releases",
+#                "mirrorOf": "wso2.releases",
+#                "url": "http://maven.wso2.org/nexus/content/repositories/releases/"
+#              },
+#              {
+#                "id": "wso2.snapshots",
+#                "mirrorOf": "wso2.snapshots",
+#                "url": "http://maven.wso2.org/nexus/content/repositories/snapshots/"
+#              },
+#              {
+#                "id": "knopflerfish",
+#                "mirrorOf": "knopflerfish",
+#                "url": "http://resources.knopflerfish.org/repo/maven2/release"
+#              }
+#            ]
             
 # commented for now
 #      - name: Build with Maven
@@ -90,7 +90,7 @@ jobs:
       - name: Move the artifacts to the base products
         run: |
           wget https://github.com/ParameswaranSajeenthiran/files/raw/master/wso2-fsiam-accelerator-4.0.0-M3.zip -O wso2-fsiam-accelerator-4.0.0-M3.zip
-          cp -r wso2-fsiam-accelerator-4.0.0-M3.zip $HOME/wso2is-7.0.0
+          cp -r wso2-fsiam-accelerator-4.0.0-M3.zip $HOME/wso2is-7.0.0/
           unzip $HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3.zip
 
 
@@ -104,7 +104,7 @@ jobs:
 
       - name: Configure MySQL Database
         run: |
-          mysql -u root -e "
+          mysql -u root -p'root' -e "
           CREATE DATABASE IF NOT EXISTS wso2ob;
           CREATE USER IF NOT EXISTS 'wso2user'@'localhost' IDENTIFIED BY 'wso2password';
           GRANT ALL PRIVILEGES ON wso2ob.* TO 'wso2user'@'localhost';
