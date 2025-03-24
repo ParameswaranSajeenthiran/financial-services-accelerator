@@ -91,7 +91,7 @@ jobs:
         run: |
           echo "sajeenthiran@wso2.com" > email.txt
           echo "$WSO2_PASSWORD" > password.txt
-          $HOME/wso2is-7.0.0/bin/wso2update_linux <<< "$(cat email.txt)\n$(cat password.txt)"
+          $HOME/wso2is-7.0.0/bin/wso2update_linux.sh <<< "$(cat email.txt)\n$(cat password.txt)"
 
 
       - name: Move the artifacts to the base products
