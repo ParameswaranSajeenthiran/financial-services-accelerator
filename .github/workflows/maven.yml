@@ -96,7 +96,9 @@ jobs:
           WSO2_UPDATES_HOME=home/sajeenthiran/.wso2updates
           sudo mkdir -p /home/sajeenthiran/.wso2-updates/docker && sudo chmod -R 777 /home/sajeenthiran/.wso2-updates
 
-          ./wso2update_linux --username sajeenthiran@wso2.com --password $WSO2_PASSWORD
+          $HOME/wso2is-7.0.0/bin/wso2update_linux --username sajeenthiran@wso2.com --password $WSO2_PASSWORD
+
+          
 
 
 
