@@ -113,7 +113,7 @@ jobs:
       - name: Download and Add MySQL JDBC Driver
         run: |
           wget -q https://repo.maven.apache.org/maven2/mysql/mysql-connector-java/5.1.44/mysql-connector-java-5.1.44.jar
-          mv mysql-connector-java-5.1.44.jar $HOME/wso2is-7.0.0/repository/components/lib/
+          mv mysql-connector-java-5.1.44.jar $HOME/wso2is-7.0.0/repository/components/lib
 
       - name: Configure Identity Server Settings
         run: |
