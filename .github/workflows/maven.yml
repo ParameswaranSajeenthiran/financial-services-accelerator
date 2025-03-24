@@ -96,8 +96,10 @@ jobs:
           WSO2_UPDATES_HOME=home/sajeenthiran/.wso2updates
           sudo mkdir -p /home/sajeenthiran/.wso2-updates/docker && sudo chmod -R 777 /home/sajeenthiran/.wso2-updates
 
-          printf "%s\n%s\n" "$(cat email.txt)" "$(cat password.txt)" | $HOME/wso2is-7.0.0/bin/wso2update_linux
-
+          script -q -c "$HOME/wso2is-7.0.0/bin/wso2update_linux" /dev/null <<EOF
+          $(cat email.txt)
+          $(cat password.txt)
+          EOF
 
       - name: Move the artifacts to the base products
         run: |
