@@ -145,7 +145,7 @@ jobs:
 ##          echo "database_password=wso2password" >> "$CONFIG_FILE"
 
       - name: Verify Configuration
-        run: cat $HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/repository/conf/configure.properties
+        run: cat $HOME/wso2is-7.0.0/wso2-fs-iam-accelerator-4.0.0-M3/repository/conf/configure.properties
 
 
 
