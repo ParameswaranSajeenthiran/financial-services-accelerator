@@ -153,23 +153,23 @@ jobs:
           storepass="wso2carbon"
           
           declare -A servers
-          servers["wso2is_newkey"]="$HOME/wso2is-7.0.0/repository/resources/security/wso2carbon.jks"
+          servers["obiam"]="$HOME/wso2is-7.0.0/repository/resources/security/wso2carbon.p12"
           
           cert_dir="$HOME/certs"
           mkdir -p $cert_dir
           
           for alias in "${!servers[@]}"; do
             keystore="${servers[$alias]}"
-            cert="$cert_dir/$alias.crt"
           
             # Remove old key pair if exists
-            keytool -delete -alias wso2carbon -keystore $keystore -storepass $storepass -noprompt
+            keytool -delete -alias wso2carbon -keystore $keystore -storepass wso2carbon 
+          
           
             # Generate new key pair
-            keytool -genkey -alias $alias -keyalg RSA -keysize 2048 -validity 9999 -keystore $keystore -storepass $storepass -dname "CN=localhost, O=OB, L=WSO2, S=COL, C=LK, OU=OB" -noprompt
+            keytool -genkey -alias $alias -keystore $keystore -keysize 2048 -keyalg RSA -validity 9999 -dname "CN=obiam, O=OB, L=WSO2, S=COL, C=LK, OU=OB" -ext san=ip:127.0.0.1,dns:localhost,dns:$alias
           
             # Export public certificate
-            keytool -export -alias $alias -file $cert -keystore $keystore -storepass $storepass -noprompt
+            keytool -export -alias $alias -keystore $keystore -file $cert_dir/$alias.pem
           done
 
       - name: Import Certificates into Truststores
@@ -183,9 +183,9 @@ jobs:
 
           # Import certificates into truststores
           for alias in "${!servers[@]}"; do
-            cert="$cert_dir/$alias.crt"
+            cert="$cert_dir/$alias.pem"
             for truststore in "${truststores[@]}"; do
-              keytool -import -trustcacerts -alias $alias -file $cert -keystore $truststore -storepass $storepass -noprompt
+              keytool -import -alias $alias -file $cert_dir/$alias.pem -keystore $truststore -storepass wso2carbon
             done
           done
 
@@ -199,7 +199,7 @@ jobs:
 
           # Expected aliases (Modify based on actual aliases)
           cert_dir="$HOME/certs"
-          aliases=("wso2is_newkey")
+          aliases=("obiam")
 
           # Function to check if alias exists in the truststore
           check_alias() {
