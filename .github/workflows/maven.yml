@@ -280,6 +280,20 @@ jobs:
           
           # Verify the changes
           cat "$DEPLOYMENT_TOML"
+
+      - name: Start WSO2 Identity Server
+        run: |
+          cd $HOME/wso2is-7.0.0/bin
+          bash $HOME/wso2is-7.0.0/bin/wso2server.sh
+          sleep 120
+          
+      # Run the curl command to test the API
+      - name: Test API Request
+        run: |
+          curl -X GET "https://localhost:9446/api/server/v1/applications?limit=30&offset=0" \
+            -H "accept: application/json" \
+            -H "Authorization: Basic aXNfYWRtaW5Ad3NvMi5jb206d3NvMjEyMw==" \
+            -k
           
           
 
