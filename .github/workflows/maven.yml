@@ -153,7 +153,7 @@ jobs:
           storepass="wso2carbon"
           
           declare -A servers
-          servers["obiam"]="$HOME/wso2is-7.0.0/repository/resources/security/wso2carbon.jks"
+          servers["wso2"]="$HOME/wso2is-7.0.0/repository/resources/security/wso2carbon.jks"
           
           cert_dir="$HOME/certs"
           mkdir -p $cert_dir
@@ -166,16 +166,17 @@ jobs:
           
           
             # Generate new key pair
-            keytool -genkey -alias $alias -keystore $keystore -keysize 2048 -keyalg RSA -validity 9999 -dname "CN=obiam, O=OB, L=WSO2, S=COL, C=LK, OU=OB" -ext san=ip:127.0.0.1,dns:localhost,dns:$alias
+            keytool -genkey -alias wso2carbon -keystore $keystore -keysize 2048 -keyalg RSA -validity 9999 -dname "CN=obiam, O=OB, L=WSO2, S=COL, C=LK, OU=OB" -ext san=ip:127.0.0.1,dns:localhost,dns:$alias
           
             # Export public certificate
-            keytool -export -alias $alias -keystore $keystore -file $cert_dir/$alias.pem
+            keytool -export -alias wso2carbon -keystore $keystore -file $cert_dir/$alias.pem -storepass wso2carbon
           done
 
       - name: Import Certificates into Truststores
         run: |
           storepass="wso2carbon"
           cert_dir="$HOME/certs"
+           aliases=("wso2")
 
           truststores=(
             "$HOME/wso2is-7.0.0/repository/resources/security/client-truststore.jks"
@@ -199,7 +200,7 @@ jobs:
 
           # Expected aliases (Modify based on actual aliases)
           cert_dir="$HOME/certs"
-          aliases=("obiam")
+          aliases=("wso2")
 
           # Function to check if alias exists in the truststore
           check_alias() {
@@ -274,6 +275,8 @@ jobs:
           
           # Verify the changes
           cat "$DEPLOYMENT_TOML"
+          
+          
 
 
 
