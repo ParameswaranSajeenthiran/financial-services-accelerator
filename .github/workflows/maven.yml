@@ -250,36 +250,33 @@ jobs:
           cd $HOME/wso2is-7.0.0/wso2-fs-iam-accelerator-4.0.0-M3/bin
           bash $HOME/wso2is-7.0.0/wso2-fs-iam-accelerator-4.0.0-M3/bin/merge.sh
           bash $HOME/wso2is-7.0.0/wso2-fs-iam-accelerator-4.0.0-M3/bin/configure.sh
-          
 
-      - name: Configure Configuration File
+      - name: Update deployment.toml
         run: |
-          DEPLOYMENT_TOML="$HOME/wso2is-7.0.0/repository/conf/deployment.toml"
-
-          # Append Financial Services Extension Configurations
-          cat <<EOL >> "$DEPLOYMENT_TOML"
-
+          awk '/\[financial_services.service.extensions.endpoint\]/ {print "FOUND_BLOCK"; next} /\[financial_services.service.extensions.endpoint.security\]/ {print "FOUND_SECURITY"; next} /\[oauth.oidc\]/ {print "FOUND_OIDC"; next} {print}' $HOME/wso2is-7.0.0/repository/conf/deployment.toml | \
+          sed '/FOUND_BLOCK/,/\[/{//!d}' | \
+          sed '/FOUND_SECURITY/,/\[/{//!d}' | \
+          sed '/FOUND_OIDC/,/\[/{//!d}' > temp.toml
+          
+          cat <<EOF >> temp.toml
           [financial_services.service.extensions.endpoint]
           enabled = true
           base_url = "http://<hostname of external service>:<port of the external service>/api/financialservices/uk/consent/endpoints"
-
           extension_types = ["pre-consent-generation", "post-consent-generation", "pre-consent-retrieval", "pre-consent-revocation", "pre-consent-authorization", "consent-validation", "pre-user-authorization", "post-user-authorization", "pre-id-token-generation"]
-
+          
           [financial_services.service.extensions.endpoint.security]
-          # supported types : Basic-Auth or OAuth2
           type = "Basic-Auth"
           username = "is_admin@wso2.com"
           password = "wso2123"
-
+          
           [oauth.oidc]
           id_token.signature_algorithm="PS256"
           enable_claims_separation_for_access_tokens = false
-          EOL
-
-          echo "✅ Configuration added to deployment.toml"
+          EOF
           
-          # Verify the changes
-          cat "$DEPLOYMENT_TOML"
+          mv temp.toml $HOME/wso2is-7.0.0/repository/conf/deployment.toml
+      
+    
 
       - name: Start WSO2 Identity Server
         run: |
