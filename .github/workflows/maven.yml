@@ -164,7 +164,7 @@ jobs:
             cert="$cert_dir/$alias.crt"
           
             # Remove old key pair if exists
-            keytool -delete -alias $alias -keystore $keystore -storepass $storepass -noprompt
+            keytool -delete -alias wso2carbon -keystore $keystore -storepass $storepass -noprompt
           
             # Generate new key pair
             keytool -genkey -alias $alias -keyalg RSA -keysize 2048 -validity 9999 -keystore $keystore -storepass $storepass -dname "CN=localhost, O=OB, L=WSO2, S=COL, C=LK, OU=OB" -noprompt
