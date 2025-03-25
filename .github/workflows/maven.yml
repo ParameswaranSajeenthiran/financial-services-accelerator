@@ -189,6 +189,64 @@ jobs:
             done
           done
 
+      - name: Verify Imported Certificates
+        run: |
+          # Define the truststores
+          storepass="wso2carbon"
+          truststores=(
+            "$HOME/wso2is-7.0.0/repository/resources/security/client-truststore.jks"
+          )
+
+          # Expected aliases (Modify based on actual aliases)
+          cert_dir="$HOME/certs"
+          aliases=($(ls $cert_dir | sed 's/\.crt//'))
+
+          # Function to check if alias exists in the truststore
+          check_alias() {
+            local truststore=$1
+            local alias=$2
+
+            keytool -list -keystore "$truststore" -storepass "$storepass" -alias "$alias" &>/dev/null
+            if [ $? -eq 0 ]; then
+              echo "[✔] Alias '$alias' found in truststore: $truststore"
+            else
+              echo "[✘] Alias '$alias' NOT found in truststore: $truststore"
+              exit 1  # Fail the workflow if a certificate is missing
+            fi
+          }
+
+          # Function to display certificate details
+          show_certificate_details() {
+            local truststore=$1
+            local alias=$2
+
+            echo "-------------------------------"
+            echo "Details for alias '$alias' in truststore: $truststore"
+            keytool -list -v -keystore "$truststore" -storepass "$storepass" -alias "$alias" | grep -E "Alias|Valid from|Issuer|Subject"
+            echo "-------------------------------"
+          }
+
+          # Verify imported certificates
+          for truststore in "${truststores[@]}"; do
+            echo "Checking truststore: $truststore"
+          
+            # List all aliases in the truststore
+            keytool -list -keystore "$truststore" -storepass "$storepass" | grep "trustedCertEntry"
+
+            for alias in "${aliases[@]}"; do
+              check_alias "$truststore" "$alias"
+              show_certificate_details "$truststore" "$alias"
+            done
+          done
+      
+
+      - name: Run Merge and Configuration Scripts
+        run: |
+          bash $HOME/wso2is-7.0.0/wso2-fs-iam-accelerator-4.0.0-M3/bin/merge.sh
+          bash $HOME/wso2is-7.0.0/wso2-fs-iam-accelerator-4.0.0-M3/bin/configure.sh
+
+
+
 
 
 
