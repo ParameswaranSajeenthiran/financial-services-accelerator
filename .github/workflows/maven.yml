@@ -186,10 +186,11 @@ jobs:
           )
 
           # Import certificates into truststores
-          for alias in "${!servers[@]}"; do
+          for alias in "${aliases[@]}"; do
             cert="$cert_dir/$alias.pem"
             for truststore in "${truststores[@]}"; do
-              keytool -import -alias $alias -file $cert_dir/$alias.pem -keystore $truststore -storepass wso2carbon
+              echo "Importing certificate for alias '$alias' into truststore: $truststore"
+              keytool -import -alias $alias -file $cert_dir/$alias.pem -keystore $truststore -storepass wso2carbon -keypass  wso2carbon
             done
           done
 
