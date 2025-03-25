@@ -190,7 +190,7 @@ jobs:
             cert="$cert_dir/$alias.pem"
             for truststore in "${truststores[@]}"; do
               echo "Importing certificate for alias '$alias' into truststore: $truststore"
-              keytool -import -alias $alias -file $cert_dir/$alias.pem -keystore $truststore -storepass wso2carbon -keypass  wso2carbon
+              keytool -import -alias $alias -file $cert_dir/$alias.pem -keystore $truststore -storepass wso2carbon -keypass  wso2carbon -noprompt
             done
           done
 
