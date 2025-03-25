@@ -153,7 +153,7 @@ jobs:
           storepass="wso2carbon"
           
           declare -A servers
-          servers["obiam"]="$HOME/wso2is-7.0.0/repository/resources/security/wso2carbon.p12"
+          servers["obiam"]="$HOME/wso2is-7.0.0/repository/resources/security/wso2carbon.jks"
           
           cert_dir="$HOME/certs"
           mkdir -p $cert_dir
