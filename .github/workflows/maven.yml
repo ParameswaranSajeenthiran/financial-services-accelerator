@@ -161,13 +161,16 @@ jobs:
           for alias in "${!servers[@]}"; do
             keystore="${servers[$alias]}"
           
+            echo "removing old key pair if exists"
             # Remove old key pair if exists
             keytool -delete -alias wso2carbon -keystore $keystore -storepass wso2carbon 
           
+            echo "generating new key pair"
           
             # Generate new key pair
             keytool -genkey -alias wso2carbon -keystore $keystore -keysize 2048 -keyalg RSA -validity 9999 -dname "CN=obiam, O=OB, L=WSO2, S=COL, C=LK, OU=OB" -ext san=ip:127.0.0.1,dns:localhost,dns:$alias
           
+            echo "exporting public certificate"
             # Export public certificate
             keytool -export -alias wso2carbon -keystore $keystore -file $cert_dir/$alias.pem -storepass wso2carbon
           done
