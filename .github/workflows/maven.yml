@@ -205,12 +205,14 @@ jobs:
           check_alias() {
             local truststore=$1
             local alias=$2
+            echo "Checking alias '$alias' in truststore: $truststore"
 
             keytool -list -keystore "$truststore" -storepass "$storepass" -alias "$alias" &>/dev/null
             if [ $? -eq 0 ]; then
               echo "[✔] Alias '$alias' found in truststore: $truststore"
             else
               echo "[✘] Alias '$alias' NOT found in truststore: $truststore"
+              exit 1  # Fail the workflow if a certificate is missing
             fi
           }
 
