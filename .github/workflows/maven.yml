@@ -253,11 +253,12 @@ jobs:
 
       - name: Update deployment.toml
         run: |
+          
           sed -i '/\[oauth\.oidc\]/,/^\s*$/d' $HOME/wso2is-7.0.0/repository/conf/deployment.toml
           sed -i '/\[financial_services\.service\.extensions\.endpoint\.security\]/,/^\s*$/d' $HOME/wso2is-7.0.0/repository/conf/deployment.toml
           sed -i '/\[financial_services\.service\.extensions\.endpoint\.security]/,/^\s*$/d' $HOME/wso2is-7.0.0/repository/conf/deployment.toml
           
-          cat <<EOL >> temp.toml
+          cat <<EOL >> deployment.toml
           [financial_services.service.extensions.endpoint]
           enabled = true
           base_url = "http://<hostname of external service>:<port of the external service>/api/financialservices/uk/consent/endpoints"
@@ -273,7 +274,6 @@ jobs:
           enable_claims_separation_for_access_tokens = false
           EOL
                     
-          mv temp.toml $HOME/wso2is-7.0.0/repository/conf/deployment.toml
           
           cat $HOME/wso2is-7.0.0/repository/conf/deployment.toml
       
