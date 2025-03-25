@@ -253,10 +253,9 @@ jobs:
 
       - name: Update deployment.toml
         run: |
-          awk '/\[financial_services.service.extensions.endpoint\]/ {print "FOUND_BLOCK"; next} /\[financial_services.service.extensions.endpoint.security\]/ {print "FOUND_SECURITY"; next} /\[oauth.oidc\]/ {print "FOUND_OIDC"; next} {print}' $HOME/wso2is-7.0.0/repository/conf/deployment.toml | \
-          sed '/FOUND_BLOCK/,/\[/{//!d}' | \
-          sed '/FOUND_SECURITY/,/\[/{//!d}' | \
-          sed '/FOUND_OIDC/,/\[/{//!d}' > temp.toml
+          sed -i '/\[oauth\.oidc\]/,/^\s*$/d' $HOME/wso2is-7.0.0/repository/conf/deployment.toml
+          sed -i '/\[financial_services\.service\.extensions\.endpoint\.security\]/,/^\s*$/d' $HOME/wso2is-7.0.0/repository/conf/deployment.toml
+          sed -i '/\[financial_services\.service\.extensions\.endpoint\.security]/,/^\s*$/d' $HOME/wso2is-7.0.0/repository/conf/deployment.toml
           
           cat <<EOL >> temp.toml
           [financial_services.service.extensions.endpoint]
