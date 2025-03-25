@@ -207,7 +207,7 @@ jobs:
             local alias=$2
             echo "Checking alias '$alias' in truststore: $truststore"
 
-            keytool -list -keystore "$truststore" -storepass "$storepass" -alias $alias
+            keytool -list -keystore $truststore -storepass "$storepass" -alias $alias
             if [ $? -eq 0 ]; then
               echo "[✔] Alias '$alias' found in truststore: $truststore"
             else
