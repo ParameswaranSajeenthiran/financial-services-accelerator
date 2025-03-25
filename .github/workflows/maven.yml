@@ -28,6 +28,8 @@ jobs:
   Build-repo-check:
 
     runs-on: ubuntu-latest
+    env: # Or as an environment variable
+      WSO2_PASSWORD: ${{ secrets.WSO2_PASSWORD }}
 
     steps:
       - uses: actions/checkout@v2
@@ -91,8 +93,7 @@ jobs:
 
       - name: Install WSO2 Updates
         run: |
-          env: # Or as an environment variable
-          WSO2_PASSWORD: ${{ secrets.WSO2_PASSWORD }}
+          
           echo "sajeenthiran@wso2.com" > email.txt
           echo "$WSO2_PASSWORD" > password.txt
           WSO2_UPDATES_HOME=home/sajeenthiran/.wso2updates
