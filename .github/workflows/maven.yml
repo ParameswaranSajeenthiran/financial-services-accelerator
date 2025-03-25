@@ -87,7 +87,7 @@ jobs:
 
       - name: SetUp base Products
         run: |
-          wget "https://dms.uom.lk/s/8k5cCn9HAcMfH3d/download" -O wso2is-7.0.0.zip
+          wget "https://dms.uom.lk/s/si6eAy3D32KcFj8/download" -O wso2is-7.0.0.zip
           mv wso2is-7.0.0.zip $HOME
           unzip $HOME/wso2is-7.0.0.zip -d $HOME
 
