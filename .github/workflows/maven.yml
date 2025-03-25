@@ -207,7 +207,7 @@ jobs:
             local alias=$2
             echo "Checking alias '$alias' in truststore: $truststore"
 
-            keytool -list -keystore "$truststore" -storepass "$storepass" -alias "$alias" &>/dev/null
+            keytool -list -keystore "$truststore" -storepass "$storepass" -alias $alias
             if [ $? -eq 0 ]; then
               echo "[✔] Alias '$alias' found in truststore: $truststore"
             else
@@ -231,8 +231,7 @@ jobs:
           for truststore in "${truststores[@]}"; do
             echo "Checking truststore: $truststore"
           
-            # List all aliases in the truststore
-            keytool -list -keystore "$truststore" -storepass "$storepass" | grep "trustedCertEntry"
+           
 
             for alias in "${aliases[@]}"; do
               check_alias "$truststore" "$alias"
