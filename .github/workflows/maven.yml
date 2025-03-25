@@ -158,7 +158,6 @@ jobs:
           cert_dir="$HOME/certs"
           mkdir -p $cert_dir
           
-          # Generate keystore and export certificates
           for alias in "${!servers[@]}"; do
             keystore="${servers[$alias]}"
             cert="$cert_dir/$alias.crt"
@@ -171,6 +170,23 @@ jobs:
           
             # Export public certificate
             keytool -export -alias $alias -file $cert -keystore $keystore -storepass $storepass -noprompt
+          done
+
+      - name: Import Certificates into Truststores
+        run: |
+          storepass="wso2carbon"
+          cert_dir="$HOME/certs"
+
+          truststores=(
+            "$HOME/wso2is-7.0.0/repository/resources/security/client-truststore.jks"
+          )
+
+          # Import certificates into truststores
+          for alias in "${!servers[@]}"; do
+            cert="$cert_dir/$alias.crt"
+            for truststore in "${truststores[@]}"; do
+              keytool -import -trustcacerts -alias $alias -file $cert -keystore $truststore -storepass $storepass -noprompt
+            done
           done
 
 
