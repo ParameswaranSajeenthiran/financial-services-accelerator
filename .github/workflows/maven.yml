@@ -87,7 +87,7 @@ jobs:
 
       - name: SetUp base Products
         run: |
-          wget "https://dms.uom.lk/s/si6eAy3D32KcFj8/download" -O wso2is-7.0.0.zip
+          wget "https://dms.uom.lk/s/8k5cCn9HAcMfH3d/download" -O wso2is-7.0.0.zip
           mv wso2is-7.0.0.zip $HOME
           unzip $HOME/wso2is-7.0.0.zip -d $HOME
 
@@ -146,51 +146,6 @@ jobs:
 
       - name: Verify Configuration
         run: cat $HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/repository/conf/configure.properties
-
-      - name: Generate and Export Certificates for Secure Communication
-        run: |
-          storepass="wso2carbon"
-          
-          # Define the keystore and certificate locations
-          declare -A servers
-#          servers["wso2am_newkey"]="$HOME/wso2am/repository/resources/security/wso2carbon.jks"
-          servers["wso2is_newkey"]="$HOME/wso2is/repository/resources/security/wso2carbon.jks"
-          
-          cert_dir="$HOME/certs"
-          mkdir -p $cert_dir
-          
-          # Generate keystore and export certificates
-          for alias in "${!servers[@]}"; do
-          keystore="${servers[$alias]}"
-          cert="$cert_dir/$alias.crt"
-          
-          # Remove old key pair if exists
-          keytool -delete -alias $alias -keystore $keystore -storepass $storepass -noprompt
-          
-          # Generate new key pair
-          keytool -genkey -alias $alias -keyalg RSA -keysize 2048 -validity 9999 -keystore $keystore -storepass $storepass -dname "CN=localhost, O=OB, L=WSO2, S=COL, C=LK, OU=OB" -noprompt
-          
-          # Export public certificate
-          keytool -export -alias $alias -file $cert -keystore $keystore -storepass $storepass -noprompt
-          done
-
-          - name: Import Certificates into Truststores
-            run: |
-              storepass="wso2carbon"
-              cert_dir="$HOME/certs"
-              
-              truststores=(
-                "$HOME/wso2is/repository/resources/security/client-truststore.jks"
-              )
-              
-              # Import certificates into truststores
-              for alias in "${!servers[@]}"; do
-                cert="$cert_dir/$alias.crt"
-                for truststore in "${truststores[@]}"; do
-                  keytool -delete -alias $alias -keystore $truststore -storepass $storepass -noprompt
-                  keytool -import -trustcacerts -alias $alias -file $cert -keystore $truststore -storepass $storepass -noprompt
-                done
-              done
 
 
 
