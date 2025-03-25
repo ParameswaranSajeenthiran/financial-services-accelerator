@@ -258,7 +258,7 @@ jobs:
           sed '/FOUND_SECURITY/,/\[/{//!d}' | \
           sed '/FOUND_OIDC/,/\[/{//!d}' > temp.toml
           
-          cat <<EOF >> temp.toml
+          cat <<EOL >> temp.toml
           [financial_services.service.extensions.endpoint]
           enabled = true
           base_url = "http://<hostname of external service>:<port of the external service>/api/financialservices/uk/consent/endpoints"
@@ -272,9 +272,11 @@ jobs:
           [oauth.oidc]
           id_token.signature_algorithm="PS256"
           enable_claims_separation_for_access_tokens = false
-          EOF
-          
+          EOL
+                    
           mv temp.toml $HOME/wso2is-7.0.0/repository/conf/deployment.toml
+          
+          cat $HOME/wso2is-7.0.0/repository/conf/deployment.toml
       
     
 
