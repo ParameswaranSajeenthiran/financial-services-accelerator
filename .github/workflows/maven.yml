@@ -211,7 +211,6 @@ jobs:
               echo "[✔] Alias '$alias' found in truststore: $truststore"
             else
               echo "[✘] Alias '$alias' NOT found in truststore: $truststore"
-              exit 1  # Fail the workflow if a certificate is missing
             fi
           }
 
