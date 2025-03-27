@@ -297,7 +297,11 @@ jobs:
 
       - name: Run Tests
         run: |
-          mvn clean install -Denv=test-suite
+          
+          cd integration-test-framework
+          mvn clean install 
+          cd ../
+          cd fs-integration-test-suite
       
           
 
