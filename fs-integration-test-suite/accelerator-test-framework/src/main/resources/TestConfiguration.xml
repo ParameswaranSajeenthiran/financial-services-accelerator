@@ -307,6 +307,9 @@
         <!--Sample Value: https://<IS_HOST>:9446/oauth2/token -->
         <AudienceValue>https://ob-iam:9446/oauth2/token</AudienceValue>
     </ConsentApi>
-
+    <ISSetup>
+    <ISAdminUserName>is_admin@wso2.com</ISAdminUserName>
+    <ISAdminPassword>wso2123</ISAdminPassword>
+    </ISSetup>
 
 </Configurations>

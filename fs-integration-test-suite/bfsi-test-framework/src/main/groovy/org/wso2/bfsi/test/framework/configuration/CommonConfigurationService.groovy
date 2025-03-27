@@ -597,5 +597,13 @@ class CommonConfigurationService {
                 .get(ConfigConstants.APPLICATION_TRANSPORT_KEYSTORE_ALIAS)
     }
 
+    String getISAdminUserName(){
+        return configuration.get( ConfigConstants.ISSetup + "." + ConfigConstants.ISAdminUser)
+
+    }
+
+    String getISAdminPassword(){
+        return configuration.get( ConfigConstants.ISSetup + "." + ConfigConstants.ISAdminPassword)
+    }
 }
 
