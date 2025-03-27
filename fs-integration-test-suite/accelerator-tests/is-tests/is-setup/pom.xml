@@ -32,14 +32,14 @@
     <artifactId>org.wso2.financial.services.is.accelerator.test.is.setup</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.wso2</groupId>
-            <artifactId>open-banking-test-framework</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.wso2</groupId>-->
+<!--            <artifactId>open-banking-test-framework</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.bouncycastle</groupId>-->
+<!--            <artifactId>bcpkix-jdk15on</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.json.wso2</groupId>
             <artifactId>json</artifactId>
@@ -57,10 +57,10 @@
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.codehaus.groovy</groupId>-->
+<!--            <artifactId>groovy-all</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>oauth2-oidc-sdk</artifactId>
@@ -74,10 +74,10 @@
             <artifactId>java-uuid-generator</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.osgi</groupId>-->
+<!--            <artifactId>org.osgi.core</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

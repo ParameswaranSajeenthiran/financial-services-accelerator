@@ -1,4 +1,3 @@
-package org.wso2.financial.services.accelerator.is.setup
 
 import io.restassured.RestAssured
 import io.restassured.response.Response
@@ -53,7 +52,7 @@ class CreateUserStepTests {
         return RestAssured.given().relaxedHTTPSValidation()
                 .urlEncodingEnabled(true).contentType("application/json")
                 .baseUri(configuration.getISServerUrl())
-                .header("Authorization", FSConnectorTest.getBasicAuthHeader(configuration.getISAdminUserName(),
+                .header("Authorization", org.wso2.financial.services.accelerator.test.framework.FSConnectorTest.getBasicAuthHeader(configuration.getISAdminUserName(),
                         configuration.getISAdminPassword()))
                 .body("""
                     {

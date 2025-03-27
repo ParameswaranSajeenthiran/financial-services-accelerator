@@ -297,7 +297,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          mvn clean install 
+          cd 
           
       
           

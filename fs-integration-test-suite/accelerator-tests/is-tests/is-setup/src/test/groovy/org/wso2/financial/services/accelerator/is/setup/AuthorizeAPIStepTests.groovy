@@ -1,4 +1,3 @@
-package org.wso2.financial.services.accelerator.is.setup
 
 import io.restassured.RestAssured
 import io.restassured.response.Response
@@ -6,6 +5,7 @@ import org.testng.Assert
 import org.testng.annotations.BeforeTest
 import org.testng.annotations.Test
 import org.wso2.financial.services.accelerator.test.framework.configuration.ConfigurationService
+import org.wso2.financial.services.accelerator.test.framework.utility.FSRestAsRequestBuilder
 
 class AuthorizeAPIStepTests {
 
@@ -21,7 +21,7 @@ class AuthorizeAPIStepTests {
 
 
     static Response createStandardApplication (String applicationName) {
-        return RestAssured.given().contentType("application/json")
+        return   RestAssured.given().contentType("application/json")
                 .relaxedHTTPSValidation()
                 .urlEncodingEnabled(true)
                 .baseUri(configuration.getISServerUrl())
