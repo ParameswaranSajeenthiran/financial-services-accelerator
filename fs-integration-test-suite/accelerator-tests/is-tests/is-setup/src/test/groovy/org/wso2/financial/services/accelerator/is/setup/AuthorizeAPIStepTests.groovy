@@ -1,3 +1,4 @@
+package org.wso2.financial.services.accelerator.is.setup;
 
 import io.restassured.RestAssured
 import io.restassured.response.Response

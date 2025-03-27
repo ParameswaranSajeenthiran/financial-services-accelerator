@@ -21,7 +21,7 @@
     <test name="IS setup with authorize API and user creation" parallel="tests" enabled="true"
           group-by-instances="true">
             <classes>
-              <class name="org.wso2.financial.services.accelerator.is.setup.AuthorizeAPIStepTests"/>
+                <class name="org.wso2.financial.services.accelerator.is.setup.AuthorizeAPIStepTests"/>
                 <class name="org.wso2.financial.services.accelerator.is.setup.CreateUserStepTests"/>
             </classes>
     </test>
