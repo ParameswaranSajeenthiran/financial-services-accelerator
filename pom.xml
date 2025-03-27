@@ -21,14 +21,7 @@
     <groupId>org.wso2.financial.services.accelerator</groupId>
     <artifactId>financial-services</artifactId>
     <packaging>pom</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>org.wso2.financial.services.accelerator</groupId>
-            <artifactId>accelerator-test-framework</artifactId>
-            <version>5.0.0-M1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
+
     <version>4.0.0-M3</version>
 
     <parent>
