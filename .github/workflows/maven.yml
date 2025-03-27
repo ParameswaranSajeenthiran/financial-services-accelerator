@@ -302,6 +302,7 @@ jobs:
           mvn clean install 
           cd ../
           cd fs-integration-test-suite
+          mvn clean install
       
           
 
