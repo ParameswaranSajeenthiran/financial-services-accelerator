@@ -597,5 +597,12 @@ class OBConfigurationService {
                 .get(OBConfigConstants.APPLICATION_TRANSPORT_KEYSTORE_ALIAS)
     }
 
+    String getISAdminUserName() {
+        return configuration.get(OBConfigConstants.ISSetup + "." + OBConfigConstants.ISAdminUser)
+    }
+
+    String getISAdminPassword() {
+        return configuration.get(OBConfigConstants.ISSetup + "." + OBConfigConstants.ISAdminPassword)
+    }
 }
 

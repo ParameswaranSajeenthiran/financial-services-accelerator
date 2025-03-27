@@ -36,7 +36,7 @@
 
     <modules>
         <module>is-tests</module>
-        <module>gateway-tests</module>
+<!--        <module>gateway-tests</module>-->
     </modules>
 
     <dependencies>

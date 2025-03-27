@@ -29,7 +29,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>org.wso2.financial.services.is.accelerator.test.consent.management</artifactId>
+    <artifactId>org.wso2.financial.services.is.accelerator.test.is.setup</artifactId>
 
     <dependencies>
         <dependency>
@@ -75,24 +75,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.wso2.financial.services.accelerator</groupId>
-            <artifactId>accelerator-test-framework</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency>
-        <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <version>6.0.0</version>
         </dependency>
     </dependencies>
 
@@ -140,12 +124,5 @@
             </resource>
         </resources>
     </build>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <accelerator.test.framework.version>1.0.0</accelerator.test.framework.version>
-    </properties>
 
 </project>
