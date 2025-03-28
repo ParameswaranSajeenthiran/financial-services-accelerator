@@ -34,7 +34,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run Tests
         run: |
-          bash /test.sh -u sajeenthiran@wso2.com -p $WSO2_PASSWORD -o "$HOME" -h 
+          bash test.sh -u sajeenthiran@wso2.com -p $WSO2_PASSWORD -o "$HOME" -h 
           "$HOME"
         
     
