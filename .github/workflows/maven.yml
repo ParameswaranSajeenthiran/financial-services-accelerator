@@ -37,17 +37,18 @@ jobs:
       - name: Setup deployment.properties
         run: |
           echo "ISServerUrl=http://localhost:9446" > deployment.properties
-          echo "BaseUr=Server.BaseUr" >> deployment.properties
+          echo "BaseUrl=Server.BaseUrl" >> deployment.properties
           echo "APIMServerUrl=Server.APIMServerUrl" >> deployment.properties
           echo "ISAdminUserName=is_admin@wso2.com" >> deployment.properties
           echo "ISAdminPassword=wso2123" >> deployment.properties
-
+          
+          cat deployment.properties
 
       - name: Run Tests
         run: |
           RUNNER_HOME=`pwd`
           bash $RUNNER_HOME/test.sh  -u sajeenthiran@wso2.com -p $WSO2_PASSWORD -o "$HOME" -h "$HOME"
-
+      
 
 
 

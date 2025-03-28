@@ -18,15 +18,13 @@ sudo apt install -y maven
 
 #=== FUNCTION ==================================================================
 # NAME: get_prop
-# DESCRIPTION: Retrieve specific property from deployment.properties file
+# DESCRIPTION: Retrieve specific property from deployment.properties
 # PARAMETER 1: property_value
 #===============================================================================
 function get_prop {
     local prop=$(grep -w "${1}" "${RUNNER_HOME}/deployment.properties" | cut -d'=' -f2)
     echo $prop
 }
-
-
 
 while getopts u:p:o:h flag
 do
@@ -214,12 +212,10 @@ sed -i -e "s|Server.ISServerUrl|$(get_prop "ISServerUrl")|g" ${ACCELERATION_INTE
 sed -i -e "s|Server.APIMServerUrl|$(get_prop "APIMServerUrl")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
 #--------------IS Setup Configurations-----------------#
-
 sed -i -e "s|ISSetup.ISAdminUserName|$(get_prop "ISAdminUserName")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|ISSetup.ISAdminPassword|$(get_prop "ISAdminPassword")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
 #--------------Build the Test framework-----------------#
-
 mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 
 
@@ -227,8 +223,6 @@ mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apach
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
 mvn clean install -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 MVNSTATE=$?
-
-
 
 
 
