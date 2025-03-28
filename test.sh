@@ -84,7 +84,7 @@ wget -q https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/9.2.0/mysql-c
 mv mysql-connector-j-9.2.0.jar $TEST_HOME/wso2is-7.0.0/repository/components/lib
 
 echo '##################### Generate and Export Certificates #####################'
-
+storepass=wso2carbon
 declare -A servers
 servers["wso2"]="$TEST_HOME/wso2is-7.0.0/repository/resources/security/wso2carbon.jks"
 
