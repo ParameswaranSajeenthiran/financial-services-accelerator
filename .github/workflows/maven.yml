@@ -33,6 +33,7 @@ jobs:
     steps:
       - name: Run Tests
         run: |
+          ls
           bash ./test.sh -u sajeenthiran@wso2.com -p $WSO2_PASSWORD -o "$HOME" -h 
           "$HOME"
         
