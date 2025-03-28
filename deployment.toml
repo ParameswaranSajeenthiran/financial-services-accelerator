@@ -1,0 +1,13 @@
+[financial_services.service.extensions.endpoint]
+enabled = true
+base_url = "http://<hostname of external service>:<port of the external service>/api/financialservices/uk/consent/endpoints"
+extension_types = ["pre-consent-generation", "post-consent-generation", "pre-consent-retrieval", "pre-consent-revocation", "pre-consent-authorization", "consent-validation", "pre-user-authorization", "post-user-authorization", "pre-id-token-generation"]
+
+[financial_services.service.extensions.endpoint.security]
+type = "Basic-Auth"
+username = "is_admin@wso2.com"
+password = "wso2123"
+
+[oauth.oidc]
+id_token.signature_algorithm="PS256"
+enable_claims_separation_for_access_tokens = false
