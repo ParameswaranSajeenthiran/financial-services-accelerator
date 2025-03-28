@@ -7,18 +7,18 @@ RUNNER_HOME=`pwd`
 ##distribution: 'temurin'
 ##type: 'jdk'
 #
-#wget https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.16+8/OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
-#tar -xvzf OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
-#sudo mv jdk-11.0.16+8 /opt/java
-#echo "export JAVA_HOME=/opt/java" >> ~/.bashrc
-#echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> ~/.bashrc
-#source ~/.bashrc
-#java -version
-#
-#sudo apt install -y maven
-#
-#sudo apt-get update
-#sudo apt-get install -y openjdk-11-jdk
+wget https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.16+8/OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
+tar -xvzf OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
+sudo mv jdk-11.0.16+8 /opt/java
+echo "export JAVA_HOME=/opt/java" >> ~/.bashrc
+echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> ~/.bashrc
+source ~/.bashrc
+java -version
+
+sudo apt install -y maven
+
+sudo apt-get update
+sudo apt-get install -y openjdk-11-jdk
 
 #=== FUNCTION ==================================================================
 # NAME: get_prop
