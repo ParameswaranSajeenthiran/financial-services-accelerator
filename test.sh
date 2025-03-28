@@ -187,8 +187,8 @@ EOL
 cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 
 cd $TEST_HOME/wso2is-7.0.0/bin
-#nohup ./wso2server.sh > wso2.log 2>&1 &
-./wso2server.sh
+nohup ./wso2server.sh > wso2.log 2>&1 &
+#./wso2server.sh
 sleep 120
 
 echo '##################### Test Setup #####################'
