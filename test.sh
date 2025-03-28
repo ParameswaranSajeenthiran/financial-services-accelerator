@@ -117,7 +117,6 @@ done
 
 echo '##################### Verify Exchanged Certificates #####################'
 
-
 # Function to check if alias exists in the truststore
 check_alias() {
   local truststore=$1
@@ -158,7 +157,8 @@ done
 
 #
 echo '##################### Run merge and Config scripts #####################'
-cd $TEST_HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/bin
+
+cd $TEST_HOME/wso2is-7.0.0/wso2-fs-iam-accelerator-4.0.0-M3/bin
 bash merge.sh
 bash configure.sh
 
@@ -187,7 +187,8 @@ EOL
 cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 
 cd $TEST_HOME/wso2is-7.0.0/bin
-nohup ./wso2server.sh > wso2.log 2>&1 &
+#nohup ./wso2server.sh > wso2.log 2>&1 &
+./wso2server.sh
 sleep 120
 
 echo '##################### Test Setup #####################'
@@ -198,6 +199,7 @@ curl -X GET "https://localhost:9446/api/server/v1/applications?limit=30&offset=0
 -k
 
 echo '##################### Run Test Cases #####################'
+
 cd $RUNNER_HOME/fs-integration-test-suite
 
 echo '##################### Configure TestConfigurationExample#####################'
