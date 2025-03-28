@@ -34,7 +34,7 @@ jobs:
       - name: Run Tests
         run: |
           ls
-          test.sh -u sajeenthiran@wso2.com -p $WSO2_PASSWORD -o "$HOME" -h "$HOME"
+          ./test.sh -u sajeenthiran@wso2.com -p $WSO2_PASSWORD -o "$HOME" -h "$HOME"
         
     
     
