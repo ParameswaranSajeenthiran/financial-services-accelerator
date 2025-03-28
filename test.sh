@@ -1,12 +1,9 @@
 #!/bin/bash
 MVNSTATE=1 #This variable is read by the test-grid to determine success or failure of the build. (0=Successful)
 RUNNER_HOME=`pwd`
-#
-## install java
-##java-version: 11.0.16+8
-##distribution: 'temurin'
-##type: 'jdk'
-#
+
+echo '#=================== Install Java and Maven ==================='
+
 wget https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.16+8/OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
 tar -xvzf OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
 sudo mv jdk-11.0.16+8 /opt/java
@@ -17,8 +14,7 @@ java -version
 
 sudo apt install -y maven
 
-sudo apt-get update
-sudo apt-get install -y openjdk-11-jdk
+
 
 #=== FUNCTION ==================================================================
 # NAME: get_prop
@@ -29,6 +25,7 @@ function get_prop {
     local prop=$(grep -w "${1}" "${INPUT_DIR}/deployment.properties" | cut -d'=' -f2)
     echo $prop
 }
+
 
 
 while getopts u:p:o:h flag
@@ -49,31 +46,23 @@ INPUT_DIR=$TEST_HOME
 echo "INPUT_DIR: $INPUT_DIR"
 
 echo '##################### Building packs #####################'
-
-mvn -B install --file pom.xml
+#mvn -B install --file pom.xml
 
 echo '##################### SetUp base Products #####################'
-
 wget "https://dms.uom.lk/s/si6eAy3D32KcFj8/download" -O $TEST_HOME/wso2is-7.0.0.zip
 unzip $TEST_HOME/wso2is-7.0.0.zip -d $TEST_HOME
-#
-#
+
 echo '##################### Installing WSO2 Updates #####################'
-
 name=$(echo "$USERNAME" | cut -d'@' -f1)
-
 WSO2_UPDATES_HOME=home/$name/.wso2updates
-sudo mkdir -p /home/$name/.wso2-updates/docker && sudo chmod -R 777 /home/$name/.wso2-updates
-
-$TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PASSWORD ||  ($TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PASSWORD )
+sudo mkdir -p /home/$name/.wso2-updates/docker && sudo chmod -R 777 /home/$name/.wso2-updates $TEST_HOME/wso2is-7.0 .0/bin/wso2update_linux --username $USERNAME --password $PASSWORD ||  ($TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PASSWORD )
 
 echo '##################### Moving Packs to RUNNER_HOME #####################'
-
-unzip financial-services-accelerator/accelerators/fs-is/target/wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/
-
+#unzip financial-services-accelerator/accelerators/fs-is/target/wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/
+wget https://github.com/ParameswaranSajeenthiran/files/raw/master/wso2-fsiam-accelerator-4.0.0-M3.zip -O wso2-fsiam-accelerator-4.0.0-M3.zip
+unzip wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
 
 echo '##################### Setup MYSQL #####################'
-
 sudo apt-get update
 sudo apt-get install -y mysql-server
 sudo systemctl start mysql
@@ -112,6 +101,7 @@ echo '##################### Import Certificates into the truststore ############
 
 aliases=("wso2")
 
+# Define the client truststore
 truststores=(
   "$TEST_HOME/wso2is-7.0.0/repository/resources/security/client-truststore.jks"
 )
@@ -126,15 +116,7 @@ for alias in "${aliases[@]}"; do
 done
 
 echo '##################### Verify Exchanged Certificates #####################'
-#
-# Define the truststores
-truststores=(
-  "$TEST_HOME/wso2is-7.0.0/repository/resources/security/client-truststore.jks"
-)
 
-# Expected aliases (Modify based on actual aliases)
-cert_dir="$TEST_HOME/certs"
-aliases=("wso2")
 
 # Function to check if alias exists in the truststore
 check_alias() {
@@ -176,7 +158,7 @@ done
 
 #
 echo '##################### Run merge and Config scripts #####################'
-cd $RTEST_HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/bin
+cd $TEST_HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/bin
 bash merge.sh
 bash configure.sh
 
@@ -201,8 +183,7 @@ password = "wso2123"
 id_token.signature_algorithm="PS256"
 enable_claims_separation_for_access_tokens = false
 EOL
-#
-#
+
 cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 
 cd $TEST_HOME/wso2is-7.0.0/bin
@@ -220,7 +201,6 @@ echo '##################### Run Test Cases #####################'
 cd $RUNNER_HOME/fs-integration-test-suite
 
 echo '##################### Configure TestConfigurationExample#####################'
-
 ACCELERATION_INTEGRATION_TESTS_HOME=${RUNNER_HOME}/fs-integration-test-suite
 ACCELERATION_INTEGRATION_TESTS_CONFIG=${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfiguration.xml
 cp ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfigurationExample.xml ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
