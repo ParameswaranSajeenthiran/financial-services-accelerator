@@ -22,7 +22,7 @@ sudo apt install -y maven
 # PARAMETER 1: property_value
 #===============================================================================
 function get_prop {
-    local prop=$(grep -w "${1}" "${INPUT_DIR}/deployment.properties" | cut -d'=' -f2)
+    local prop=$(grep -w "${1}" "${RUNNER_HOME}/deployment.properties" | cut -d'=' -f2)
     echo $prop
 }
 
