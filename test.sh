@@ -3,7 +3,7 @@ MVNSTATE=1 #This variable is read by the test-grid to determine success or failu
 RUNNER_HOME=`pwd`
 
 echo '#=================== Install Java and Maven ==================='
-
+echo $RUNNER_HOME
 wget https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.16+8/OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
 tar -xvzf OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
 sudo mv jdk-11.0.16+8 /opt/java
