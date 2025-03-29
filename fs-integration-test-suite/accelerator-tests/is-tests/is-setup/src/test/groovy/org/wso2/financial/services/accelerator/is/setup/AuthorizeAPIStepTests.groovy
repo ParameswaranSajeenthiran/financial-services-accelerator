@@ -132,6 +132,7 @@ class AuthorizeAPIStepTests {
     @Test(groups = "api")
     void "Create Application"() {
         Response response = createStandardApplication(applicationName)
+        print(response.prettyPrint())
 
 
         applicationId = response.header("Location").split("/").last()
@@ -148,6 +149,7 @@ class AuthorizeAPIStepTests {
     @Test(groups = "api")
     void "Create API Resource"() {
         Response response = createAPIResource("https://apiscopes","apiscopes",["accounts","payments","fundsconfirmations"])
+        print(response.prettyPrint())
 
         apiResourceId = response.header("Location").split("/").last()
 
@@ -162,6 +164,7 @@ class AuthorizeAPIStepTests {
     @Test(dependsOnMethods =  ["Create Application","Create API Resource"] , groups = "api")
     void "Authorize API"() {
         Response response = authorizeAPI(apiResourceId, applicationId)
+        print(response.prettyPrint())
 
         print(response.getBody().prettyPrint())
         // assert status
