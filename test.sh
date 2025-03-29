@@ -153,7 +153,15 @@ for truststore in "${truststores[@]}"; do
   done
 done
 
-#
+echo '##################### Import OB sandbox Root and Issuer Certificates #####################'
+
+wget 'https://openbanking.atlassian.net/wiki/download/attachments/252018873/OB_SandBox_PP_Root%20CA.cer?version=1&modificationDate=1525354123970&cacheVersion=1&api=v2'
+keytool -import -alias root -file 'OB_SandBox_PP_Root CA' -keystore "${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks" -storepass wso2carbon
+
+
+wget 'https://openbanking.atlassian.net/wiki/download/attachments/252018873/OB_SandBox_PP_Issuing%20CA.cer?version=1&modificationDate=1525354091771&cacheVersion=1&api=v2'
+keytool -import -alias root -file 'OB_SandBox_PP_Issuing CA' -keystore "${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks" -storepass wso2carbon
+
 echo '##################### Run merge and Config scripts #####################'
 
 cd $TEST_HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/bin
@@ -184,8 +192,9 @@ EOL
 
 cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 
+# shellcheck disable=SC2164
 cd $TEST_HOME/wso2is-7.0.0/bin
-nohup ./wso2server.sh > wso2.log 2>&1 &
+nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
 #./wso2server.sh
 sleep 120
 
@@ -232,6 +241,8 @@ echo '################### API Publish and Subscribe Step ##################'
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
 mvn clean install -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 MVNSTATE=$?
+
+tail -100f ${RUNNER_HOME}/wso2.log
 
 
 
