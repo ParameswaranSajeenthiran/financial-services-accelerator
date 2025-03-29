@@ -296,5 +296,10 @@
         <AudienceValue>ConsentApi.AudienceValue</AudienceValue>
     </ConsentApi>
 
+    <ISSetup>
+        <ISAdminUserName>ISSetup.ISAdminUserName</ISAdminUserName>
+        <ISAdminPassword>ISSetup.ISAdminPassword</ISAdminPassword>
+    </ISSetup>
+
 
 </Configurations>

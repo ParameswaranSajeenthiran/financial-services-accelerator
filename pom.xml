@@ -21,6 +21,7 @@
     <groupId>org.wso2.financial.services.accelerator</groupId>
     <artifactId>financial-services</artifactId>
     <packaging>pom</packaging>
+
     <version>4.0.0-M3</version>
 
     <parent>
@@ -43,7 +44,6 @@
             <modules>
                 <module>financial-services-accelerator</module>
                 <module>financial-services-accelerator/accelerators</module>
-                <module>integration-test-framework</module>
             </modules>
             <build>
                 <plugins>
@@ -78,7 +78,6 @@
                 </property>
             </activation>
             <modules>
-                <module>integration-test-framework</module>
                 <module>fs-integration-test-suite</module>
             </modules>
         </profile>
@@ -89,7 +88,9 @@
 
     <modules>
         <module>financial-services-accelerator</module>
-        <module>integration-test-framework</module>
+        <module>fs-integration-test-suite/bfsi-test-framework</module>
+        <module>fs-integration-test-suite/accelerator-test-framework</module>
+
     </modules>
 
     <repositories>
