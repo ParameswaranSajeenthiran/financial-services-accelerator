@@ -156,7 +156,7 @@ done
 #
 echo '##################### Run merge and Config scripts #####################'
 
-cd $TEST_HOME/wso2is-7.0.0/wso2-fs-iam-accelerator-4.0.0-M3/bin
+cd $TEST_HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/bin
 bash merge.sh
 bash configure.sh
 
@@ -200,9 +200,12 @@ echo '##################### Run Test Cases #####################'
 
 cd $RUNNER_HOME/fs-integration-test-suite
 
-echo '##################### Configure TestConfigurationExample#####################'
+echo '##################### Configure TestConfigurationExample #####################'
 ACCELERATION_INTEGRATION_TESTS_HOME=${RUNNER_HOME}/fs-integration-test-suite
 ACCELERATION_INTEGRATION_TESTS_CONFIG=${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfiguration.xml
+TEST_ARTIFACTS=${ACCELERATION_INTEGRATION_TESTS_HOME}/test-artifacts
+
+
 cp ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfigurationExample.xml ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
 #--------------Server Configurations-----------------#
@@ -215,11 +218,16 @@ sed -i -e "s|Server.APIMServerUrl|$(get_prop "APIMServerUrl")|g" ${ACCELERATION_
 sed -i -e "s|ISSetup.ISAdminUserName|$(get_prop "ISAdminUserName")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|ISSetup.ISAdminPassword|$(get_prop "ISAdminPassword")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
-#--------------Build the Test framework-----------------#
+#--------------Application Configurations-----------------#
+sed -i -e "s|{TestArtifactDirectoryPath}|${TEST_ARTIFACTS}|g" $UK_TOOL_KIT_TEST_CONFIG
+sed -i -e "s|AppConfig.Application.ClientID|Application.ClientID|g" $UK_TOOL_KIT_TEST_CONFIG
+
+
+echo '################### Build the Test framework ####################'
 mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 
 
-#--------------API Publish and Subscribe Step-----------------#
+echo '################### API Publish and Subscribe Step ##################'
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
 mvn clean install -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 MVNSTATE=$?
