@@ -60,6 +60,8 @@ class AuthorizeAPIStepTests {
  */
      static Response createAPIResource(String identifier,String displayName, ArrayList<String> scopes) {
 
+         print(configuration.getISAdminPassword())
+         print(configuration.getISAdminUserName())
          // build scope array
             StringBuilder scopesArray = new StringBuilder()
             scopes.each {
