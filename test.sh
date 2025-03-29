@@ -44,7 +44,7 @@ INPUT_DIR=$TEST_HOME
 echo "INPUT_DIR: $INPUT_DIR"
 
 echo '##################### Building packs #####################'
-mvn -B install --file pom.xml
+#mvn -B install --file pom.xml
 
 echo '##################### SetUp base Products #####################'
 wget "https://dms.uom.lk/s/si6eAy3D32KcFj8/download" -O $TEST_HOME/wso2is-7.0.0.zip
@@ -56,9 +56,9 @@ WSO2_UPDATES_HOME=home/$name/.wso2updates
 sudo mkdir -p /home/$name/.wso2-updates/docker && sudo chmod -R 777 /home/$name/.wso2-updates $TEST_HOME/wso2is-7.0 .0/bin/wso2update_linux --username $USERNAME --password $PASSWORD ||  ($TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PASSWORD )
 
 echo '##################### Moving Packs to RUNNER_HOME #####################'
-unzip financial-services-accelerator/accelerators/fs-is/target/wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
-#wget https://github.com/ParameswaranSajeenthiran/files/raw/master/wso2-fsiam-accelerator-4.0.0-M3.zip -O wso2-fsiam-accelerator-4.0.0-M3.zip
-#unzip wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
+#unzip financial-services-accelerator/accelerators/fs-is/target/wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
+wget https://github.com/ParameswaranSajeenthiran/files/raw/master/wso2-fsiam-accelerator-4.0.0-M3.zip -O wso2-fsiam-accelerator-4.0.0-M3.zip
+unzip wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
 
 echo '##################### Setup MYSQL #####################'
 sudo apt-get update
@@ -164,7 +164,7 @@ keytool -import -alias root -file 'OB_SandBox_PP_Issuing CA' -keystore "${TEST_H
 
 echo '##################### Run merge and Config scripts #####################'
 
-cd $TEST_HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/bin
+cd $TEST_HOME/wso2is-7.0.0/wso2-fs-iam-accelerator-4.0.0-M3/bin
 bash merge.sh
 bash configure.sh
 
