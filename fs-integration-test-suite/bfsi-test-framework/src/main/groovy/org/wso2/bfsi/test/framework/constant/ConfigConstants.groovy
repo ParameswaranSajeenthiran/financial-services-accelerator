@@ -119,7 +119,7 @@ class ConfigConstants {
 
     // IS Setup config constants
     public static final String ISSetup = "ISSetup";
-    public static final String ISAdminUser = "ISAdminUser";
+    public static final String ISAdminUserName = "ISAdminUserName";
     public static final String ISAdminPassword = "ISAdminPassword";
 }
 

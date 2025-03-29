@@ -598,7 +598,7 @@ class CommonConfigurationService {
     }
 
     String getISAdminUserName(){
-        return configuration.get( ConfigConstants.ISSetup + "." + ConfigConstants.ISAdminUser)
+        return configuration.get( ConfigConstants.ISSetup + "." + ConfigConstants.ISAdminUserName)
 
     }
 
