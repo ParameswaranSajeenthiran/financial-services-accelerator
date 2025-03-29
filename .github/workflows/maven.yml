@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup deployment.properties
         run: |
-          echo "ISServerUrl=http://localhost:9446" > deployment.properties
+          echo "ISServerUrl=https://localhost:9446" > deployment.properties
           echo "BaseUrl=Server.BaseUrl" >> deployment.properties
           echo "APIMServerUrl=Server.APIMServerUrl" >> deployment.properties
           echo "ISAdminUserName=is_admin@wso2.com" >> deployment.properties
