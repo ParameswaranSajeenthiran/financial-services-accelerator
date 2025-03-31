@@ -44,6 +44,7 @@ INPUT_DIR=$TEST_HOME
 echo "INPUT_DIR: $INPUT_DIR"
 #
 echo '##################### Building packs #####################'
+
 mvn -B install --file pom.xml
 #
 echo '##################### SetUp base Products #####################'
