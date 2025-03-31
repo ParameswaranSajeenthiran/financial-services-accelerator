@@ -42,19 +42,21 @@ echo "TEST_HOME:  $TEST_HOME"
 
 INPUT_DIR=$TEST_HOME
 echo "INPUT_DIR: $INPUT_DIR"
-
+#
 echo '##################### Building packs #####################'
 mvn -B install --file pom.xml
-
+#
 echo '##################### SetUp base Products #####################'
-wget "https://dms.uom.lk/s/si6eAy3D32KcFj8/download" -O $TEST_HOME/wso2is-7.0.0.zip
+wget "https://filebin.net/ezmc7r5vlk4al2t9/wso2is-7.0.0.zip" -O $TEST_HOME/wso2is-7.0.0.zip
 unzip $TEST_HOME/wso2is-7.0.0.zip -d $TEST_HOME
 
 echo '##################### Installing WSO2 Updates #####################'
 name=$(echo "$USERNAME" | cut -d'@' -f1)
 WSO2_UPDATES_HOME=home/$name/.wso2updates
-sudo mkdir -p /home/$name/.wso2-updates/docker && sudo chmod -R 777 /home/$name/.wso2-updates $TEST_HOME/wso2is-7.0 .0/bin/wso2update_linux --username $USERNAME --password $PASSWORD ||  ($TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PASSWORD )
+sudo mkdir -p /home/$name/.wso2-updates/docker && sudo chmod -R 777 /home/$name/.wso2-updates
 
+$TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PASSWORD ||  ($TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PASSWORD )
+#
 echo '##################### Moving Packs to RUNNER_HOME #####################'
 unzip financial-services-accelerator/accelerators/fs-is/target/wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
 #wget https://github.com/ParameswaranSajeenthiran/files/raw/master/wso2-fsiam-accelerator-4.0.0-M3.zip -O wso2-fsiam-accelerator-4.0.0-M3.zip
@@ -174,7 +176,7 @@ sed -i '/\[oauth\.oidc\]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/depl
 sed -i '/\[financial_services\.service\.extensions\.endpoint]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 sed -i '/\[financial_services\.service\.extensions\.endpoint\.security]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 
-cat <<EOL >> deployment.toml
+cat <<EOL >> $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 [financial_services.service.extensions.endpoint]
 enabled = true
 base_url = "http://<hostname of external service>:<port of the external service>/api/financialservices/uk/consent/endpoints"
@@ -190,13 +192,13 @@ id_token.signature_algorithm="PS256"
 enable_claims_separation_for_access_tokens = false
 EOL
 
-cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-
-# shellcheck disable=SC2164
-cd $TEST_HOME/wso2is-7.0.0/bin
-nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
-#./wso2server.sh
-sleep 120
+#cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+#
+## shellcheck disable=SC2164
+#cd $TEST_HOME/wso2is-7.0.0/bin
+#nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
+##./wso2server.sh
+#sleep 120
 
 echo '##################### Test Setup #####################'
 
@@ -234,13 +236,13 @@ sed -i -e "s|ISSetup.ISAdminPassword|$(get_prop "ISAdminPassword")|g" ${ACCELERA
 #cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 #
 #echo '################### Build the Test framework ####################'
-#mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 #
 #
 #echo '################### API Publish and Subscribe Step ##################'
-#cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
-#mvn clean install -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-#MVNSTATE=$?
+cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
+mvn clean install -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+MVNSTATE=$?
 
 tail -1000f ${RUNNER_HOME}/wso2.log
 
