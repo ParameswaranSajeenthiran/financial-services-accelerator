@@ -244,5 +244,9 @@ MVNSTATE=$?
 
 tail -100f ${RUNNER_HOME}/wso2.log
 
+sleep 20
+
+exist 1
+
 
 
