@@ -42,7 +42,7 @@ echo "TEST_HOME:  $TEST_HOME"
 
 INPUT_DIR=$TEST_HOME
 echo "INPUT_DIR: $INPUT_DIR"
-#
+##
 echo '##################### Building packs #####################'
 
 mvn -B install --file pom.xml
@@ -158,12 +158,12 @@ done
 
 echo '##################### Import OB sandbox Root and Issuer Certificates #####################'
 
-wget 'https://openbanking.atlassian.net/wiki/download/attachments/252018873/OB_SandBox_PP_Root%20CA.cer?version=1&modificationDate=1525354123970&cacheVersion=1&api=v2'
-keytool -import -alias root -file 'OB_SandBox_PP_Root CA' -keystore "${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks" -storepass wso2carbon
+wget 'https://github.com/ParameswaranSajeenthiran/files/raw/refs/heads/master/OB_SandBox_PP_Root%20CA.cer' -O "${TEST_HOME}OB_SandBox_PP_Root CA.cer"
+keytool -import -alias root -file 'OB_SandBox_PP_Root CA.cer' -keystore "${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks" -storepass wso2carbon -noprompt
 
 
-wget 'https://openbanking.atlassian.net/wiki/download/attachments/252018873/OB_SandBox_PP_Issuing%20CA.cer?version=1&modificationDate=1525354091771&cacheVersion=1&api=v2'
-keytool -import -alias root -file 'OB_SandBox_PP_Issuing CA' -keystore "${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks" -storepass wso2carbon
+wget 'https://github.com/ParameswaranSajeenthiran/files/raw/refs/heads/master/OB_SandBox_PP_Issuing%20CA.cer' -O "${TEST_HOME}/OB_SandBox_PP_Issuing CA.cer"
+keytool -import -alias issuer -file 'OB_SandBox_PP_Issuing CA.cer' -keystore "${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks" -storepass wso2carbon -noprompt
 
 echo '##################### Run merge and Config scripts #####################'
 
@@ -193,13 +193,13 @@ id_token.signature_algorithm="PS256"
 enable_claims_separation_for_access_tokens = false
 EOL
 
-#cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-#
-## shellcheck disable=SC2164
-#cd $TEST_HOME/wso2is-7.0.0/bin
-#nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
-##./wso2server.sh
-#sleep 120
+cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+
+# shellcheck disable=SC2164
+cd $TEST_HOME/wso2is-7.0.0/bin
+nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
+#./wso2server.sh
+sleep 120
 
 echo '##################### Test Setup #####################'
 
@@ -230,9 +230,10 @@ sed -i -e "s|Server.APIMServerUrl|$(get_prop "APIMServerUrl")|g" ${ACCELERATION_
 sed -i -e "s|ISSetup.ISAdminUserName|$(get_prop "ISAdminUserName")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|ISSetup.ISAdminPassword|$(get_prop "ISAdminPassword")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
-##--------------Application Configurations-----------------#
-#sed -i -e "s|{TestArtifactDirectoryPath}|${TEST_ARTIFACTS}|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#--------------Application Configurations-----------------#
+sed -i -e "s|{TestArtifactDirectoryPath}|${TEST_ARTIFACTS}|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 #sed -i -e "s|AppConfig.Application.ClientID|Application.ClientID|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|{ISDirectoryPath}|${TEST_HOME}/wso2is-7.0.0|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
 #cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 #

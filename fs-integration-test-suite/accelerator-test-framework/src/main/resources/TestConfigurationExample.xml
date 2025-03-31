@@ -38,7 +38,7 @@
         <!-- Sample Values: https://<AM_HOST>:8243 -->
         <BaseURL>Server.BaseURL</BaseURL>
         <!-- Sample Values: https://<IS_HOST>:9446 -->
-        <ISServerUrl>Server.ISServerUrl</ISServerUrl>
+        <ISServerUrl>https://localhost:9446</ISServerUrl>
         <!-- Sample Values: https://<AM_HOST>:9443 -->
         <APIMServerUrl>Server.APIMServerUrl</APIMServerUrl>
     </Server>
@@ -62,41 +62,41 @@
                 <!--Absolute path + file name of JKS keystore file-->
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/DynamicDlientRegistration/
                 uk/sample-client-resources/signing-keystore/signing.jks -->
-                <Location>AppConfig1.KeyStore.Location</Location>
+                <Location>{TestArtifactDirectoryPath}/DynamicClientRegistration/uk/tpp1/signing-keystore/signing.jks</Location>
 
                 <!--Sample Value: tpp6-signing -->
-                <Alias>AppConfig1.KeyStore.Alias</Alias>
+                <Alias>signing</Alias>
 
                 <!--Sample Value: wso2carbon -->
-                <Password>AppConfig1.KeyStore.Password</Password>
+                <Password>wso2carbon</Password>
 
                 <DomainName>https://wso2.com</DomainName>
 
                 <!--Sample Value: w7NFeMODzCMOZen_WECAlG9N8gg -->
-                <SigningKid>AppConfig1.KeyStore.SigningKid</SigningKid>
+                <SigningKid>cIYo-5zX4OTWZpHrmmiZDVxACJM</SigningKid>
             </KeyStore>
 
             <!-- Transport Keystore and Truststore -->
             <!-- This Keystore and the Truststore will be used during the SSL handshake-->
             <Transport>
                 <!--Sample Value: true -->
-                <MTLSEnabled>AppConfig1.Transport.MTLSEnabled</MTLSEnabled>
+                <MTLSEnabled>true</MTLSEnabled>
                 <!-- A keystore and a truststore needs to be configured in the following section if MTLSEnabled is set to
                 true -->
                 <KeyStore>
                     <!--Absolute path + file name of keystore file.-->
                     <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                     DynamicClientRegistration/uk/sample-client-resources/transport-keystore/transport.jks -->
-                    <Location>AppConfig1.Transport.KeyStore.Location</Location>
+                    <Location>{TestArtifactDirectoryPath}/DynamicClientRegistration/uk/tpp1/transport-keystore/transport.jks</Location>
 
 
                     <Type>jks</Type>
 
                     <!--Sample Value: wso2carbon -->
-                    <Password>AppConfig1.Transport.KeyStore.Password</Password>
+                    <Password>wso2carbon</Password>
 
                     <!--Sample Value: tpp6-transport -->
-                    <Alias>AppConfig1.Transport.KeyStore.Alias</Alias>
+                    <Alias>transport</Alias>
                 </KeyStore>
             </Transport>
 
@@ -105,36 +105,36 @@
 
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                 DynamicClientRegistration/uk/sample-client-resources/ssa.txt -->
-                <SSAPath>AppConfig1.DCR.SSAPath</SSAPath>
+                <SSAPath>{TestArtifactDirectoryPath}/DynamicClientRegistration/uk/tpp1/ssa.txt</SSAPath>
 
                 <!-- Self signed SSA for negative tests-->
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                 DynamicClientRegistration/uk/sample-client-resources/self_ssa.txt -->
-                <SelfSignedSSAPath>AppConfig.DCR.SelfSignedSSAPath</SelfSignedSSAPath>
+                <SelfSignedSSAPath>{TestArtifactDirectoryPath}/DynamicClientRegistration/uk/tpp1/self_ssa.txt</SelfSignedSSAPath>
 
                 <!-- SSA SoftwareId-->
                 <!--Sample Value: oQ4KoaavpOuoE7rvQsZEOV -->
-                <SoftwareId>AppConfig1.DCR.SoftwareId</SoftwareId>
+                <SoftwareId>oQ4KoaavpOuoE7rvQsZEOV</SoftwareId>
 
                 <!-- SSA Redirect Uri -->
                 <!--Sample Value: https://www.google.com/redirects/redirect1 -->
-                <RedirectUri>AppConfig1.DCR.RedirectUri</RedirectUri>
+                <RedirectUri>https://www.google.com/redirects/redirect1</RedirectUri>
 
                 <!-- SSA Alternate Redirect Uri-->
                 <!--Sample Value: https://www.google.com/redirects/redirect2 -->
-                <AlternateRedirectUri>AppConfig.DCR.AlternateRedirectUri</AlternateRedirectUri>
+                <AlternateRedirectUri>https://www.google.com/redirects/redirect2</AlternateRedirectUri>
 
                 <!-- Version of DCR API -->
                 <!--Sample Value: 0.1 -->
-                <DCRAPIVersion>AppConfig1.DCR.DCRAPIVersion</DCRAPIVersion>
+                <DCRAPIVersion>0.1</DCRAPIVersion>
             </DCR>
 
             <!-- Application Info -->
             <Application>
-                <ClientID>AppConfig1.Application.ClientID</ClientID>
-                <ClientSecret>AppConfig1.Application.ClientSecret</ClientSecret>
+                <ClientID>bS_mDjiQ5RdMg7t9upCWCeN7mhoa</ClientID>
+                <ClientSecret>fVcOLPd9gEnrkLfKs9qijFkjtxlS_4YNMMXfwJJqUeca</ClientSecret>
                 <!--Sample Value: https://www.google.com/redirects/redirect1 -->
-                <RedirectURL>AppConfig1.Application.RedirectURL</RedirectURL>
+                <RedirectURL>https://www.google.com/redirects/redirect1</RedirectURL>
             </Application>
         </AppConfig>
 
@@ -145,39 +145,39 @@
                 <!--Absolute path + file name of JKS keystore file-->
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                 DynamicClientRegistration/uk/sample-client-resources-2/signing-keystore/signing.jks -->
-                <Location>AppConfig2.KeyStore.Location</Location>
+                <Location>{TestArtifactDirectoryPath}/DynamicClientRegistration/uk/tpp2/signing-keystore/signing.jks</Location>
 
                 <!--Sample Value: tpp7-signing -->
-                <Alias>AppConfig2.KeyStore.Alias</Alias>
+                <Alias>signing</Alias>
 
                 <!--Sample Value: wso2carbon -->
-                <Password>AppConfig2.KeyStore.Password</Password>
+                <Password>wso2carbon</Password>
 
                 <DomainName>https://wso2.com</DomainName>
 
                 <!--Sample Value: 8PwKpjuPDgU76j3QxJzfOtE9CWw -->
-                <SigningKid>AppConfig2.KeyStore.SigningKid</SigningKid>
+                <SigningKid>BkHxeIHKyMKF6SgGwqYzLUvTQfk</SigningKid>
             </KeyStore>
 
             <!-- Transport Keystore and Truststore -->
             <!-- This Keystore and the Truststore will be used during the SSL handshake-->
             <Transport>
                 <!--Sample Value: true -->
-                <MTLSEnabled>AppConfig1.Transport.MTLSEnabled</MTLSEnabled>
+                <MTLSEnabled>true</MTLSEnabled>
                 <!-- A keystore and a truststore needs to be configured in the following section if MTLSEnabled is set to
                 true -->
                 <KeyStore>
                     <!--Absolute path + file name of keystore file. -->
                     <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                     DynamicClientRegistration/uk/sample-client-resources-2/transport-keystore/transport.jks -->
-                    <Location>AppConfig2.Transport.KeyStore.Location</Location>
+                    <Location>{TestArtifactDirectoryPath}/DynamicClientRegistration/uk/tpp2/transport-keystore/transport.jks</Location>
                     <Type>jks</Type>
 
                     <!--Sample Value: wso2carbon -->
-                    <Password>AppConfig2.Transport.KeyStore.Password</Password>
+                    <Password>wso2carbon</Password>
 
                     <!--Sample Value: tpp7-transport -->
-                    <Alias>AppConfig2.Transport.KeyStore.Alias</Alias>
+                    <Alias>transport</Alias>
                 </KeyStore>
             </Transport>
 
@@ -186,31 +186,31 @@
 
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                 DynamicClientRegistration/uk/sample-client-resources-2/ssa.txt -->
-                <SSAPath>AppConfig2.DCR.</SSAPath>
+                <SSAPath>{TestArtifactDirectoryPath}/DynamicClientRegistration/uk/tpp2/ssa.txt</SSAPath>
 
                 <!--Sample Value: 9ZzFFBxSLGEjPZogRAbvFd -->
-                <SoftwareId>AppConfig2.DCR.</SoftwareId>
+                <SoftwareId>9ZzFFBxSLGEjPZogRAbvFd</SoftwareId>
 
                 <!-- SSA Redirect Uri -->
                 <!--Sample Value: https://www.google.com/redirects/redirect1 -->
-                <RedirectUri>AppConfig2.DCR.RedirectUri</RedirectUri>
+                <RedirectUri>https://www.google.com/redirects/redirect1</RedirectUri>
 
                 <!-- SSA Alternate Redirect Uri-->
                 <!--Sample Value: https://www.google.com/redirects/redirect2 -->
-                <AlternateRedirectUri>AppConfig2.DCR.AlternateRedirectUri</AlternateRedirectUri>
+                <AlternateRedirectUri>https://www.google.com/redirects/redirect2</AlternateRedirectUri>
 
                 <!-- Version of DCR API-->
                 <!--Sample Value: 0.1 -->
-                <DCRAPIVersion>AppConfig2.DCR.DCRAPIVersion</DCRAPIVersion>
+                <DCRAPIVersion>0.1</DCRAPIVersion>
             </DCR>
 
             <!-- Application Info -->
             <Application>
-                <ClientID>AppConfig2.Application.ClientID</ClientID>
-                <ClientSecret>AppConfig2.Application.ClientSecret</ClientSecret>
+                <ClientID>kuT7f9R1YDWm37_PaqlaRjFALv8a</ClientID>
+                <ClientSecret>inAOnTuyQwOdz3AbATl_L_qURTHtuI9bJQL7D0DOfxwa</ClientSecret>
 
                 <!--Sample Value: https://www.google.com/redirects/redirect1 -->
-                <RedirectURL>AppConfig2.Application.RedirectURL</RedirectURL>
+                <RedirectURL>https://www.google.com/redirects/redirect1L</RedirectURL>
             </Application>
         </AppConfig>
 
@@ -224,12 +224,12 @@
              <Path to financial-open-banking>/integration-test-suite/test-artifacts/client-truststore) -->
             <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/client-truststore/
             client-truststore.jks -->
-            <Location>Transport.Truststore.Location</Location>
+            <Location>{ISDirectoryPath}/repository/resources/security/client-truststore.jks</Location>
 
             <Type>jks</Type>
 
             <!--Sample Value: wso2carbon-->
-            <Password>Transport.Truststore.Password</Password>
+            <Password>wso2carbon</Password>
         </Truststore>
     </Transport>
 
@@ -245,19 +245,19 @@
     <!-- PSU_INFO List - Can Add Multiple PSUInfo sets-->
     <PSUList>
         <!-- Common PSU Info -->
-            <PSUInfo>
-                <Credentials>
-                    <User>admin@wso2.com</User>
-                    <Password>wso2123</Password>
-                </Credentials>
-            </PSUInfo>
-            <!-- Secondary PSU Info -->
-            <PSUInfo>
-                <Credentials>
-                    <User>psu@wso2.com</User>
-                    <Password>wso2123</Password>
-                </Credentials>
-            </PSUInfo>
+        <PSUInfo>
+            <Credentials>
+                <User>admin@wso2.com</User>
+                <Password>wso2123</Password>
+            </Credentials>
+        </PSUInfo>
+        <!-- Secondary PSU Info -->
+        <PSUInfo>
+            <Credentials>
+                <User>psu@wso2.com</User>
+                <Password>wso2123</Password>
+            </Credentials>
+        </PSUInfo>
     </PSUList>
 
     <!-- Publisher Info -->
@@ -273,7 +273,7 @@
     </TPPInfo>
 
     <KeyManagerAdmin>
-        <User>admin@wso2.com</User>
+        <User>is_admin@wso2.com</User>
         <Password>wso2123</Password>
     </KeyManagerAdmin>
 
@@ -297,8 +297,8 @@
     </ConsentApi>
 
     <ISSetup>
-        <ISAdminUserName>ISSetup.ISAdminUserName</ISAdminUserName>
-        <ISAdminPassword>ISSetup.ISAdminPassword</ISAdminPassword>
+        <ISAdminUserName>is_admin@wso2.com</ISAdminUserName>
+        <ISAdminPassword>wso2123</ISAdminPassword>
     </ISSetup>
 
 
