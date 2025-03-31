@@ -228,25 +228,25 @@ sed -i -e "s|ISSetup.ISAdminUserName|$(get_prop "ISAdminUserName")|g" ${ACCELERA
 sed -i -e "s|ISSetup.ISAdminPassword|$(get_prop "ISAdminPassword")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
 ##--------------Application Configurations-----------------#
-#sed -i -e "s|{TestArtifactDirectoryPath}|${TEST_ARTIFACTS}|g" $UK_TOOL_KIT_TEST_CONFIG
-#sed -i -e "s|AppConfig.Application.ClientID|Application.ClientID|g" $UK_TOOL_KIT_TEST_CONFIG
+#sed -i -e "s|{TestArtifactDirectoryPath}|${TEST_ARTIFACTS}|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#sed -i -e "s|AppConfig.Application.ClientID|Application.ClientID|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
-cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#
+#echo '################### Build the Test framework ####################'
+#mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+#
+#
+#echo '################### API Publish and Subscribe Step ##################'
+#cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
+#mvn clean install -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+#MVNSTATE=$?
 
-echo '################### Build the Test framework ####################'
-mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-
-
-echo '################### API Publish and Subscribe Step ##################'
-cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
-mvn clean install -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-MVNSTATE=$?
-
-tail -100f ${RUNNER_HOME}/wso2.log
+tail -1000f ${RUNNER_HOME}/wso2.log
 
 sleep 20
 
-exist 1
+exit 1
 
 
 

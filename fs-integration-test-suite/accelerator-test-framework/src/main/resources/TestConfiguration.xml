@@ -38,9 +38,9 @@
         <!-- Sample Values: https://<AM_HOST>:8243 -->
         <BaseURL>Server.BaseURL</BaseURL>
         <!-- Sample Values: https://<IS_HOST>:9446 -->
-        <ISServerUrl>https://localhost:9446</ISServerUrl>
+        <ISServerUrl></ISServerUrl>
         <!-- Sample Values: https://<AM_HOST>:9443 -->
-        <APIMServerUrl>Server.APIMServerUrl</APIMServerUrl>
+        <APIMServerUrl></APIMServerUrl>
     </Server>
 
     <!-- Provisioning Info -->
@@ -297,8 +297,8 @@
     </ConsentApi>
 
     <ISSetup>
-        <ISAdminUserName>is_admin@wso2.com</ISAdminUserName>
-        <ISAdminPassword>wso2123</ISAdminPassword>
+        <ISAdminUserName></ISAdminUserName>
+        <ISAdminPassword></ISAdminPassword>
     </ISSetup>
 
 
