@@ -171,7 +171,7 @@ bash configure.sh
 echo '##################### Update deployment.toml #####################'
 
 sed -i '/\[oauth\.oidc\]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-sed -i '/\[financial_services\.service\.extensions\.endpoint\.security\]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+sed -i '/\[financial_services\.service\.extensions\.endpoint]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 sed -i '/\[financial_services\.service\.extensions\.endpoint\.security]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 
 cat <<EOL >> deployment.toml
