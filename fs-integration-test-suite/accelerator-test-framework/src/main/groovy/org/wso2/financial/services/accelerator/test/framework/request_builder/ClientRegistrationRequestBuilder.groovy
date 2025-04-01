@@ -779,7 +779,7 @@ class ClientRegistrationRequestBuilder {
                "jti": "${currentTimeInMillis}",
                "aud": "https://localbank.com",
                "software_id": "${obConfigurationService.getAppDCRSoftwareId()}",
-               "scope": "accounts payments fundsconfirmations",
+               "scope": "accounts payments",
                "redirect_uris": [
                  "${obConfigurationService.getAppDCRRedirectUri()}"
                ],

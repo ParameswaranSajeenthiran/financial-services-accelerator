@@ -7,7 +7,7 @@ echo '#=================== Install Java and Maven ==================='
 wget https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.16+8/OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
 tar -xvzf OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
 sudo mv jdk-11.0.16+8 /opt/java
-echo "export JAVA_HOME=/opt/java" >> ~/.bashrc
+echo "export JAVA_HOME=/opt/java/jdk-11.0.16+8" >> ~/.bashrc
 echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> ~/.bashrc
 source ~/.bashrc
 java -version
@@ -61,7 +61,7 @@ $TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PA
 echo '##################### Moving Packs to RUNNER_HOME #####################'
 unzip financial-services-accelerator/accelerators/fs-is/target/wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
 #wget https://github.com/ParameswaranSajeenthiran/files/raw/master/wso2-fsiam-accelerator-4.0.0-M3.zip -O wso2-fsiam-accelerator-4.0.0-M3.zip
-unzip wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
+#unzip wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
 
 echo '##################### Setup MYSQL #####################'
 sudo apt-get update
@@ -158,12 +158,12 @@ done
 
 echo '##################### Import OB sandbox Root and Issuer Certificates #####################'
 
-wget 'https://github.com/ParameswaranSajeenthiran/files/raw/refs/heads/master/OB_SandBox_PP_Root%20CA.cer' -O "${TEST_HOME}OB_SandBox_PP_Root CA.cer"
-keytool -import -alias root -file 'OB_SandBox_PP_Root CA.cer' -keystore "${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks" -storepass wso2carbon -noprompt
+wget 'https://github.com/ParameswaranSajeenthiran/files/raw/refs/heads/master/OB_SandBox_PP_Root%20CA.cer' -O "${TEST_HOME}/OB_SandBox_PP_Root CA.cer"
+keytool -import -alias root -file "${TEST_HOME}/OB_SandBox_PP_Root CA.cer" -keystore "${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks" -storepass wso2carbon -noprompt
 
 
 wget 'https://github.com/ParameswaranSajeenthiran/files/raw/refs/heads/master/OB_SandBox_PP_Issuing%20CA.cer' -O "${TEST_HOME}/OB_SandBox_PP_Issuing CA.cer"
-keytool -import -alias issuer -file 'OB_SandBox_PP_Issuing CA.cer' -keystore "${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks" -storepass wso2carbon -noprompt
+keytool -import -alias issuer -file "${TEST_HOME}/OB_SandBox_PP_Issuing CA.cer" -keystore "${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks" -storepass wso2carbon -noprompt
 
 echo '##################### Run merge and Config scripts #####################'
 
@@ -235,7 +235,7 @@ sed -i -e "s|{TestArtifactDirectoryPath}|${TEST_ARTIFACTS}|g" ${ACCELERATION_INT
 #sed -i -e "s|AppConfig.Application.ClientID|Application.ClientID|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|{ISDirectoryPath}|${TEST_HOME}/wso2is-7.0.0|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
-#cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 #
 #echo '################### Build the Test framework ####################'
 mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
@@ -246,7 +246,7 @@ cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
 mvn clean install -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 MVNSTATE=$?
 
-tail -1000f ${RUNNER_HOME}/wso2.log
+#tail -1000f ${RUNNER_HOME}/wso2.log
 
 sleep 20
 
