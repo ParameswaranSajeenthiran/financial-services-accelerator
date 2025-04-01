@@ -180,28 +180,28 @@ cp $RUNNER_HOME/deployment.toml $TEST_HOME/wso2is-7.0.0/repository/conf/deployme
 cat $RUNNER_HOME/deployment.toml
 cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 
-#sed -i '/\[oauth\.oidc\]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-#sed -i '/\[financial_services\.service\.extensions\.endpoint]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-#sed -i '/\[financial_services\.service\.extensions\.endpoint\.security]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-#
-#cat <<EOL >> $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-#[financial_services.service.extensions.endpoint]
-#enabled = true
-#base_url = "http://<hostname of external service>:<port of the external service>/api/financialservices/uk/consent/endpoints"
-#extension_types = ["pre-consent-generation", "post-consent-generation", "pre-consent-retrieval", "pre-consent-revocation", "pre-consent-authorization", "consent-validation", "pre-user-authorization", "post-user-authorization", "pre-id-token-generation"]
-#
-#[financial_services.service.extensions.endpoint.security]
-#type = "Basic-Auth"
-#username = "is_admin@wso2.com"
-#password = "wso2123"
-#
-#[oauth.oidc]
-#id_token.signature_algorithm="PS256"
-#enable_claims_separation_for_access_tokens = false
-#EOL
-#
-#cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-#
+sed -i '/\[oauth\.oidc\]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+sed -i '/\[financial_services\.service\.extensions\.endpoint]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+sed -i '/\[financial_services\.service\.extensions\.endpoint\.security]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+
+cat <<EOL >> $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+[financial_services.service.extensions.endpoint]
+enabled = true
+base_url = "http://<hostname of external service>:<port of the external service>/api/financialservices/uk/consent/endpoints"
+extension_types = ["pre-consent-generation", "post-consent-generation", "pre-consent-retrieval", "pre-consent-revocation", "pre-consent-authorization", "consent-validation", "pre-user-authorization", "post-user-authorization", "pre-id-token-generation"]
+
+[financial_services.service.extensions.endpoint.security]
+type = "Basic-Auth"
+username = "is_admin@wso2.com"
+password = "wso2123"
+
+[oauth.oidc]
+id_token.signature_algorithm="PS256"
+enable_claims_separation_for_access_tokens = false
+EOL
+
+cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+
 # shellcheck disable=SC2164
 cd $TEST_HOME/wso2is-7.0.0/bin
 nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
