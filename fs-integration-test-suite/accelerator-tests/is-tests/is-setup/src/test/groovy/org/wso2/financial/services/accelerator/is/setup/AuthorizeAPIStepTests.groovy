@@ -1,0 +1,178 @@
+package org.wso2.financial.services.accelerator.is.setup;
+
+import io.restassured.RestAssured
+import io.restassured.response.Response
+import org.testng.Assert
+import org.testng.annotations.BeforeTest
+import org.testng.annotations.Test
+import org.wso2.financial.services.accelerator.test.framework.configuration.ConfigurationService
+import org.wso2.financial.services.accelerator.test.framework.utility.FSRestAsRequestBuilder
+
+class AuthorizeAPIStepTests {
+
+    static String applicationName = "Test api ${UUID.randomUUID()}"
+    static String  apiResourceId
+    static String  applicationId
+    private static ConfigurationService configuration = new ConfigurationService()
+
+
+    static String encodeCredentials(String username, String password) {
+        return Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+    }
+
+
+    static Response createStandardApplication (String applicationName) {
+        return   RestAssured.given().contentType("application/json")
+                .relaxedHTTPSValidation()
+                .urlEncodingEnabled(true)
+                .baseUri(configuration.getISServerUrl())
+                .basePath("/api/server/v1/applications")
+                .header("Authorization", "Basic ${encodeCredentials(configuration.getISAdminUserName(),configuration.getISAdminPassword())}")
+                .body("""
+                    {
+                    "name": "${applicationName}",
+                    "advancedConfigurations": {
+                        "skipLogoutConsent": true,
+                        "skipLoginConsent": true
+                    },
+                    "templateId": "custom-application-oidc",
+                    "associatedRoles": {
+                        "allowedAudience": "APPLICATION",
+                        "roles": []
+                    },
+                    "inboundProtocolConfiguration": {
+                        "oidc": {
+                            "grantTypes": [
+                                "client_credentials"
+                            ],
+                            "isFAPIApplication": true
+                        }
+                    }
+                }
+                    """).post()
+    }
+
+/**
+ * create an API resource
+ *
+ * @param accessToken
+ * @return
+ */
+     static Response createAPIResource(String identifier,String displayName, ArrayList<String> scopes) {
+
+         print(configuration.getISAdminPassword())
+         print(configuration.getISAdminUserName())
+         // build scope array
+            StringBuilder scopesArray = new StringBuilder()
+            scopes.each {
+                scopesArray.append(" { \"name\": \"${it}\", \"displayName\": \"${it}\", \"description\": \"${it}\" },")
+            }
+         print(scopesArray)
+
+        return  RestAssured.given().contentType("application/json")
+                .relaxedHTTPSValidation()
+                .urlEncodingEnabled(true).baseUri (configuration.getISServerUrl()+"/api/server/v1/api-resources")
+                .header("Authorization",
+                  "Basic ${encodeCredentials(configuration.getISAdminUserName(),configuration.getISAdminPassword())}")
+                .body("""
+                    {
+                        "name": "${displayName}",
+                        "identifier": "${identifier}",
+                        "description": "apiscopes",
+                        "requiresAuthorization": true,
+                        "scopes": [
+                            {
+                                "name": "accounts",
+                                "displayName": "accounts",
+                                "description": "accounts"
+                            },
+                             {
+                                "name": "payments",
+                                "displayName": "payments",
+                                "description": "payments"
+                            },
+                             {
+                                "name": "fundsconfirmations",
+                                "displayName": "fundsconfirmations",
+                                "description": "fundsconfirmations"
+                            }
+                        ]
+                    }
+                    """).post()
+     }
+
+    static Response authorizeAPI(String apiResourceId, String applicationId) {
+        return  RestAssured.given().contentType("application/json")
+                .relaxedHTTPSValidation()
+                .urlEncodingEnabled(true)
+                .baseUri(configuration.getISServerUrl())
+                .basePath("/api/server/v1/applications/{applicationId}/authorized-apis") // Set base path
+                .pathParam("applicationId", applicationId) // Set path parameter
+                .header("Authorization", "Basic aXNfYWRtaW5Ad3NvMi5jb206d3NvMjEyMw==")
+                .body("""
+                {
+                    "id": "${apiResourceId}",
+                    "policyIdentifier": "RBAC",
+                    "scopes": [
+                        "accounts",
+                        "payments",
+                        "fundsconfirmations"
+                    ]
+                }
+                """).post()
+    }
+
+
+    @BeforeTest
+    void setup() {
+
+        print("##################################")
+    }
+
+    @Test(groups = "api")
+    void "Create Application"() {
+        Response response = createStandardApplication(applicationName)
+        print(response.prettyPrint())
+
+
+        applicationId = response.header("Location").split("/").last()
+        print("###########")
+        print(applicationId)
+
+//        applicationId = response.jsonPath().getString("id")
+        // assert status
+        Assert.assertEquals( response.statusCode(), 201)
+
+    }
+
+
+    @Test(groups = "api")
+    void "Create API Resource"() {
+        Response response = createAPIResource("https://apiscopes","apiscopes",["accounts","payments","fundsconfirmations"])
+        print(response.prettyPrint())
+
+        apiResourceId = response.header("Location").split("/").last()
+
+        print(response.getBody().prettyPrint())
+
+        // assert status
+
+        Assert.assertEquals( response.statusCode(), 201)
+
+    }
+
+    @Test(dependsOnMethods =  ["Create Application","Create API Resource"] , groups = "api")
+    void "Authorize API"() {
+        Response response = authorizeAPI(apiResourceId, applicationId)
+        print(response.prettyPrint())
+
+        print(response.getBody().prettyPrint())
+        // assert status
+        Assert.assertEquals( response.statusCode(), 200)
+
+
+    }
+
+
+
+}
