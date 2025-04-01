@@ -225,7 +225,7 @@ bash configure.sh
 
 # shellcheck disable=SC2164
 cd $TEST_HOME/wso2is-7.0.0/bin
-nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
+#nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
 ./wso2server.sh
 sleep 120
 ###
@@ -274,7 +274,7 @@ sleep 120
 #mvn clean install -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 #MVNSTATE=$?
 #
-##tail -1000f ${RUNNER_HOME}/wso2.log
+#tail -1000f ${RUNNER_HOME}/wso2.log
 #
 #sleep 20
 #
