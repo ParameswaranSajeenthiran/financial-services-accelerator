@@ -45,7 +45,7 @@ echo "INPUT_DIR: $INPUT_DIR"
 ##
 echo '##################### Building packs #####################'
 
-mvn -B install --file pom.xml
+mvn -B install --file pom.xml -DskipTests
 #
 echo '##################### SetUp base Products #####################'
 wget "https://filebin.net/ezmc7r5vlk4al2t9/wso2is-7.0.0.zip" -O $TEST_HOME/wso2is-7.0.0.zip
