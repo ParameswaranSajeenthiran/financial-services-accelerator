@@ -36,6 +36,7 @@
 <!--        <module>consent-management</module>-->
 <!--        <module>token</module>-->
         <module>dcr</module>
+        <module>is-setup</module>
     </modules>
 
     <dependencies>
