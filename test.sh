@@ -106,7 +106,6 @@ aliases=("wso2")
 truststores=(
   "$TEST_HOME/wso2is-7.0.0/repository/resources/security/client-truststore.jks"
 )
-
 # Import certificates into truststores
 for alias in "${aliases[@]}"; do
   cert="$cert_dir/$alias.pem"
