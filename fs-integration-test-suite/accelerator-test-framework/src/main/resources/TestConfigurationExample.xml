@@ -23,14 +23,14 @@
     <Common>
 
         <!-- Sample Values: 1.0.0 -->
-        <SolutionVersion>Common.SolutionVersion</SolutionVersion>
+        <SolutionVersion>1.0.0/SolutionVersion>
         <!-- Access token expire time in seconds -->
-        <AccessTokenExpireTime>Common.AccessTokenExpireTime</AccessTokenExpireTime>
+        <AccessTokenExpireTime>200</AccessTokenExpireTime>
         <TenantDomain>Common.TenantDomain</TenantDomain>
         <!--  Sample Values: PS256-->
-        <SigningAlgorithm>Common.SigningAlgorithm</SigningAlgorithm>
+        <SigningAlgorithm>PS256</SigningAlgorithm>
         <!--  Sample Values: <Path to financial-open-banking>\integration-test-suite\test-artifacts -->
-        <TestArtifactLocation>Common.TestArtifactLocation</TestArtifactLocation>
+        <TestArtifactLocation>{TestArtifactDirectoryPath}</TestArtifactLocation>
     </Common>
 
     <!-- Server Info -->
