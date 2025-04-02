@@ -179,6 +179,12 @@ password = "wso2123"
 [oauth.oidc]
 id_token.signature_algorithm="PS256"
 enable_claims_separation_for_access_tokens = false
+
+[[financial_services.app_registration.dcr.validators.validator]]
+name = "SSAJTIValidator"
+class = "org.wso2.financial.services.accelerator.identity.extensions.client.registration.dcr.validators.SSAJTIValidator"
+enable = false
+priority = 8
 EOL
 
 cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
