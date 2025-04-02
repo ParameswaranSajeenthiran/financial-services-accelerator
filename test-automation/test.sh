@@ -14,8 +14,6 @@ java -version
 
 sudo apt install -y maven
 
-
-
 #=== FUNCTION ==================================================================
 # NAME: get_prop
 # DESCRIPTION: Retrieve specific property from deployment.properties
