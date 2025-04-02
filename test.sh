@@ -280,6 +280,10 @@ cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
 mvn clean test -X
 MVNSTATE=$?
 
+cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/dcr
+mvn clean test -X
+MVNSTATE=$?
+
 #tail -1000f ${RUNNER_HOME}/wso2.log
 
 sleep 20
