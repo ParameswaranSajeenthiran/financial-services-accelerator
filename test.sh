@@ -165,69 +165,18 @@ wget 'https://github.com/ParameswaranSajeenthiran/files/raw/refs/heads/master/OB
 keytool -import -alias issuer -file "${TEST_HOME}/OB_SandBox_PP_Issuing CA.cer" -keystore "${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks" -storepass wso2carbon -noprompt
 
 
-cat <<EOL >> $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-[financial_services.service.extensions.endpoint]
-enabled = true
-base_url = "http://localhost:9446/api/financialservices/uk/consent/endpoints"
-extension_types = ["pre-consent-generation", "post-consent-generation", "pre-consent-retrieval", "pre-consent-revocation", "pre-consent-authorization", "consent-validation", "pre-user-authorization", "post-user-authorization", "pre-id-token-generation"]
-
-[financial_services.service.extensions.endpoint.security]
-type = "Basic-Auth"
-username = "is_admin@wso2.com"
-password = "wso2123"
-
-[oauth.oidc]
-id_token.signature_algorithm="PS256"
-enable_claims_separation_for_access_tokens = false
-
-[[financial_services.app_registration.dcr.validators.validator]]
-name = "SSAJTIValidator"
-class = "org.wso2.financial.services.accelerator.identity.extensions.client.registration.dcr.validators.SSAJTIValidator"
-enable = false
-priority = 8
-EOL
-
-cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 
 echo '##################### Run merge and Config scripts #####################'
-
-
-
 cd $TEST_HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/bin
 bash merge.sh
 bash configure.sh
 
-#echo '##################### Update deployment.toml #####################'
-#
-## delete the existing deployment.toml
-#rm -f $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-## copy the new deployment.toml
-#cp $RUNNER_HOME/deployment.toml $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-#
-#cat $RUNNER_HOME/deployment.toml
-#cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-#
-#sed -i '/\[oauth\.oidc\]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-#sed -i '/\[financial_services\.service\.extensions\.endpoint]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-#sed -i '/\[financial_services\.service\.extensions\.endpoint\.security]/,/^\s*$/d' $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-#
-#cat <<EOL >> $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-#[financial_services.service.extensions.endpoint]
-#enabled = true
-#base_url = "http://localhost:9446/api/financialservices/uk/consent/endpoints"
-#extension_types = ["pre-consent-generation", "post-consent-generation", "pre-consent-retrieval", "pre-consent-revocation", "pre-consent-authorization", "consent-validation", "pre-user-authorization", "post-user-authorization", "pre-id-token-generation"]
-#
-#[financial_services.service.extensions.endpoint.security]
-#type = "Basic-Auth"
-#username = "is_admin@wso2.com"
-#password = "wso2123"
-#
-#[oauth.oidc]
-#id_token.signature_algorithm="PS256"
-#enable_claims_separation_for_access_tokens = false
-#EOL
-#
-#cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+echo '##################### Update deployment.toml #####################'
+
+# delete the existing deployment.toml
+rm -f $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+# copy the new deployment.toml
+cp $RUNNER_HOME/deployment.toml $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 
 cd $TEST_HOME/wso2is-7.0.0/bin
 nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
@@ -271,15 +220,16 @@ sed -i -e "s|{ISDirectoryPath}|${TEST_HOME}/wso2is-7.0.0|g" ${ACCELERATION_INTEG
 
 cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 #
-#echo '################### Build the Test framework ####################'
+echo '################### Build the Test framework ####################'
 mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 #
 #
-#echo '################### API Publish and Subscribe Step ##################'
+echo '################### API Publish and Subscribe Step ##################'
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
 mvn clean test -X
 MVNSTATE=$?
 
+echo '################### DCR ##################'
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/dcr
 mvn clean test -X
 MVNSTATE=$?
