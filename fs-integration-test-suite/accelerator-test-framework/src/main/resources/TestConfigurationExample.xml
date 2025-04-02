@@ -23,7 +23,7 @@
     <Common>
 
         <!-- Sample Values: 1.0.0 -->
-        <SolutionVersion>1.0.0/SolutionVersion>
+        <SolutionVersion>1.0.0</SolutionVersion>
         <!-- Access token expire time in seconds -->
         <AccessTokenExpireTime>200</AccessTokenExpireTime>
         <TenantDomain>Common.TenantDomain</TenantDomain>
