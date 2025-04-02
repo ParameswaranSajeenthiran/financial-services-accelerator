@@ -71,7 +71,7 @@ class DCREndToEndFlow extends FSConnectorTest {
 
     }
 
-    @Test(groups = "SmokeTest")
+    @Test(groups = "SmokeTest", dependsOnMethods = "Invoke registration request structured as a JWS")
     void "Get access token"() {
 
         accessToken = getApplicationAccessToken(ConnectorTestConstants.PKJWT_AUTH_METHOD, clientId, scopes)
