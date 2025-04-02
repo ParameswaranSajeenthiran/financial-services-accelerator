@@ -1,4 +1,20 @@
 #!/bin/bash
+# Copyright (c) 2024, WSO2 LLC. (https://www.wso2.com).
+#
+# WSO2 LLC. licenses this file to you under the Apache License,
+# Version 2.0 (the "License"); you may not use this file except
+# in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied. See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
 MVNSTATE=1 #This variable is read by the test-grid to determine success or failure of the build. (0=Successful)
 RUNNER_HOME=`pwd`
 
@@ -16,7 +32,7 @@ sudo apt install -y maven
 
 #=== FUNCTION ==================================================================
 # NAME: get_prop
-# DESCRIPTION: Retrieve specific property from deployment.properties
+# DESCRIPTION: Retrieve specific property from deployment.properties.sample
 # PARAMETER 1: property_value
 #===============================================================================
 function get_prop {
@@ -34,44 +50,52 @@ do
     esac
 done
 
+# ====== variables ======
+# Username and Password for WSO2 Updates
+# TEST_HOME : Folder to install IS server
+
 echo "Username: $USERNAME"
 echo "Password: $PASSWORD"
 echo "TEST_HOME:  $TEST_HOME"
 
-INPUT_DIR=$TEST_HOME
-echo "INPUT_DIR: $INPUT_DIR"
-##
-echo '##################### Building packs #####################'
+
+
+echo ' Building packs ======================='
 
 mvn -B install --file pom.xml
 #
-echo '##################### SetUp base Products #####################'
+echo '======================= SetUp base Products ======================='
+
+# Create the test home directory if it doesn't exist
+if [ ! -d "$TEST_HOME" ]; then
+    mkdir -p $TEST_HOME
+fi
 wget "https://filebin.net/ezmc7r5vlk4al2t9/wso2is-7.0.0.zip" -O $TEST_HOME/wso2is-7.0.0.zip
 unzip $TEST_HOME/wso2is-7.0.0.zip -d $TEST_HOME
 
-echo '##################### Installing WSO2 Updates #####################'
+echo '======================= Installing WSO2 Updates ======================='
 name=$(echo "$USERNAME" | cut -d'@' -f1)
 WSO2_UPDATES_HOME=home/$name/.wso2updates
 sudo mkdir -p /home/$name/.wso2-updates/docker && sudo chmod -R 777 /home/$name/.wso2-updates
 
 $TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PASSWORD ||  ($TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PASSWORD )
 #
-echo '##################### Moving Packs to RUNNER_HOME #####################'
+echo '======================= Moving Packs to RUNNER_HOME ======================='
 unzip financial-services-accelerator/accelerators/fs-is/target/wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
 #wget https://github.com/ParameswaranSajeenthiran/files/raw/refs/heads/master/wso2-fsiam-accelerator-4.0.0-M3.zip -O wso2-fsiam-accelerator-4.0.0-M3.zip
 #unzip wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
 
-echo '##################### Setup MYSQL #####################'
+echo '======================= Setup MYSQL ======================='
 sudo apt-get update
 sudo apt-get install -y mysql-server
 sudo systemctl start mysql
 mysql --version
 
-echo '##################### Download and install Drivers #####################'
+echo '======================= Download and install Drivers ======================='
 wget -q https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/9.2.0/mysql-connector-j-9.2.0.jar
 mv mysql-connector-j-9.2.0.jar $TEST_HOME/wso2is-7.0.0/repository/components/lib
 
-echo '##################### Generate and Export Certificates #####################'
+echo '======================= Generate and Export Certificates ======================='
 storepass=wso2carbon
 declare -A servers
 servers["wso2"]="$TEST_HOME/wso2is-7.0.0/repository/resources/security/wso2carbon.jks"
@@ -96,7 +120,7 @@ for alias in "${!servers[@]}"; do
   keytool -export -alias wso2carbon -keystore $keystore -file $cert_dir/$alias.pem -storepass wso2carbon
 done
 
-echo '##################### Import Certificates into the truststore #####################'
+echo '======================= Import Certificates into the truststore ======================='
 
 aliases=("wso2")
 
@@ -113,7 +137,7 @@ for alias in "${aliases[@]}"; do
   done
 done
 
-echo '##################### Verify Exchanged Certificates #####################'
+echo '======================= Verify Exchanged Certificates ======================='
 
 # Function to check if alias exists in the truststore
 check_alias() {
@@ -153,7 +177,7 @@ for truststore in "${truststores[@]}"; do
   done
 done
 
-echo '##################### Import OB sandbox Root and Issuer Certificates #####################'
+echo '======================= Import OB sandbox Root and Issuer Certificates ======================='
 
 wget 'https://github.com/ParameswaranSajeenthiran/files/raw/refs/heads/master/OB_SandBox_PP_Root%20CA.cer' -O "${TEST_HOME}/OB_SandBox_PP_Root CA.cer"
 keytool -import -alias root -file "${TEST_HOME}/OB_SandBox_PP_Root CA.cer" -keystore "${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks" -storepass wso2carbon -noprompt
@@ -164,12 +188,12 @@ keytool -import -alias issuer -file "${TEST_HOME}/OB_SandBox_PP_Issuing CA.cer" 
 
 
 
-echo '##################### Run merge and Config scripts #####################'
+echo '======================= Run merge and Config scripts ======================='
 cd $TEST_HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/bin
 bash merge.sh
 bash configure.sh
 
-echo '##################### Update deployment.toml #####################'
+echo '======================= Update deployment.toml ======================='
 
 # delete the existing deployment.toml
 rm -f $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
@@ -182,18 +206,18 @@ cat ${RUNNER_HOME}/wso2.log
 #./wso2server.sh
 sleep 120
 ###
-echo '##################### Test Setup #####################'
+echo '======================= Test Setup ======================='
 
 curl -X GET "https://localhost:9446/api/server/v1/applications?limit=30&offset=0" \
 -H "accept: application/json" \
 -H "Authorization: Basic aXNfYWRtaW5Ad3NvMi5jb206d3NvMjEyMw==" \
 -k
 
-echo '##################### Run Test Cases #####################'
+echo '======================= Run Test Cases ======================='
 
 cd $RUNNER_HOME/fs-integration-test-suite
 
-echo '##################### Configure TestConfigurationExample #####################'
+echo '======================= Configure TestConfigurationExample ======================='
 ACCELERATION_INTEGRATION_TESTS_HOME=${RUNNER_HOME}/fs-integration-test-suite
 ACCELERATION_INTEGRATION_TESTS_CONFIG=${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfiguration.xml
 TEST_ARTIFACTS=${ACCELERATION_INTEGRATION_TESTS_HOME}/test-artifacts
@@ -218,16 +242,16 @@ sed -i -e "s|{ISDirectoryPath}|${TEST_HOME}/wso2is-7.0.0|g" ${ACCELERATION_INTEG
 
 cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 #
-echo '################### Build the Test framework ####################'
+echo '======================= Build the Test framework ======================='
 mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 #
 #
-echo '################### API Publish and Subscribe Step ##################'
+echo '======================= API Publish and Subscribe Step ======================='
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
 mvn clean test -X
 MVNSTATE=$?
 
-echo '################### DCR ##################'
+echo '======================= DCR ======================='
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/dcr
 mvn clean test -X
 MVNSTATE=$?
