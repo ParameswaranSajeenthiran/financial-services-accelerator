@@ -46,9 +46,8 @@ jobs:
 
       - name: Run Tests
         run: |
-          RUNNER_HOME=`pwd`
-          cd test-automation
-          bash $RUNNER_HOME/test-automation/test.sh  -u sajeenthiran@wso2.com -p $WSO2_PASSWORD -o "$HOME" -h "$HOME"
+          RUNNER_HOME=`pwd'
+          bash $RUNNER_HOME/test-automation/test.sh  -u sajeenthiran@wso2.com -p $WSO2_PASSWORD -o "$HOME" -h "$HOME" -a "$RUNNER_HOME"
 
 
 

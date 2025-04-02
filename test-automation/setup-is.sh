@@ -74,6 +74,14 @@ unzip ../financial-services-accelerator/accelerators/fs-is/target/wso2-fsiam-acc
 #wget https://github.com/ParameswaranSajeenthiran/files/raw/refs/heads/master/wso2-fsiam-accelerator-4.0.0-M3.zip -O wso2-fsiam-accelerator-4.0.0-M3.zip
 #unzip wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
 
+
+echo '======================= configure.properties ======================='
+# delete the existing configure.properties
+rm -f $TEST_HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/repository/conf/configure.properties
+# copy the new configure.properties
+cp $RUNNER_HOME/is-accelerator/configure.properties $TEST_HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/repository/conf
+
+
 echo '======================= Setup MYSQL ======================='
 sudo apt-get update
 sudo apt-get install -y mysql-server
@@ -187,7 +195,7 @@ echo '======================= Update deployment.toml ======================='
 # delete the existing deployment.toml
 rm -f $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 # copy the new deployment.toml
-cp $RUNNER_HOME/deployment.toml $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+cp p $RUNNER_HOME/is-accelerator/deployment.toml $TEST_HOME/wso2is-7.0.0/repository/conf
 
 cd $TEST_HOME/wso2is-7.0.0/bin
 #nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
