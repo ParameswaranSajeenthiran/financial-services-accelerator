@@ -293,7 +293,7 @@
 
     <ConsentApi>
         <!--Sample Value: https://<IS_HOST>:9446/oauth2/token -->
-        <AudienceValue>ConsentApi.AudienceValue</AudienceValue>
+        <AudienceValue>https://localhost:9446/oauth2/token</AudienceValue>
     </ConsentApi>
 
     <ISSetup>

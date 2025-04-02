@@ -271,7 +271,7 @@ mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apach
 #
 #echo '################### API Publish and Subscribe Step ##################'
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
-mvn clean install -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+mvn clean test -X
 MVNSTATE=$?
 
 #tail -1000f ${RUNNER_HOME}/wso2.log
