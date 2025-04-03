@@ -60,7 +60,7 @@ echo "TEST_HOME:  $TEST_HOME"
 
 
 
-echo ' Building packs ======================='
+echo '======================= Building packs ======================='
 
 mvn -B install --file pom.xml
 #
