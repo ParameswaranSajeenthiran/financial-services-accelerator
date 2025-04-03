@@ -282,6 +282,16 @@ cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/dcr
 mvn clean test -X
 MVNSTATE=$?
 
+echo '======================= Token ======================='
+cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/token
+mvn clean test -X
+MVNSTATE=$?
+
+echo '======================= Consent Management ======================='
+cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/consent-management
+mvn clean test -X
+MVNSTATE=$?
+
 #tail -1000f ${RUNNER_HOME}/wso2.log
 
 sleep 20
