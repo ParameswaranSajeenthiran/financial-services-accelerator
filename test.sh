@@ -199,6 +199,7 @@ echo '======================= Update deployment.toml ======================='
 rm -f $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 # copy the new deployment.toml
 cp $RUNNER_HOME/deployment.toml $TEST_HOME/wso2is-7.0.0/repository/conf
+cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 cd $TEST_HOME/wso2is-7.0.0/bin
 nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
 sleep 120
