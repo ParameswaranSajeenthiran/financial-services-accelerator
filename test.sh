@@ -18,7 +18,7 @@
 MVNSTATE=1 #This variable is read by the test-grid to determine success or failure of the build. (0=Successful)
 RUNNER_HOME=`pwd`
 
-echo '#=================== Install Java and Maven ==================='
+echo '=================== Install Java and Maven ==================='
 
 wget https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.16+8/OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
 tar -xvzf OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
@@ -251,15 +251,6 @@ TEST_ARTIFACTS=${ACCELERATION_INTEGRATION_TESTS_HOME}/test-artifacts
 
 cp ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfigurationExample.xml ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
-#--------------Server Configurations-----------------#
-sed -i -e "s|Server.BaseUrl|$(get_prop "BaseUrl")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-echo $ACCELERATION_INTEGRATION_TESTS_CONFIG
-sed -i -e "s|Server.ISServerUrl|$(get_prop "ISServerUrl")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-sed -i -e "s|Server.APIMServerUrl|$(get_prop "APIMServerUrl")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-
-#--------------IS Setup Configurations-----------------#
-sed -i -e "s|ISSetup.ISAdminUserName|$(get_prop "ISAdminUserName")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-sed -i -e "s|ISSetup.ISAdminPassword|$(get_prop "ISAdminPassword")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
 #--------------Application Configurations-----------------#
 sed -i -e "s|{TestArtifactDirectoryPath}|${TEST_ARTIFACTS}|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
@@ -289,6 +280,12 @@ MVNSTATE=$?
 
 echo '======================= Consent Management ======================='
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/consent-management
+mvn clean test -X
+MVNSTATE=$?
+
+
+echo '======================= Event Notification ======================='
+cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/event-notification
 mvn clean test -X
 MVNSTATE=$?
 

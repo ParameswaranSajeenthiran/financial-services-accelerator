@@ -34,16 +34,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup deployment.properties
-        run: |
-          echo "ISServerUrl=https://localhost:9446" > deployment.properties
-          echo "BaseUrl=Server.BaseUrl" >> deployment.properties
-          echo "APIMServerUrl=Server.APIMServerUrl" >> deployment.properties
-          echo "ISAdminUserName=is_admin@wso2.com" >> deployment.properties
-          echo "ISAdminPassword=wso2123" >> deployment.properties
-          
-          cat deployment.properties
-
       - name: Run Tests
         run: |
           RUNNER_HOME=`pwd`
