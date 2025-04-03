@@ -47,6 +47,7 @@ jobs:
               Pin-Priority: 1000
                 ' | sudo tee /etc/apt/preferences.d/mozilla
           sudo apt-get update && sudo apt-get install firefox
+          firefox -version
 
 
 
