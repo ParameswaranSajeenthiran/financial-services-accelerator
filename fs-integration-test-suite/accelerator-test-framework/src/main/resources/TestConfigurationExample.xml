@@ -281,14 +281,14 @@
     <BrowserAutomation>
 
         <!--Sample Value: firefox/chrome-->
-        <BrowserPreference>BrowserAutomation.BrowserPreference</BrowserPreference>
+        <BrowserPreference></BrowserPreference>
 
         <!--Sample Value: true/false-->
-        <HeadlessEnabled>BrowserAutomation.HeadlessEnabled</HeadlessEnabled>
+        <HeadlessEnabled>tru</HeadlessEnabled>
 
         <!--Sample Value from firefox: <Path to financial-open-banking>/integration-test-suite/test-artifacts/selenium-libs/geckodriver -->
         <!--Sample Value from chrome: <Path to financial-open-banking>/integration-test-suite/test-artifacts/selenium-libs/chromedriver -->
-        <WebDriverLocation>BrowserAutomation.WebDriverLocation</WebDriverLocation>
+        <WebDriverLocation>{TestArtifactDirectoryPath}/selenium-libs/ubuntu/geckodriver</WebDriverLocation>
     </BrowserAutomation>
 
     <ConsentApi>

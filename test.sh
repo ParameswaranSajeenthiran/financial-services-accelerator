@@ -195,11 +195,36 @@ bash configure.sh
 
 echo '======================= Update deployment.toml ======================='
 
-# delete the existing deployment.toml
-rm -f $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
-# copy the new deployment.toml
-cp $RUNNER_HOME/deployment.toml $TEST_HOME/wso2is-7.0.0/repository/conf
-cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+## delete the existing deployment.toml
+#rm -f $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+## copy the new deployment.toml
+#cp $RUNNER_HOME/deployment.toml $TEST_HOME/wso2is-7.0.0/repository/conf
+#cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
+
+
+DEPLOYMENT_TOML="$TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml"
+BACKUP_TOML="deployment.toml.bak"
+
+
+# Backup the original file
+cp "$DEPLOYMENT_TOML" "$BACKUP_TOML"
+
+
+# Replace specific sections using awk
+awk '
+BEGIN { in_block = 0; }
+/\[financial_services\.service\.extensions\.endpoint\]/ { print "[financial_services.service.extensions.endpoint]"; print "enabled = true"; print "base_url = \"http://localhost:9446/api/financialservices/uk/consent/endpoints\""; print "extension_types = [\"pre-consent-generation\", \"post-consent-generation\", \"pre-consent-retrieval\", \"pre-consent-revocation\", \"pre-consent-authorization\", \"consent-validation\", \"pre-user-authorization\", \"post-user-authorization\", \"pre-id-token-generation\"]"; in_block = 1; next; }
+/\[financial_services\.service\.extensions\.endpoint\.security\]/ { print "[financial_services.service.extensions.endpoint.security]"; print "type = \"Basic-Auth\""; print "username = \"is_admin@wso2.com\""; print "password = \"wso2123\""; in_block = 1; next; }
+/\[oauth\.oidc\]/ { print "[oauth.oidc]"; print "id_token.signature_algorithm=\"PS256\""; print "enable_claims_separation_for_access_tokens = false"; print "enable_hybrid_flow_app_level_validation = false";
+in_block = 1; next; }
+/^$/ { in_block = 0; }
+!in_block { print $0; }
+' "$BACKUP_TOML" > "$DEPLOYMENT_TOML"
+
+
+echo "deployment.toml has been updated in place and a backup is saved as deployment.toml.bak."
+
+rm $BACKUP_TOML
 cd $TEST_HOME/wso2is-7.0.0/bin
 nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
 sleep 120
