@@ -46,6 +46,7 @@ echo '=================== Install Java and Maven ==================='
 if command -v java &> /dev/null
 then
     echo "Java is installed"
+    java -version
 else
    wget https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.16+8/OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
    tar -xvzf OpenJDK11U-jdk_x64_linux_hotspot_11.0.16_8.tar.gz
@@ -60,6 +61,7 @@ fi
 if command -v mvn &> /dev/null
 then
     echo "Maven is installed"
+    mvn --version
 else
     sudo apt install -y maven
 fi
