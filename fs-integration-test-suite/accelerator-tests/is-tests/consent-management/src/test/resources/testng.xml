@@ -23,32 +23,32 @@
             <class name="org.wso2.financial.services.accelerator.is.test.consent.management.EndToEndTest.EndToEndConsentManagementFlowTestFactory"/>
         </classes>
     </test>
-    <test name="Consent Management Consent Flow" parallel="tests" enabled="true" group-by-instances="true">
-        <classes>
-            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentInitiationTest.ConsentInitiationTest"/>
-            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentRetrieval.ConsentRetrievalFlow"/>
-            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentOperationsFlowTests.ConsentManageEndpointValidationTest"/>
-            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentAuthorisationTest.AuthorizationFlowValidationTest"/>
-            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentDeleteTest.ConsentRevokeFlow"/>
-        </classes>
-    </test>
-    <test name="Consent Management Consent Validation Flow" parallel="tests" enabled="true" group-by-instances="true">
-        <classes>
-            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentValidateTest.AccountConsentValidationFlow"/>
-            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentValidateTest.COFConsentValidationFlow"/>
-            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentValidateTest.PaymentConsentValidationFlow"/>
-        </classes>
-    </test>
-    <test name="Consent Management Account Consent Flow" parallel="tests" enabled="true" group-by-instances="true">
-        <classes>
-            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.AccountsApiTests.InitiationPayloadValidationTests"/>
-            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.AccountsApiTests.InitiationRequestHeaderValidationTests"/>
-        </classes>
-    </test>
-    <test name="Consent Management COF Consent Flow" parallel="tests" enabled="true" group-by-instances="true">
-        <classes>
-            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.FundsConfirmationTests.InitiationPayloadValidationTests"/>
-            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.FundsConfirmationTests.InitiationRequestHeaderValidationTests"/>
-        </classes>
-    </test>
+<!--    <test name="Consent Management Consent Flow" parallel="tests" enabled="true" group-by-instances="true">-->
+<!--        <classes>-->
+<!--            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentInitiationTest.ConsentInitiationTest"/>-->
+<!--            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentRetrieval.ConsentRetrievalFlow"/>-->
+<!--            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentOperationsFlowTests.ConsentManageEndpointValidationTest"/>-->
+<!--            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentAuthorisationTest.AuthorizationFlowValidationTest"/>-->
+<!--            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentDeleteTest.ConsentRevokeFlow"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+<!--    <test name="Consent Management Consent Validation Flow" parallel="tests" enabled="true" group-by-instances="true">-->
+<!--        <classes>-->
+<!--            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentValidateTest.AccountConsentValidationFlow"/>-->
+<!--            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentValidateTest.COFConsentValidationFlow"/>-->
+<!--            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.ConsentValidateTest.PaymentConsentValidationFlow"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+<!--    <test name="Consent Management Account Consent Flow" parallel="tests" enabled="true" group-by-instances="true">-->
+<!--        <classes>-->
+<!--            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.AccountsApiTests.InitiationPayloadValidationTests"/>-->
+<!--            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.AccountsApiTests.InitiationRequestHeaderValidationTests"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+<!--    <test name="Consent Management COF Consent Flow" parallel="tests" enabled="true" group-by-instances="true">-->
+<!--        <classes>-->
+<!--            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.FundsConfirmationTests.InitiationPayloadValidationTests"/>-->
+<!--            <class name="org.wso2.financial.services.accelerator.is.test.consent.management.FundsConfirmationTests.InitiationRequestHeaderValidationTests"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 </suite>

@@ -94,7 +94,7 @@ class CreateUserStepTests {
 
     @Test
     void "Create User"() {
-        String userName = "testUser${Math.random()}"
+        String userName = "testUser@wso2.com"
         String password = "testUser@wso2123"
         String firstName = "testFirstName"
         String lastName = "testLastName"

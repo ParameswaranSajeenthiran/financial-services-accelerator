@@ -268,8 +268,8 @@
 
     <!-- Tpp Info -->
     <TPPInfo>
-        <User>admin@wso2.com</User>
-        <Password>wso2123</Password>
+        <User>testUser@wso2.com</User>
+        <Password>testUser@wso2123</Password>
     </TPPInfo>
 
     <KeyManagerAdmin>
@@ -284,7 +284,7 @@
         <BrowserPreference></BrowserPreference>
 
         <!--Sample Value: true/false-->
-        <HeadlessEnabled>tru</HeadlessEnabled>
+        <HeadlessEnabled>true</HeadlessEnabled>
 
         <!--Sample Value from firefox: <Path to financial-open-banking>/integration-test-suite/test-artifacts/selenium-libs/geckodriver -->
         <!--Sample Value from chrome: <Path to financial-open-banking>/integration-test-suite/test-artifacts/selenium-libs/chromedriver -->

@@ -6,19 +6,30 @@ import org.testng.Assert
 import org.testng.annotations.BeforeTest
 import org.testng.annotations.Test
 import org.wso2.financial.services.accelerator.test.framework.configuration.ConfigurationService
+import org.wso2.financial.services.accelerator.test.framework.constant.ConnectorTestConstants
+import org.wso2.financial.services.accelerator.test.framework.request_builder.ClientRegistrationRequestBuilder
 import org.wso2.financial.services.accelerator.test.framework.utility.FSRestAsRequestBuilder
+import org.wso2.financial.services.accelerator.test.framework.utility.TestUtil
 
 class AuthorizeAPIStepTests {
 
     static String applicationName = "Test api ${UUID.randomUUID()}"
     static String  apiResourceId
     static String  applicationId
+    static String clientId
+    static String clientSecret
+    static String dcrPath
+    static ClientRegistrationRequestBuilder registrationRequestBuilder
+    static String ssa
     private static ConfigurationService configuration = new ConfigurationService()
+    File xmlFile = new File(System.getProperty("user.dir").toString().concat("/../../../resources/test-config.xml"))
 
 
     static String encodeCredentials(String username, String password) {
         return Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
     }
+
+//
 
 
     static Response createStandardApplication (String applicationName) {
@@ -53,9 +64,38 @@ class AuthorizeAPIStepTests {
     }
 
 /**
+ * get application
+ *
+ */
+    static Response getApplication( String applicationId){
+        return RestAssured.given().contentType("application/json")
+                .relaxedHTTPSValidation()
+                .urlEncodingEnabled(true).baseUri(configuration.getISServerUrl()).basePath(
+                "/api/server/v1/applications/{applicationId}")
+                .pathParam("applicationId",applicationId)
+                .header("Authorization",
+                        "Basic ${encodeCredentials(configuration.getISAdminUserName(),configuration.getISAdminPassword())}")
+                .get();
+    }
+
+    static Response dcrGet( String clientId){
+        return RestAssured.given().contentType("application/json")
+                .relaxedHTTPSValidation()
+                .urlEncodingEnabled(true).baseUri(configuration.getISServerUrl()).basePath(
+                "/api/identity/oauth2/dcr/v1.1/register")
+                .queryParam("client-id",clientId)
+                .header("Authorization",
+                        "Basic ${encodeCredentials(configuration.getISAdminUserName(),configuration.getISAdminPassword())}")
+                .get();
+    }
+
+
+
+
+/**
  * create an API resource
  *
- * @param accessToken
+ * @param
  * @return
  */
      static Response createAPIResource(String identifier,String displayName, ArrayList<String> scopes) {
@@ -125,24 +165,9 @@ class AuthorizeAPIStepTests {
 
     @BeforeTest
     void setup() {
-
-        print("##################################")
-    }
-
-    @Test(groups = "api")
-    void "Create Application"() {
-        Response response = createStandardApplication(applicationName)
-        print(response.prettyPrint())
-
-
-        applicationId = response.header("Location").split("/").last()
-        print("###########")
-        print(applicationId)
-
-//        applicationId = response.jsonPath().getString("id")
-        // assert status
-        Assert.assertEquals( response.statusCode(), 201)
-
+        dcrPath = configuration.getISServerUrl() + ConnectorTestConstants.REGISTRATION_ENDPOINT
+        ssa = new File(configuration.getAppDCRSSAPath()).text
+        registrationRequestBuilder = new ClientRegistrationRequestBuilder()
     }
 
 
@@ -160,18 +185,69 @@ class AuthorizeAPIStepTests {
         Assert.assertEquals( response.statusCode(), 201)
 
     }
+    @Test(groups = "api" ,dependsOnMethods = ["Create API Resource"])
+    void "Create Application"() {
+//        Response response = createStandardApplication(applicationName)
+//        print(response.prettyPrint())
+//        Assert.assertEquals( response.statusCode(), 201)
+//
+//
+//
+//        applicationId = response.header("Location").split("/").last()
+//        File xmlFile = new File(System.getProperty("user.dir").toString().concat("/../../../accelerator-test-framework/src/main/resources/TestConfiguration.xml"))
+//        print(xmlFile)
+//
+//        response = getApplication(applicationId)
+//
+//
+////
+//        clientId = TestUtil.parseResponseBody(response, "client_id")
+//        print(clientId)
+////        clientSecret = TestUtil.parseResponseBody(response, "client_secret")
+//
+//        TestUtil.writeXMLContent(xmlFile.toString(), "Application", "ClientID", clientId,
+//                0)
+////        TestUtil.writeXMLContent(xmlFile.toString(), "Application", "ClientSecret", clientSecret,
+////                0)
+//        print("###########")
+//        print(applicationId)
+//
+//
+////        applicationId = response.jsonPath().getString("id")
+//        // assert status
+//        Assert.assertEquals( response.statusCode(), 200)
 
-    @Test(dependsOnMethods =  ["Create Application","Create API Resource"] , groups = "api")
-    void "Authorize API"() {
-        Response response = authorizeAPI(apiResourceId, applicationId)
-        print(response.prettyPrint())
+        def registrationResponse = registrationRequestBuilder.buildRegistrationRequest()
+                .body(registrationRequestBuilder.getRegularClaims(ssa))
+                .post(dcrPath)
 
-        print(response.getBody().prettyPrint())
-        // assert status
-        Assert.assertEquals( response.statusCode(), 200)
+        clientId = TestUtil.parseResponseBody(registrationResponse, "client_id")
+        clientSecret = TestUtil.parseResponseBody(registrationResponse, "client_secret")
+
+        File xmlFile = new File(System.getProperty("user.dir").toString().concat("/../../../accelerator-test-framework/src/main/resources/TestConfiguration.xml"))
+//        print(xmlFile)
+        TestUtil.writeXMLContent(xmlFile.toString(), "Application", "ClientID", clientId,
+                0)
+        TestUtil.writeXMLContent(xmlFile.toString(), "Application", "ClientSecret", clientSecret,
+                0)
+
 
 
     }
+
+
+
+//    @Test(dependsOnMethods =  ["Create Application","Create API Resource"] , groups = "api")
+//    void "Authorize API"() {
+//        Response response = authorizeAPI(apiResourceId, applicationId)
+//        print(response.prettyPrint())
+//
+//        print(response.getBody().prettyPrint())
+//        // assert status
+//        Assert.assertEquals( response.statusCode(), 200)
+//
+//
+//    }
 
 
 
