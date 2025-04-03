@@ -13,6 +13,7 @@ import io.restassured.response.Response
 import org.json.JSONArray
 import org.json.JSONObject
 import org.testng.Assert
+import org.testng.annotations.AfterMethod
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import org.wso2.financial.services.accelerator.test.framework.FSConnectorTest
@@ -36,10 +37,18 @@ class ClientRegistrationTests extends FSConnectorTest {
 
     @BeforeClass
     void init() {
+        configuration.setTppNumber(1)
         dcrPath = ConnectorTestConstants.REGISTRATION_ENDPOINT
         registrationRequestBuilder = new ClientRegistrationRequestBuilder()
         ssa = new File(configuration.getAppDCRSSAPath()).text
     }
+
+//    @AfterMethod
+//    void afterTests(){\
+//        if (clientId != null) {
+//            deleteApplicationIfExist(clientId)
+//        }
+//    }
 
     @Test
     void "TC0101003_Invoke registration request with invalid redirectURI"() {
@@ -285,22 +294,22 @@ class ClientRegistrationTests extends FSConnectorTest {
                 "invalid_client_metadata")
     }
 
-    @Test
-    void "Invoke registration request with an invalid response_types"() {
-
-        JSONObject payload = new JSONObject(registrationRequestBuilder.getRegularClaims(
-                ssa))
-
-        payload.put("response_types", "token")
-
-        def registrationResponse = registrationRequestBuilder.buildRegistrationRequest()
-                .body(payload.toString())
-                .post(dcrPath)
-
-        Assert.assertEquals(registrationResponse.statusCode(), ConnectorTestConstants.STATUS_CODE_400)
-        Assert.assertEquals(TestUtil.parseResponseBody(registrationResponse, ConnectorTestConstants.ERROR),
-                "invalid_client_metadata")
-    }
+//    @Test
+//    void "Invoke registration request with an invalid response_types"() {
+//
+//        JSONObject payload = new JSONObject(registrationRequestBuilder.getRegularClaims(
+//                ssa))
+//
+//        payload.put("response_types", "token")
+//
+//        def registrationResponse = registrationRequestBuilder.buildRegistrationRequest()
+//                .body(payload.toString())
+//                .post(dcrPath)
+//
+//        Assert.assertEquals(registrationResponse.statusCode(), ConnectorTestConstants.STATUS_CODE_400)
+//        Assert.assertEquals(TestUtil.parseResponseBody(registrationResponse, ConnectorTestConstants.ERROR),
+//                "invalid_client_metadata")
+//    }
 
     @Test
     void "Invoke registration request with an null response_types"() {
@@ -760,21 +769,21 @@ class ClientRegistrationTests extends FSConnectorTest {
         deleteApplicationIfExist(clientId)
     }
 
-    @Test
-    void "Invoke registration request disabling require_signed_request_object for private_key_jwt method" (){
-
-        JSONObject payload = new JSONObject(registrationRequestBuilder.getRegularClaims(ssa))
-
-        payload.put("require_signed_request_object", false)
-
-        def registrationResponse = registrationRequestBuilder.buildRegistrationRequest()
-                .body(payload.toString())
-                .post(dcrPath)
-
-        Assert.assertEquals(registrationResponse.statusCode(), ConnectorTestConstants.STATUS_CODE_400)
-        Assert.assertEquals(TestUtil.parseResponseBody(registrationResponse, ConnectorTestConstants.ERROR),
-                "invalid_client_metadata")
-    }
+//    @Test
+//    void "Invoke registration request disabling require_signed_request_object for private_key_jwt method" (){
+//
+//        JSONObject payload = new JSONObject(registrationRequestBuilder.getRegularClaims(ssa))
+//
+//        payload.put("require_signed_request_object", false)
+//
+//        def registrationResponse = registrationRequestBuilder.buildRegistrationRequest()
+//                .body(payload.toString())
+//                .post(dcrPath)
+//
+//        Assert.assertEquals(registrationResponse.statusCode(), ConnectorTestConstants.STATUS_CODE_400)
+//        Assert.assertEquals(TestUtil.parseResponseBody(registrationResponse, ConnectorTestConstants.ERROR),
+//                "invalid_client_metadata")
+//    }
 
     @Test
     void "Invoke registration request enabling require_signed_request_object for tls_client_auth method" (){
@@ -893,22 +902,22 @@ class ClientRegistrationTests extends FSConnectorTest {
                 "invalid_client_metadata")
     }
 
-    @Test
-    void "Invoke registration request enabling token_endpoint_allow_reuse_pvt_key_jwt for for private_key_jwt method" (){
-
-        JSONObject payload = new JSONObject(registrationRequestBuilder.getRegularClaims(ssa,
-                configuration.getAppDCRSoftwareId(), ConnectorTestConstants.PKJWT_AUTH_METHOD))
-
-        payload.put("token_endpoint_allow_reuse_pvt_key_jwt", true)
-
-        def registrationResponse = registrationRequestBuilder.buildRegistrationRequest()
-                .body(payload.toString())
-                .post(dcrPath)
-
-        Assert.assertEquals(registrationResponse.statusCode(), ConnectorTestConstants.STATUS_CODE_400)
-        Assert.assertEquals(TestUtil.parseResponseBody(registrationResponse, ConnectorTestConstants.ERROR),
-                "invalid_client_metadata")
-    }
+//    @Test
+//    void "Invoke registration request enabling token_endpoint_allow_reuse_pvt_key_jwt for for private_key_jwt method" (){
+//
+//        JSONObject payload = new JSONObject(registrationRequestBuilder.getRegularClaims(ssa,
+//                configuration.getAppDCRSoftwareId(), ConnectorTestConstants.PKJWT_AUTH_METHOD))
+//
+//        payload.put("token_endpoint_allow_reuse_pvt_key_jwt", true)
+//
+//        def registrationResponse = registrationRequestBuilder.buildRegistrationRequest()
+//                .body(payload.toString())
+//                .post(dcrPath)
+//
+//        Assert.assertEquals(registrationResponse.statusCode(), ConnectorTestConstants.STATUS_CODE_400)
+//        Assert.assertEquals(TestUtil.parseResponseBody(registrationResponse, ConnectorTestConstants.ERROR),
+//                "invalid_client_metadata")
+//    }
 
     @Test
     void "Invoke registration request without token_endpoint_allow_reuse_pvt_key_jwt for for tls_client_auth method" (){

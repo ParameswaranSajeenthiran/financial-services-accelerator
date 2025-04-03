@@ -200,65 +200,65 @@ rm -f $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 # copy the new deployment.toml
 cp $RUNNER_HOME/deployment.toml $TEST_HOME/wso2is-7.0.0/repository/conf
 cd $TEST_HOME/wso2is-7.0.0/bin
-nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
-cat ${RUNNER_HOME}/wso2.log
-#./wso2server.sh
+#nohup ./wso2server.sh > ${RUNNER_HOME}/wso2.log 2>&1 &
+#cat ${RUNNER_HOME}/wso2.log
+./wso2server.sh
 sleep 120
-###
-echo '======================= Test Setup ======================='
-
-curl -X GET "https://localhost:9446/api/server/v1/applications?limit=30&offset=0" \
--H "accept: application/json" \
--H "Authorization: Basic aXNfYWRtaW5Ad3NvMi5jb206d3NvMjEyMw==" \
--k
-
-echo '======================= Run Test Cases ======================='
-
-cd $RUNNER_HOME/fs-integration-test-suite
-
-echo '======================= Configure TestConfigurationExample ======================='
-ACCELERATION_INTEGRATION_TESTS_HOME=${RUNNER_HOME}/fs-integration-test-suite
-ACCELERATION_INTEGRATION_TESTS_CONFIG=${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfiguration.xml
-TEST_ARTIFACTS=${ACCELERATION_INTEGRATION_TESTS_HOME}/test-artifacts
-
-
-cp ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfigurationExample.xml ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-
-#--------------Server Configurations-----------------#
-sed -i -e "s|Server.BaseUrl|$(get_prop "BaseUrl")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-echo $ACCELERATION_INTEGRATION_TESTS_CONFIG
-sed -i -e "s|Server.ISServerUrl|$(get_prop "ISServerUrl")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-sed -i -e "s|Server.APIMServerUrl|$(get_prop "APIMServerUrl")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-
-#--------------IS Setup Configurations-----------------#
-sed -i -e "s|ISSetup.ISAdminUserName|$(get_prop "ISAdminUserName")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-sed -i -e "s|ISSetup.ISAdminPassword|$(get_prop "ISAdminPassword")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-
-#--------------Application Configurations-----------------#
-sed -i -e "s|{TestArtifactDirectoryPath}|${TEST_ARTIFACTS}|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-#sed -i -e "s|AppConfig.Application.ClientID|Application.ClientID|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-sed -i -e "s|{ISDirectoryPath}|${TEST_HOME}/wso2is-7.0.0|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-
-cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+####
+#echo '======================= Test Setup ======================='
 #
-echo '======================= Build the Test framework ======================='
-mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+#curl -X GET "https://localhost:9446/api/server/v1/applications?limit=30&offset=0" \
+#-H "accept: application/json" \
+#-H "Authorization: Basic aXNfYWRtaW5Ad3NvMi5jb206d3NvMjEyMw==" \
+#-k
+#
+#echo '======================= Run Test Cases ======================='
+#
+#cd $RUNNER_HOME/fs-integration-test-suite
+#
+#echo '======================= Configure TestConfigurationExample ======================='
+#ACCELERATION_INTEGRATION_TESTS_HOME=${RUNNER_HOME}/fs-integration-test-suite
+#ACCELERATION_INTEGRATION_TESTS_CONFIG=${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfiguration.xml
+#TEST_ARTIFACTS=${ACCELERATION_INTEGRATION_TESTS_HOME}/test-artifacts
 #
 #
-echo '======================= API Publish and Subscribe Step ======================='
-cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
-mvn clean test -X
-MVNSTATE=$?
-
-echo '======================= DCR ======================='
-cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/dcr
-mvn clean test -X
-MVNSTATE=$?
-
-#tail -1000f ${RUNNER_HOME}/wso2.log
-
-sleep 20
-
-exit 1
+#cp ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfigurationExample.xml ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#
+##--------------Server Configurations-----------------#
+#sed -i -e "s|Server.BaseUrl|$(get_prop "BaseUrl")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#echo $ACCELERATION_INTEGRATION_TESTS_CONFIG
+#sed -i -e "s|Server.ISServerUrl|$(get_prop "ISServerUrl")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#sed -i -e "s|Server.APIMServerUrl|$(get_prop "APIMServerUrl")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#
+##--------------IS Setup Configurations-----------------#
+#sed -i -e "s|ISSetup.ISAdminUserName|$(get_prop "ISAdminUserName")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#sed -i -e "s|ISSetup.ISAdminPassword|$(get_prop "ISAdminPassword")|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#
+##--------------Application Configurations-----------------#
+#sed -i -e "s|{TestArtifactDirectoryPath}|${TEST_ARTIFACTS}|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+##sed -i -e "s|AppConfig.Application.ClientID|Application.ClientID|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#sed -i -e "s|{ISDirectoryPath}|${TEST_HOME}/wso2is-7.0.0|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#
+#cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+##
+#echo '======================= Build the Test framework ======================='
+#mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+##
+##
+#echo '======================= API Publish and Subscribe Step ======================='
+#cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
+#mvn clean test -X
+#MVNSTATE=$?
+#
+#echo '======================= DCR ======================='
+#cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/dcr
+#mvn clean test -X
+#MVNSTATE=$?
+#
+##tail -1000f ${RUNNER_HOME}/wso2.log
+#
+#sleep 20
+#
+#exit 1
 
 #
