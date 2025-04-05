@@ -340,20 +340,6 @@ sudo apt install -y ssmtp
 # remove the existing ssmtp.conf
 sudo rm -f /etc/ssmtp/ssmtp.conf
 # add the new ssmtp.conf
-sudo touch /etc/msmtprc
-sudo chmod 777 /etc/msmtprc
-echo -e "account gmail
-host smtp.gmail.com
-port 587
-auth on
-user psajeendran@gmail.com
-password reqfmfhneailkuiu
-tls on
-tls_starttls on
-from psajeendran@gmail.com
-
-account default : gmail
-" | sudo tee -a /etc/msmtprc
 
 
 
@@ -391,6 +377,20 @@ EVENT_NOTIFICATION="${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-
 # simle test
 
 sudo apt install -y msmtp msmtp-mta
+sudo touch /etc/msmtprc
+sudo chmod 777 /etc/msmtprc
+echo -e "account gmail
+host smtp.gmail.com
+port 587
+auth on
+user psajeendran@gmail.com
+password ${STMP_ROOT_PASSWORD}
+tls on
+tls_starttls on
+from psajeendran@gmail.com
+
+account default : gmail
+" | sudo tee -a /etc/msmtprc
 
 echo "Test mail"
 
