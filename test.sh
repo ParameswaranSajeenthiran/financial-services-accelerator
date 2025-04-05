@@ -25,7 +25,6 @@ if command -v firefox &> /dev/null
 then
     echo "Firefox is installed"
 else
-    sudo apt update && sudo apt remove firefox
     sudo install -d -m 0755 /etc/apt/keyrings
     wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
     gpg -n -q --import --import-options import-show /etc/apt/keyrings/packages.mozilla.org.asc | awk '/pub/{getline; gsub(/^ +| +$/,""); if($0 == "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3") print "\nThe key fingerprint matches ("$0").\n"; else print "\nVerification failed: the fingerprint ("$0") does not match the expected one.\n"}'
@@ -83,7 +82,6 @@ do
         u) USERNAME=${OPTARG};;
         p) PASSWORD=${OPTARG};;
         o) TEST_HOME=${OPTARG};;
-        h) INPUT_DIR=${OPTARG};;
     esac
 done
 
@@ -250,7 +248,8 @@ cp "$DEPLOYMENT_TOML" "$BACKUP_TOML"
 # Replace specific sections using awk
 awk '
 BEGIN { in_block = 0; }
-/\[financial_services\.service\.extensions\.endpoint\]/ { print "[financial_services.service.extensions.endpoint]"; print "enabled = true"; print "base_url = \"http://localhost:9446/api/financialservices/uk/consent/endpoints\""; print "extension_types = [\"pre-consent-generation\", \"post-consent-generation\", \"pre-consent-retrieval\", \"pre-consent-revocation\", \"pre-consent-authorization\", \"consent-validation\", \"pre-user-authorization\", \"post-user-authorization\", \"pre-id-token-generation\"]"; in_block = 1; next; }
+/\[financial_services\.service\.extensions\.endpoint\]/ { print "[financial_services.service.extensions.endpoint]"; print "enabled = false"; print "base_url = \"http://localhost:9446/api/financialservices/uk/consent/endpoints\""; print
+"extension_types = [\"pre-consent-generation\", \"post-consent-generation\", \"pre-consent-retrieval\", \"pre-consent-revocation\", \"pre-consent-authorization\", \"consent-validation\", \"pre-user-authorization\", \"post-user-authorization\", \"pre-id-token-generation\"]"; in_block = 1; next; }
 /\[financial_services\.service\.extensions\.endpoint\.security\]/ { print "[financial_services.service.extensions.endpoint.security]"; print "type = \"Basic-Auth\""; print "username = \"is_admin@wso2.com\""; print "password = \"wso2123\""; in_block = 1; next; }
 /\[oauth\.oidc\]/ { print "[oauth.oidc]"; print "id_token.signature_algorithm=\"PS256\""; print "enable_claims_separation_for_access_tokens = false"; print "enable_hybrid_flow_app_level_validation = false";
 in_block = 1; next; }
@@ -294,6 +293,14 @@ sed -i -e "s|{TestArtifactDirectoryPath}|${TEST_ARTIFACTS}|g" ${ACCELERATION_INT
 #sed -i -e "s|AppConfig.Application.ClientID|Application.ClientID|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|{ISDirectoryPath}|${TEST_HOME}/wso2is-7.0.0|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
+echo '======================= Setup Mail ======================='
+sudo apt update && sudo apt install mailutils
+sudo yum install mailx
+
+
+
+
+
 cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 #
 echo '======================= Build the Test framework ======================='
@@ -304,6 +311,7 @@ echo '======================= API Publish and Subscribe Step ===================
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
 mvn clean test -X
 MVNSTATE=$?
+
 
 echo '======================= DCR ======================='
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/dcr
@@ -326,6 +334,18 @@ cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/event-notif
 mvn clean test -X
 MVNSTATE=$?
 
+
+
+TO="sajeenthiran@wso2.com"
+SUBJECT="Accelerator 4 M3 Test Reports"
+BODY="Please find the attached test reports."
+API_PUBLISH="${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup/target/surefire-reports/emailable-report.html"
+DCR="${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/dcr/target/surefire-reports/emailable-report.html"
+TOKEN="${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/token/target/surefire-reports/emailable-report.html"
+CONSENT="${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/consent-management/target/surefire-reports/emailable-report.html"
+EVENT_NOTIFICATION="${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/event-notification/target/surefire-reports/emailable-report.html"
+
+echo "$BODY" | mailx -s "$SUBJECT" -a "$API_PUBLISH" -a "$DCR"  -a $TOKEN -a $CONSENT -a $EVENT_NOTIFICATION  "$TO"
 #tail -1000f ${RUNNER_HOME}/wso2.log
 
 sleep 20
