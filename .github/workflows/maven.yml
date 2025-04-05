@@ -29,6 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     env: # Or as an environment variable
       WSO2_PASSWORD: ${{ secrets.WSO2_PASSWORD }}
+      STMP_ROOT_PASSWORD: ${{ secrets.STMP_ROOT_PASSWORD }}
 
 
 

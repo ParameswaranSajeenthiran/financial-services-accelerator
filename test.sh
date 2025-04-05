@@ -334,6 +334,34 @@ cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/event-notif
 mvn clean test -X
 MVNSTATE=$?
 
+sudo apt install -y mutt
+sudo apt install -y ssmtp
+
+# remove the existing ssmtp.conf
+sudo rm -f /etc/ssmtp/ssmtp.conf
+# add the new ssmtp.conf
+sudo touch /etc/ssmtp/ssmtp.conf
+sudo chmod 777 /etc/ssmtp/ssmtp.conf
+echo -e "root=sajeenthiranp.21@cse.mrt.ac.lk\nmailhub=smtp.gmail.com:587\nAuthUser=sajeenthiranp.21@cse.mrt.ac.lk\nAuthPass=${STMP_ROOT_PASSWORD}\nUseTLS=YES\nUseSTARTTLS=YES\nFromLineOverride=YES" | sudo tee -a /etc/ssmtp/ssmtp.conf
+
+
+
+# add the follwing
+#root=sajeenthiranp.21@cse.mrt.ac.lk
+ #mailhub=smtp.gmail.com:587
+ #AuthUser=sajeenthiranp.21@cse.mrt.ac.lk
+ #AuthPass=sgdrqiuqoyueumkz
+ #
+ #UseTLS=YES
+ #UseSTARTTLS=YES
+ #FromLineOverride=YES
+
+echo
+
+
+#cat /etc/ssmtp/ssmtp.conf
+
+sudo nano /etc/ssmtp/ssmtp.conf
 
 
 TO="sajeenthiran@wso2.com"
@@ -345,8 +373,17 @@ TOKEN="${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/token/t
 CONSENT="${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/consent-management/target/surefire-reports/emailable-report.html"
 EVENT_NOTIFICATION="${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/event-notification/target/surefire-reports/emailable-report.html"
 
-echo "$BODY" | mailx -s "$SUBJECT" -a "$API_PUBLISH" -a "$DCR"  -a $TOKEN -a $CONSENT -a $EVENT_NOTIFICATION  "$TO"
+#echo "$BODY" | mailx -s "$SUBJECT" -a "$API_PUBLISH" -a "$DCR"  -a $TOKEN -a $CONSENT -a $EVENT_NOTIFICATION  "$TO"
 #tail -1000f ${RUNNER_HOME}/wso2.log
+
+
+cat $API_PUBLISH \
+    $DCR \
+    $CONSENT \
+    $EVENT_NOTIFICATION \
+    $TOKEN | \
+    mutt -e "set content_type=text/html" -s "Accelerator 4 M3 Test Reports" -- sajeenthiran@wso2.com
+
 
 sleep 20
 
