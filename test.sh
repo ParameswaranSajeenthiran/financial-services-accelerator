@@ -431,6 +431,45 @@ strip_html_wrappers() {
   sed '/<!DOCTYPE/,/<body[^>]*>/d; /<\/body>/,/<\/html>/d' "$1"
 }
 
+(
+  echo "To: sajeenthiran@wso2.com"
+  echo "From: your-email@example.com"
+  echo "Subject: Accelerator 4 M3 Test Reports"
+  echo "Content-Type: text/html; charset=UTF-8"
+  echo ""
+  echo "<!DOCTYPE html>"
+  echo "<html>"
+  echo "<head>"
+  echo "<meta charset=\"UTF-8\">"
+  echo "<style type=\"text/css\">"
+  # Optional: include the CSS styles from one of the files
+  sed -n '/<style/,/<\/style>/p' "$API_PUBLISH"
+  echo "</style>"
+  echo "</head>"
+  echo "<body>"
+  echo "<h2>API PUBLISH</h2>"
+  strip_html_wrappers "$API_PUBLISH"
+  echo "<hr>"
+
+  echo "<h2>DCR</h2>"
+  strip_html_wrappers "$DCR"
+  echo "<hr>"
+
+  echo "<h2>TOKEN</h2>"
+  strip_html_wrappers "$TOKEN"
+  echo "<hr>"
+
+  echo "<h2>CONSENT</h2>"
+  strip_html_wrappers "$CONSENT"
+  echo "<hr>"
+
+  echo "<h2>EVENT NOTIFICATION</h2>"
+  strip_html_wrappers "$EVENT_NOTIFICATION"
+
+  echo "</body>"
+  echo "</html>"
+) | msmtp sajeenthiran@wso2.com
+
 #(
 #  echo "To: sajeenthiran@wso2.com"
 #  echo "From: your-email@example.com"
@@ -448,23 +487,6 @@ strip_html_wrappers() {
 #  cat $EVENT_NOTIFICATION
 #) | msmtp sajeenthiran@wso2.com
 
-
-(
-  echo "To: sajeenthiran@wso2.com"
-  echo "From: your-email@example.com"
-  echo "Subject: Accelerator 4 M3 Test Reports"
-  echo "Content-Type: text/html; charset=UTF-8"
-  echo ""
-  strip_html_wrappers "$API_PUBLISH"
-  echo "<hr>"
-  strip_html_wrappers "$DCR"
-  echo "<hr>"
-  strip_html_wrappers "$TOKEN"
-  echo "<hr>"
-  strip_html_wrappers "$CONSENT"
-  echo "<hr>"
-  strip_html_wrappers "$EVENT_NOTIFICATION"
-) | msmtp sajeenthiran@wso2.com
 
 
 
