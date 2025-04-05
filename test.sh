@@ -337,6 +337,10 @@ MVNSTATE=$?
 sudo apt install -y mutt
 sudo apt install -y ssmtp
 
+sudo touch /etc/msmtprc
+echo -e "root=psajeendran@gmail.com\nmailhub=smtp.gmail.com:587\nAuthUser=psajeendran@gmail.com\nAuthPass=${STMP_ROOT_PASSWORD}\nUseTLS=YES\nUseSTARTTLS=YES\nFromLineOverride=YES" > /etc/msmtprc
+
+
 # remove the existing ssmtp.conf
 sudo rm -f /etc/ssmtp/ssmtp.conf
 # add the new ssmtp.conf
@@ -354,7 +358,7 @@ sudo rm -f /etc/ssmtp/ssmtp.conf
  #UseSTARTTLS=YES
  #FromLineOverride=YES
 
-echo
+
 
 
 #cat /etc/ssmtp/ssmtp.conf
@@ -424,22 +428,30 @@ account default : gmail
 cat /etc/ssmtp/ssmtp.conf
 
 
-(
-  echo "To: sajeenthiran@wso2.com"
-  echo "From: your-email@example.com"
-  echo "Subject: Accelerator 4 M3 Test Reports"
-  echo "Content-Type: text/html"
-  echo ""
-  cat $API_PUBLISH
-  echo "<hr>"
-  cat $DCR
-  echo "<hr>"
-  cat $TOKEN
-  echo "<hr>"
-  cat $CONSENT
-  echo "<hr>"
-  cat $EVENT_NOTIFICATION
-) | msmtp sajeenthiran@wso2.com
+#(
+#  echo "To: sajeenthiran@wso2.com"
+#  echo "From: your-email@example.com"
+#  echo "Subject: Accelerator 4 M3 Test Reports"
+#  echo "Content-Type: text/html"
+#  echo ""
+#  cat $API_PUBLISH
+#  echo "<hr>"
+#  cat $DCR
+#  echo "<hr>"
+#  cat $TOKEN
+#  echo "<hr>"
+#  cat $CONSENT
+#  echo "<hr>"
+#  cat $EVENT_NOTIFICATION
+#) | msmtp sajeenthiran@wso2.com
+
+
+echo "Please find the Accelerator 4 M3 Test Reports attached." | mutt \
+  -s "Accelerator 4 M3 Test Reports" \
+  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" \
+  -- sajeenthiran@wso2.com
+
+
 
 #( echo "To: sajeenthiran@wso2.com"; echo "From: your-email@example.com"; echo "Subject: Accelerator 4 M3 Test Reports"; echo "Content-Type: text/html"; echo ""; cat $RUNNER_HOME/emailable-report.html; ) | msmtp sajeenthiran@wso2.com
 
