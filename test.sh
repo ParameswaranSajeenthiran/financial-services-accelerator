@@ -426,7 +426,7 @@ account default : gmail
 
 # print the /etc/ssmtp/ssmtp.conf
 cat /etc/ssmtp/ssmtp.conf
-
+#
 strip_html_wrappers() {
   sed '/<!DOCTYPE/,/<body[^>]*>/d; /<\/body>/,/<\/html>/d' "$1"
 }
@@ -435,18 +435,21 @@ strip_html_wrappers() {
   echo "To: sajeenthiran@wso2.com"
   echo "From: your-email@example.com"
   echo "Subject: Accelerator 4 M3 Test Reports"
+  echo "MIME-Version: 1.0"
   echo "Content-Type: text/html; charset=UTF-8"
   echo ""
+
   echo "<!DOCTYPE html>"
-  echo "<html>"
+  echo "<html lang=\"en\">"
   echo "<head>"
   echo "<meta charset=\"UTF-8\">"
   echo "<style type=\"text/css\">"
-  # Optional: include the CSS styles from one of the files
+  # Optional: include embedded CSS from a file
   sed -n '/<style/,/<\/style>/p' "$API_PUBLISH"
   echo "</style>"
   echo "</head>"
-  echo "<body>"
+  echo "<body style=\"font-family: Arial, sans-serif; font-size: 14px; color: #333;\">"
+
   echo "<h2>API PUBLISH</h2>"
   strip_html_wrappers "$API_PUBLISH"
   echo "<hr>"
@@ -469,7 +472,7 @@ strip_html_wrappers() {
   echo "</body>"
   echo "</html>"
 ) | msmtp sajeenthiran@wso2.com
-
+#
 #(
 #  echo "To: sajeenthiran@wso2.com"
 #  echo "From: your-email@example.com"
@@ -490,10 +493,10 @@ strip_html_wrappers() {
 
 
 
-#echo "Please find the Accelerator 4 M3 Test Reports attached." | mutt \
-#  -s "Accelerator 4 M3 Test Reports" \
-#  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" \
-#  -- sajeenthiran@wso2.com
+echo "Please find the Accelerator 4 M3 Test Reports attached." | mutt \
+  -s "Accelerator 4 M3 Test Reports" \
+  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" \
+  -- sajeenthiran@wso2.com
 
 
 
