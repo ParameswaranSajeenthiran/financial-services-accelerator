@@ -427,6 +427,9 @@ account default : gmail
 # print the /etc/ssmtp/ssmtp.conf
 cat /etc/ssmtp/ssmtp.conf
 
+strip_html_wrappers() {
+  sed '/<!DOCTYPE/,/<body[^>]*>/d; /<\/body>/,/<\/html>/d' "$1"
+}
 
 #(
 #  echo "To: sajeenthiran@wso2.com"
@@ -446,10 +449,29 @@ cat /etc/ssmtp/ssmtp.conf
 #) | msmtp sajeenthiran@wso2.com
 
 
-echo "Please find the Accelerator 4 M3 Test Reports attached." | mutt \
-  -s "Accelerator 4 M3 Test Reports" \
-  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" \
-  -- sajeenthiran@wso2.com
+(
+  echo "To: sajeenthiran@wso2.com"
+  echo "From: your-email@example.com"
+  echo "Subject: Accelerator 4 M3 Test Reports"
+  echo "Content-Type: text/html; charset=UTF-8"
+  echo ""
+  strip_html_wrappers "$API_PUBLISH"
+  echo "<hr>"
+  strip_html_wrappers "$DCR"
+  echo "<hr>"
+  strip_html_wrappers "$TOKEN"
+  echo "<hr>"
+  strip_html_wrappers "$CONSENT"
+  echo "<hr>"
+  strip_html_wrappers "$EVENT_NOTIFICATION"
+) | msmtp sajeenthiran@wso2.com
+
+
+
+#echo "Please find the Accelerator 4 M3 Test Reports attached." | mutt \
+#  -s "Accelerator 4 M3 Test Reports" \
+#  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" \
+#  -- sajeenthiran@wso2.com
 
 
 

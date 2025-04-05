@@ -247,15 +247,15 @@
         <!-- Common PSU Info -->
         <PSUInfo>
             <Credentials>
-                <User>admin@wso2.com</User>
-                <Password>wso2123</Password>
+                <User>testUser@wso2.com</User>
+                <Password>testUser@wso2123</Password>
             </Credentials>
         </PSUInfo>
         <!-- Secondary PSU Info -->
         <PSUInfo>
             <Credentials>
-                <User>psu@wso2.com</User>
-                <Password>wso2123</Password>
+                <User>testUser@wso2.com</User>
+                <Password>testUser@wso2123</Password>
             </Credentials>
         </PSUInfo>
     </PSUList>
