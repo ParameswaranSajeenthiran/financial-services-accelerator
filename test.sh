@@ -443,13 +443,9 @@ strip_html_wrappers() {
   echo "<html lang=\"en\">"
   echo "<head>"
   echo "<meta charset=\"UTF-8\">"
-  echo "<style type=\"text/css\">"
-  # Optional: include embedded CSS from a file
-  sed -n '/<style/,/<\/style>/p' "$API_PUBLISH"
-  echo "</style>"
+  echo "<style type="text/css">table {margin-bottom:10px;border-collapse:collapse;empty-cells:show}th,td {border:1px solid #009;padding:.25em .5em}th {vertical-align:bottom}td {vertical-align:top}table a {font-weight:bold}.stripe td {background-color: #E6EBF9}.num {text-align:right}.passedodd td {background-color: #3F3}.passedeven td {background-color: #0A0}.skippedodd td {background-color: #DDD}.skippedeven td {background-color: #CCC}.failedodd td,.attn {background-color: #F33}.failedeven td,.stripe .attn {background-color: #D00}.stacktrace {white-space:pre;font-family:monospace}.totop {font-size:85%;text-align:center;border-bottom:2px solid #000}.invisible {display:none}</style>"
   echo "</head>"
   echo "<body style=\"font-family: Arial, sans-serif; font-size: 14px; color: #333;\">"
-
   echo "<h2>API PUBLISH</h2>"
   strip_html_wrappers "$API_PUBLISH"
   echo "<hr>"
