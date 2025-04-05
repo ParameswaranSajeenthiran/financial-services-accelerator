@@ -359,7 +359,7 @@ echo
 
 #cat /etc/ssmtp/ssmtp.conf
 
-sudo nano /etc/ssmtp/ssmtp.conf
+#sudo nano /etc/ssmtp/ssmtp.conf
 
 
 TO="sajeenthiran@wso2.com"
@@ -376,33 +376,33 @@ EVENT_NOTIFICATION="${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-
 
 # simle test
 
-sudo apt install -y msmtp msmtp-mta
-sudo touch /etc/msmtprc
-sudo chmod 777 /etc/msmtprc
-echo -e "account gmail
-host smtp.gmail.com
-port 587
-auth on
-user psajeendran@gmail.com
-password ${STMP_ROOT_PASSWORD}
-tls on
-tls_starttls on
-from psajeendran@gmail.com
+#sudo apt install -y msmtp msmtp-mta
+#sudo touch /etc/msmtprc
+#sudo chmod 777 /etc/msmtprc
+#echo -e "account gmail
+#host smtp.gmail.com
+#port 587
+#auth on
+#user psajeendran@gmail.com
+#password ${STMP_ROOT_PASSWORD}
+#tls on
+#tls_starttls on
+#from psajeendran@gmail.com
+#
+#account default : gmail
+#" | sudo tee -a /etc/msmtprc
 
-account default : gmail
-" | sudo tee -a /etc/msmtprc
-
-echo "Test mail"
-
-(
-echo "To: sajeenthiran@wso2.com"
-echo "From: your-email@example.com"
-echo "Subject: Accelerator 4 M3 Test Reports"
-echo "Content-Type: text/html"
-echo ""
-cat $RUNNER_HOME/emailable-report.html
-) | msmtp sajeenthiran@wso2.com
-
+#echo "Test mail"
+#
+#(
+#echo "To: sajeenthiran@wso2.com"
+#echo "From: your-email@example.com"
+#echo "Subject: Accelerator 4 M3 Test Reports"
+#echo "Content-Type: text/html"
+#echo ""
+#cat $RUNNER_HOME/emailable-report.html
+#) | msmtp sajeenthiran@wso2.com
+#
 
 #cat $API_PUBLISH \
 #    $DCR \
@@ -421,6 +421,10 @@ cat $RUNNER_HOME/emailable-report.html
 #    mutt -e "set content_type=text/html" -s "Accelerator 4 M3 Test Reports" -- sajeenthiran@wso2.com
 
 
+
+
+sudo apt install sendmail
+sendmail < report.doc james@example.com
 sleep 20
 
 exit 1
