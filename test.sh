@@ -340,9 +340,21 @@ sudo apt install -y ssmtp
 # remove the existing ssmtp.conf
 sudo rm -f /etc/ssmtp/ssmtp.conf
 # add the new ssmtp.conf
-sudo touch /etc/ssmtp/ssmtp.conf
-sudo chmod 777 /etc/ssmtp/ssmtp.conf
-echo -e "root=sajeenthiranp.21@cse.mrt.ac.lk\nmailhub=smtp.gmail.com:587\nAuthUser=sajeenthiranp.21@cse.mrt.ac.lk\nAuthPass=ezpxeulufdldtedo\nUseTLS=YES\nUseSTARTTLS=YES\nFromLineOverride=YES" | sudo tee -a /etc/ssmtp/ssmtp.conf
+sudo touch /etc/msmtprc
+sudo chmod 777 /etc/msmtprc
+echo -e "account gmail
+host smtp.gmail.com
+port 587
+auth on
+user psajeendran@gmail.com
+password reqfmfhneailkuiu
+tls on
+tls_starttls on
+from psajeendran@gmail.com
+
+account default : gmail
+" | sudo tee -a /etc/msmtprc
+
 
 
 
@@ -376,13 +388,35 @@ EVENT_NOTIFICATION="${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-
 #echo "$BODY" | mailx -s "$SUBJECT" -a "$API_PUBLISH" -a "$DCR"  -a $TOKEN -a $CONSENT -a $EVENT_NOTIFICATION  "$TO"
 #tail -1000f ${RUNNER_HOME}/wso2.log
 
+# simle test
 
-cat $API_PUBLISH \
-    $DCR \
-    $CONSENT \
-    $EVENT_NOTIFICATION \
-    $TOKEN | \
-    mutt -e "set content_type=text/html" -s "Accelerator 4 M3 Test Reports" -- sajeenthiran@wso2.com
+echo "Test mail"
+
+(
+echo "To: sajeenthiran@wso2.com"
+echo "From: your-email@example.com"
+echo "Subject: Accelerator 4 M3 Test Reports"
+echo "Content-Type: text/html"
+echo ""
+cat /home/sajeenthiran/OB_/dev/repo/fork/financial-services-accelerator/emailable-report.html
+) | msmtp sajeenthiran@wso2.com
+
+
+#cat $API_PUBLISH \
+#    $DCR \
+#    $CONSENT \
+#    $EVENT_NOTIFICATION \
+#    $TOKEN | \
+#    mutt -e "set content_type=text/html" -s "Accelerator 4 M3 Test Reports" -- sajeenthiran@wso2.com
+#
+
+
+#cat $API_PUBLISH \
+#    $DCR \
+#    $CONSENT \
+#    $EVENT_NOTIFICATION \
+#    $TOKEN | \
+#    mutt -e "set content_type=text/html" -s "Accelerator 4 M3 Test Reports" -- sajeenthiran@wso2.com
 
 
 sleep 20
