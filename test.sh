@@ -420,6 +420,8 @@ account default : gmail
 #    $TOKEN | \
 #    mutt -e "set content_type=text/html" -s "Accelerator 4 M3 Test Reports" -- sajeenthiran@wso2.com
 
+# print the /etc/ssmtp/ssmtp.conf
+cat /etc/ssmtp/ssmtp.conf
 
 
 ( echo "To: sajeenthiran@wso2.com"; echo "From: your-email@example.com"; echo "Subject: Accelerator 4 M3 Test Reports"; echo "Content-Type: text/html"; echo ""; cat $RUNNER_HOME/emailable-report.html; ) | msmtp sajeenthiran@wso2.com
