@@ -390,6 +390,8 @@ EVENT_NOTIFICATION="${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-
 
 # simle test
 
+sudo apt install -y msmtp msmtp-mta
+
 echo "Test mail"
 
 (
@@ -398,7 +400,7 @@ echo "From: your-email@example.com"
 echo "Subject: Accelerator 4 M3 Test Reports"
 echo "Content-Type: text/html"
 echo ""
-cat /home/sajeenthiran/OB_/dev/repo/fork/financial-services-accelerator/emailable-report.html
+cat $RUNNER_HOME/emailable-report.html
 ) | msmtp sajeenthiran@wso2.com
 
 
