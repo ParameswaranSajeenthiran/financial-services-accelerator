@@ -360,7 +360,7 @@ sed -i -e "s|AppConfig2.DCR.SSAPath|${TEST_ARTIFACTS}/DynamicClientRegistration/
 sed -i -e "s|AppConfig2.DCR.SoftwareId|9ZzFFBxSLGEjPZogRAbvFd|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|AppConfig2.DCR.RedirectUri|https://www.google.com/redirects/redirect1|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|AppConfig2.DCR.AlternateRedirectUri|https://www.google.com/redirects/redirect2|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-sed -i -e "s|AppConfig2.DCR.DCRAPIVersion|0.3|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.DCR.DCRAPIVersion|0.1|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|AppConfig2.Application.ClientID|kuT7f9R1YDWm37_PaqlaRjFALv8a|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|AppConfig2.Application.ClientSecret|inAOnTuyQwOdz3AbATl_L_qURTHtuI9bJQL7D0DOfxwa|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|AppConfig2.Application.RedirectURL|https://www.google.com/redirects/redirect1|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
@@ -377,7 +377,7 @@ sed -i -e "s|NonRegulatoryApplication.RedirectURL|https://www.google.com/redirec
 #----------------- Browser Automation -----------------#
 sed -i -e "s|BrowserAutomation.BrowserPreference|firefox|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|BrowserAutomation.HeadlessEnabled|true|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-sed -i -e "s|BrowserAutomation.WebDriverLocation|${TEST_ARTIFACTS}/drive/selenium-libs/ubuntu/geckodriverrs|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|BrowserAutomation.WebDriverLocation|${TEST_ARTIFACTS}/drive/selenium-libs/ubuntu/geckodriver|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
 #----------------- Consent API -----------------#
 sed -i -e "s|ConsentApi.AudienceValue|https://localhost:9446/oauth2/token|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
