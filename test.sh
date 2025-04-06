@@ -366,7 +366,7 @@ sed -i -e "s|AppConfig2.Application.ClientSecret|inAOnTuyQwOdz3AbATl_L_qURTHtuI9
 sed -i -e "s|AppConfig2.Application.RedirectURL|https://www.google.com/redirects/redirect1|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
 #----------------- Transport Truststore -----------------#
-sed -i -e "s|Transport.Truststore.Location|${TEST_ARTIFACTS}/repository/resources/security/client-truststore.jks|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|Transport.Truststore.Location|${TEST_HOME}/wso2is-7.0.0/repository/resources/security/client-truststore.jks|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|Transport.Truststore.Password|wso2carbon|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
 #----------------- Non-Regulatory Application -----------------#
@@ -441,6 +441,16 @@ else
   exit 1  # To stop the pipeline if the build fails
 fi
 
+cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework
+
+mvn clean install
+
+if [ $? -eq 0 ]; then
+  echo "Build succeeded"
+else
+  echo "Build failed"
+  exit 1  # To stop the pipeline if the build fails
+fi
 
 echo '======================= DCR ======================='
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/dcr
