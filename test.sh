@@ -296,7 +296,7 @@ cd $RUNNER_HOME/fs-integration-test-suite
 echo '======================= Configure TestConfigurationExample ======================='
 ACCELERATION_INTEGRATION_TESTS_HOME=${RUNNER_HOME}/fs-integration-test-suite
 ACCELERATION_INTEGRATION_TESTS_CONFIG=${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfiguration.xml
-TEST_ARTIFACTS=${ACCELERATION_INTEGRATION_TESTS_HOME}/test-artifacts
+TEST_ARTIFACTS="${ACCELERATION_INTEGRATION_TESTS_HOME}/test-artifacts"
 
 
 cp ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfigurationExample.xml ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
@@ -377,7 +377,7 @@ sed -i -e "s|NonRegulatoryApplication.RedirectURL|https://www.google.com/redirec
 #----------------- Browser Automation -----------------#
 sed -i -e "s|BrowserAutomation.BrowserPreference|firefox|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|BrowserAutomation.HeadlessEnabled|true|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-sed -i -e "s|BrowserAutomation.WebDriverLocation|${TEST_HOME}/drive/selenium-libs/ubuntu/geckodriverrs|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|BrowserAutomation.WebDriverLocation|${TEST_ARTIFACTS}/drive/selenium-libs/ubuntu/geckodriverrs|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
 #----------------- Consent API -----------------#
 sed -i -e "s|ConsentApi.AudienceValue|https://localhost:9446/oauth2/token|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
@@ -681,7 +681,7 @@ EOF
 # Send the email with mutt
 mutt -e "set content_type=text/html" \
   -s "Accelerator 4 M3 Test Reports" \
-  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" $DEPLOYMENT_TOML $ACCELERATION_INTEGRATION_TESTS_CONFIG \
+  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" "$DEPLOYMENT_TOML" "$ACCELERATION_INTEGRATION_TESTS_CONFIG" \
   -- sajeenthiran@wso2.com < "$EMAIL_BODY"
 
 sleep 20

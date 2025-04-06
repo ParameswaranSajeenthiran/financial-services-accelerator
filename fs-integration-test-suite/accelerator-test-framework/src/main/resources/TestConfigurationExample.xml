@@ -186,10 +186,10 @@
 
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                 DynamicClientRegistration/uk/sample-client-resources-2/ssa.txt -->
-                <SSAPath>AppConfig2.DCR.</SSAPath>
+                <SSAPath>AppConfig2.DCR.SSAPath</SSAPath>
 
                 <!--Sample Value: 9ZzFFBxSLGEjPZogRAbvFd -->
-                <SoftwareId>AppConfig2.DCR.</SoftwareId>
+                <SoftwareId>AppConfig2.DCR.SoftwareId</SoftwareId>
 
                 <!-- SSA Redirect Uri -->
                 <!--Sample Value: https://www.google.com/redirects/redirect1 -->
