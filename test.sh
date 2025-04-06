@@ -93,7 +93,7 @@ echo "Username: $USERNAME"
 echo "Password: $PASSWORD"
 echo "TEST_HOME:  $TEST_HOME"
 
-
+#
 
 echo '======================= Building packs ======================='
 
@@ -287,11 +287,114 @@ TEST_ARTIFACTS=${ACCELERATION_INTEGRATION_TESTS_HOME}/test-artifacts
 
 cp ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework/src/main/resources/TestConfigurationExample.xml ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
+#--------------Server Configurations-----------------#
+sed -i -e "s|Server.BaseUrl|https://localhost:9446|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+echo $ACCELERATION_INTEGRATION_TESTS_CONFIG
+sed -i -e "s|Server.ISServerUrl|https://localhost:9446|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|Server.APIMServerUrl|https://localhost:9446|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
-#--------------Application Configurations-----------------#
-sed -i -e "s|{TestArtifactDirectoryPath}|${TEST_ARTIFACTS}|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-#sed -i -e "s|AppConfig.Application.ClientID|Application.ClientID|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-sed -i -e "s|{ISDirectoryPath}|${TEST_HOME}/wso2is-7.0.0|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#--------------IS Setup Configurations-----------------#
+sed -i -e "s|ISSetup.ISAdminUserName|is_admin@wso2.com|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|ISSetup.ISAdminPassword|wso2123|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+##--------------Application Configurations-----------------#
+#sed -i -e "s|{TestArtifactDirectoryPath}|${TEST_ARTIFACTS}|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+##sed -i -e "s|AppConfig.Application.ClientID|Application.ClientID|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+#sed -i -e "s|{ISDirectoryPath}|${TEST_HOME}/wso2is-7.0.0|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+
+#----------------- Common -----------------#
+sed -i -e "s|Common.SolutionVersion|1.0.0|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|Common.AccessTokenExpireTime|200|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|Common.TenantDomain|carbon.super|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|Common.SigningAlgorithm|PS256|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|Common.TestArtifactLocation|${TEST_ARTIFACTS}|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+#----------------- Provisioning -----------------#
+sed -i -e "s|Provisioning.Enabled|false|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|Provisioning.ProvisionFilePath|${TEST_ARTIFACTS}/provisioningFiles/api-config-provisioning.yaml|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+#----------------- AppConfig1 -----------------#
+sed -i -e "s|AppConfig1.KeyStore.Location|${TEST_ARTIFACTS}/DynamicClientRegistration/uk/tpp1/signing-keystore/signing.jks|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.KeyStore.Alias|signing|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.KeyStore.Password|wso2carbon|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.KeyStore.SigningKid|cIYo-5zX4OTWZpHrmmiZDVxACJM|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.Transport.MTLSEnabled|true|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.Transport.KeyStore.Location|${TEST_ARTIFACTS}/DynamicClientRegistration/uk/tpp1/transport-keystore/transport.jks|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.Transport.KeyStore.Password|wso2carbon|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.Transport.KeyStore.Alias|transport|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.DCR.SSAPath|${TEST_ARTIFACTS}/DynamicClientRegistration/uk/tpp1/ssa.txt|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.DCR.SelfSignedSSAPath|${TEST_ARTIFACTS}/DynamicClientRegistration/uk/tpp1/self_ssa.txt|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.DCR.SoftwareId|oQ4KoaavpOuoE7rvQsZEOV|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.DCR.RedirectUri|https://www.google.com/redirects/redirect1|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.DCR.AlternateRedirectUri|https://www.google.com/redirects/redirect2|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.DCR.DCRAPIVersion|0.1|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.Application.ClientID|bS_mDjiQ5RdMg7t9upCWCeN7mhoa|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.Application.ClientSecret|fVcOLPd9gEnrkLfKs9qijFkjtxlS_4YNMMXfwJJqUeca|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig1.Application.RedirectURL|https://www.google.com/redirects/redirect1|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+#----------------- AppConfig2 (copy same values for now) -----------------#
+sed -i -e "s|AppConfig2.KeyStore.Location|${TEST_ARTIFACTS}/DynamicClientRegistration/uk/tpp2/signing-keystore/signing.jks|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.KeyStore.Alias|signing|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.KeyStore.Password|wso2carbon|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.KeyStore.SigningKid|BkHxeIHKyMKF6SgGwqYzLUvTQfk|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.Transport.MTLSEnabled|true|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.Transport.KeyStore.Location|${TEST_ARTIFACTS}/DynamicClientRegistration/uk/tpp2/transport-keystore/transport.jks|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.Transport.KeyStore.Password|wso2carbon|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.Transport.KeyStore.Alias|transport|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.DCR.SSAPath|${TEST_ARTIFACTS}/DynamicClientRegistration/uk/tpp2/ssa.txt|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.DCR.SoftwareId|9ZzFFBxSLGEjPZogRAbvFd|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.DCR.RedirectUri|https://www.google.com/redirects/redirect1|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.DCR.AlternateRedirectUri|https://www.google.com/redirects/redirect2|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.DCR.DCRAPIVersion|0.3|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.Application.ClientID|kuT7f9R1YDWm37_PaqlaRjFALv8a|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.Application.ClientSecret|inAOnTuyQwOdz3AbATl_L_qURTHtuI9bJQL7D0DOfxwa|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|AppConfig2.Application.RedirectURL|https://www.google.com/redirects/redirect1|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+#----------------- Transport Truststore -----------------#
+sed -i -e "s|Transport.Truststore.Location|${TEST_ARTIFACTS}/repository/resources/security/client-truststore.jks|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|Transport.Truststore.Password|wso2carbon|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+#----------------- Non-Regulatory Application -----------------#
+sed -i -e "s|NonRegulatoryApplication.ClientID|kuT7f9R1YDWm37_PaqlaRjFALv8a|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|NonRegulatoryApplication.ClientSecret|inAOnTuyQwOdz3AbATl_L_qURTHtuI9bJQL7D0DOfxwa|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|NonRegulatoryApplication.RedirectURL|https://www.google.com/redirects/redirect1|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+#----------------- Browser Automation -----------------#
+sed -i -e "s|BrowserAutomation.BrowserPreference|firefox|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|BrowserAutomation.HeadlessEnabled|true|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|BrowserAutomation.WebDriverLocation|${TEST_HOME}/drive/selenium-libs/ubuntu/geckodriverrs|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+#----------------- Consent API -----------------#
+sed -i -e "s|ConsentApi.AudienceValue|https://localhost:9446/oauth2/token|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+echo '======================= Updating PSUList, TPPInfo, KeyManagerAdmin ======================='
+
+#----------------- Update PSUInfo Users and Passwords -----------------#
+
+# Update all PSUInfo <User> tags
+sed -i '/<PSUList>/,/<\/PSUList>/ s|<User>.*</User>|<User>testUser@wso2.com</User>|g' ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+# Update all PSUInfo <Password> tags
+sed -i '/<PSUList>/,/<\/PSUList>/ s|<Password>.*</Password>|<Password>testUser@wso2123</Password>|g' ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+#----------------- Update TPPInfo -----------------#
+sed -i '/<TPPInfo>/,/<\/TPPInfo>/ s|<User>.*</User>|<User>testUser@wso2.com</User>|' ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i '/<TPPInfo>/,/<\/TPPInfo>/ s|<Password>.*</Password>|<Password>testUser@wso2123</Password>|' ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+#----------------- Update KeyManagerAdmin User -----------------#
+sed -i '/<KeyManagerAdmin>/,/<\/KeyManagerAdmin>/ s|<User>.*</User>|<User>is_admin@wso2.com</User>|' ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+
+#----------------- IS Setup Configurations -----------------#
+# Add the new ISSetup XML snippet after the </ConsentApi> tag
+sed -i '/<\/ConsentApi>/a \
+    <ISSetup> \
+        <ISAdminUserName>is_admin@wso2.com</ISAdminUserName> \
+        <ISAdminPassword>wso2123</ISAdminPassword> \
+    </ISSetup>' ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+
+
+
 
 echo '======================= Setup Mail ======================='
 sudo apt update && sudo apt install mailutils
