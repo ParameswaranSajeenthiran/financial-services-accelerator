@@ -110,7 +110,7 @@
                 <!-- Self signed SSA for negative tests-->
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                 DynamicClientRegistration/uk/sample-client-resources/self_ssa.txt -->
-                <SelfSignedSSAPath>AppConfig.DCR.SelfSignedSSAPath</SelfSignedSSAPath>
+                <SelfSignedSSAPath>AppConfig1.DCR.SelfSignedSSAPath</SelfSignedSSAPath>
 
                 <!-- SSA SoftwareId-->
                 <!--Sample Value: oQ4KoaavpOuoE7rvQsZEOV -->
@@ -122,7 +122,7 @@
 
                 <!-- SSA Alternate Redirect Uri-->
                 <!--Sample Value: https://www.google.com/redirects/redirect2 -->
-                <AlternateRedirectUri>AppConfig.DCR.AlternateRedirectUri</AlternateRedirectUri>
+                <AlternateRedirectUri>AppConfig1.DCR.AlternateRedirectUri</AlternateRedirectUri>
 
                 <!-- Version of DCR API -->
                 <!--Sample Value: 0.1 -->
@@ -186,10 +186,10 @@
 
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                 DynamicClientRegistration/uk/sample-client-resources-2/ssa.txt -->
-                <SSAPath>AppConfig2.DCR.</SSAPath>
+                <SSAPath>AppConfig2.DCR.SSAPath</SSAPath>
 
                 <!--Sample Value: 9ZzFFBxSLGEjPZogRAbvFd -->
-                <SoftwareId>AppConfig2.DCR.</SoftwareId>
+                <SoftwareId>AppConfig2.DCR.SoftwareId</SoftwareId>
 
                 <!-- SSA Redirect Uri -->
                 <!--Sample Value: https://www.google.com/redirects/redirect1 -->
