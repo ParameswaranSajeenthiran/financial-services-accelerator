@@ -431,43 +431,43 @@ strip_html_wrappers() {
   sed '/<!DOCTYPE/,/<body[^>]*>/d; /<\/body>/,/<\/html>/d' "$1"
 }
 
-(
-  echo "To: sajeenthiran@wso2.com"
-  echo "From: your-email@example.com"
-  echo "Subject: Accelerator 4 M3 Test Reports"
-  echo "MIME-Version: 1.0"
-  echo "Content-Type: text/html; charset=UTF-8"
-  echo ""
-
-  echo "<!DOCTYPE html>"
-  echo "<html lang=\"en\">"
-  echo "<head>"
-  echo "<meta charset=\"UTF-8\">"
-  echo "<style type="text/css">table {margin-bottom:10px;border-collapse:collapse;empty-cells:show}th,td {border:1px solid #009;padding:.25em .5em}th {vertical-align:bottom}td {vertical-align:top}table a {font-weight:bold}.stripe td {background-color: #E6EBF9}.num {text-align:right}.passedodd td {background-color: #3F3}.passedeven td {background-color: #0A0}.skippedodd td {background-color: #DDD}.skippedeven td {background-color: #CCC}.failedodd td,.attn {background-color: #F33}.failedeven td,.stripe .attn {background-color: #D00}.stacktrace {white-space:pre;font-family:monospace}.totop {font-size:85%;text-align:center;border-bottom:2px solid #000}.invisible {display:none}</style>"
-  echo "</head>"
-  echo "<body style=\"font-family: Arial, sans-serif; font-size: 14px; color: #333;\">"
-  echo "<h2>API PUBLISH</h2>"
-  strip_html_wrappers "$API_PUBLISH"
-  echo "<hr>"
-
-  echo "<h2>DCR</h2>"
-  strip_html_wrappers "$DCR"
-  echo "<hr>"
-
-  echo "<h2>TOKEN</h2>"
-  strip_html_wrappers "$TOKEN"
-  echo "<hr>"
-
-  echo "<h2>CONSENT</h2>"
-  strip_html_wrappers "$CONSENT"
-  echo "<hr>"
-
-  echo "<h2>EVENT NOTIFICATION</h2>"
-  strip_html_wrappers "$EVENT_NOTIFICATION"
-
-  echo "</body>"
-  echo "</html>"
-) | msmtp sajeenthiran@wso2.com
+#(
+#  echo "To: sajeenthiran@wso2.com"
+#  echo "From: your-email@example.com"
+#  echo "Subject: Accelerator 4 M3 Test Reports"
+#  echo "MIME-Version: 1.0"
+#  echo "Content-Type: text/html; charset=UTF-8"
+#  echo ""
+#
+#  echo "<!DOCTYPE html>"
+#  echo "<html lang=\"en\">"
+#  echo "<head>"
+#  echo "<meta charset=\"UTF-8\">"
+#  echo "<style type="text/css">table {margin-bottom:10px;border-collapse:collapse;empty-cells:show}th,td {border:1px solid #009;padding:.25em .5em}th {vertical-align:bottom}td {vertical-align:top}table a {font-weight:bold}.stripe td {background-color: #E6EBF9}.num {text-align:right}.passedodd td {background-color: #3F3}.passedeven td {background-color: #0A0}.skippedodd td {background-color: #DDD}.skippedeven td {background-color: #CCC}.failedodd td,.attn {background-color: #F33}.failedeven td,.stripe .attn {background-color: #D00}.stacktrace {white-space:pre;font-family:monospace}.totop {font-size:85%;text-align:center;border-bottom:2px solid #000}.invisible {display:none}</style>"
+#  echo "</head>"
+#  echo "<body style=\"font-family: Arial, sans-serif; font-size: 14px; color: #333;\">"
+#  echo "<h2>API PUBLISH</h2>"
+#  strip_html_wrappers "$API_PUBLISH"
+#  echo "<hr>"
+#
+#  echo "<h2>DCR</h2>"
+#  strip_html_wrappers "$DCR"
+#  echo "<hr>"
+#
+#  echo "<h2>TOKEN</h2>"
+#  strip_html_wrappers "$TOKEN"
+#  echo "<hr>"
+#
+#  echo "<h2>CONSENT</h2>"
+#  strip_html_wrappers "$CONSENT"
+#  echo "<hr>"
+#
+#  echo "<h2>EVENT NOTIFICATION</h2>"
+#  strip_html_wrappers "$EVENT_NOTIFICATION"
+#
+#  echo "</body>"
+#  echo "</html>"
+#) | msmtp sajeenthiran@wso2.com
 #
 #(
 #  echo "To: sajeenthiran@wso2.com"
@@ -489,14 +489,71 @@ strip_html_wrappers() {
 
 
 
-echo "Please find the Accelerator 4 M3 Test Reports attached." | mutt \
-  -s "Accelerator 4 M3 Test Reports" \
-  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" \
-  -- sajeenthiran@wso2.com
+#echo "Please find the Accelerator 4 M3 Test Reports attached." | mutt \
+#  -s "Accelerator 4 M3 Test Reports" \
+#  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" \
+#  -- sajeenthiran@wso2.com
 
 
 
 #( echo "To: sajeenthiran@wso2.com"; echo "From: your-email@example.com"; echo "Subject: Accelerator 4 M3 Test Reports"; echo "Content-Type: text/html"; echo ""; cat $RUNNER_HOME/emailable-report.html; ) | msmtp sajeenthiran@wso2.com
+
+
+# Create temporary HTML body file
+EMAIL_BODY=$(mktemp)
+
+cat > "$EMAIL_BODY" <<EOF
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style type="text/css">
+    table {margin-bottom:10px;border-collapse:collapse;empty-cells:show}
+    th,td {border:1px solid #009;padding:.25em .5em}
+    th {vertical-align:bottom}
+    td {vertical-align:top}
+    table a {font-weight:bold}
+    .stripe td {background-color: #E6EBF9}
+    .num {text-align:right}
+    .passedodd td {background-color: #3F3}
+    .passedeven td {background-color: #0A0}
+    .skippedodd td {background-color: #DDD}
+    .skippedeven td {background-color: #CCC}
+    .failedodd td,.attn {background-color: #F33}
+    .failedeven td,.stripe .attn {background-color: #D00}
+    .stacktrace {white-space:pre;font-family:monospace}
+    .totop {font-size:85%;text-align:center;border-bottom:2px solid #000}
+    .invisible {display:none}
+  </style>
+</head>
+<body style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+  <h2>API PUBLISH</h2>
+  $(strip_html_wrappers "$API_PUBLISH")
+  <hr>
+
+  <h2>DCR</h2>
+  $(strip_html_wrappers "$DCR")
+  <hr>
+
+  <h2>TOKEN</h2>
+  $(strip_html_wrappers "$TOKEN")
+  <hr>
+
+  <h2>CONSENT</h2>
+  $(strip_html_wrappers "$CONSENT")
+  <hr>
+
+  <h2>EVENT NOTIFICATION</h2>
+  $(strip_html_wrappers "$EVENT_NOTIFICATION")
+</body>
+</html>
+EOF
+
+# Send the email with mutt
+mutt -e "set content_type=text/html" \
+  -s "Accelerator 4 M3 Test Reports" \
+  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" $DEPLOYMENT_TOML \
+  -- sajeenthiran@wso2.com < "$EMAIL_BODY"
 
 sleep 20
 
