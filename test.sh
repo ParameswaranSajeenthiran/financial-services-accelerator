@@ -377,7 +377,7 @@ sed -i -e "s|NonRegulatoryApplication.RedirectURL|https://www.google.com/redirec
 #----------------- Browser Automation -----------------#
 sed -i -e "s|BrowserAutomation.BrowserPreference|firefox|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 sed -i -e "s|BrowserAutomation.HeadlessEnabled|true|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
-sed -i -e "s|BrowserAutomation.WebDriverLocation|${TEST_ARTIFACTS}/drive/selenium-libs/ubuntu/geckodriver|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+sed -i -e "s|BrowserAutomation.WebDriverLocation|${TEST_ARTIFACTS}/selenium-libs/ubuntu/geckodriver|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 
 #----------------- Consent API -----------------#
 sed -i -e "s|ConsentApi.AudienceValue|https://localhost:9446/oauth2/token|g" ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
