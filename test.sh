@@ -98,7 +98,12 @@ echo "TEST_HOME:  $TEST_HOME"
 echo '======================= Building packs ======================='
 
 mvn -B install --file pom.xml
-#
+if [ $? -eq 0 ]; then
+  echo "Build succeeded"
+else
+  echo "Build failed"
+  exit 1  # To stop the pipeline if the build fails
+fi
 echo '======================= SetUp base Products ======================='
 
 # Create the test home directory if it doesn't exist
@@ -236,26 +241,35 @@ echo '======================= Update deployment.toml ======================='
 #cp $RUNNER_HOME/deployment.toml $TEST_HOME/wso2is-7.0.0/repository/conf
 #cat $TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml
 
+#
+#DEPLOYMENT_TOML="$TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml"
+#BACKUP_TOML="deployment.toml.bak"
+#
+#
+## Backup the original file
+#cp "$DEPLOYMENT_TOML" "$BACKUP_TOML"
+#
+#
+## Replace specific sections using awk
+#awk '
+#BEGIN { in_block = 0; }
+#/\[financial_services\.service\.extensions\.endpoint\]/ { print "[financial_services.service.extensions.endpoint]"; print "enabled = false"; print "base_url = \"http://localhost:9446/api/financialservices/uk/consent/endpoints\""; print
+#"extension_types = [\"pre-consent-generation\", \"post-consent-generation\", \"pre-consent-retrieval\", \"pre-consent-revocation\", \"pre-consent-authorization\", \"consent-validation\", \"pre-user-authorization\", \"post-user-authorization\", \"pre-id-token-generation\"]"; in_block = 1; next; }
+#/\[financial_services\.service\.extensions\.endpoint\.security\]/ { print "[financial_services.service.extensions.endpoint.security]"; print "type = \"Basic-Auth\""; print "username = \"is_admin@wso2.com\""; print "password = \"wso2123\""; in_block = 1; next; }
+#/\[oauth\.oidc\]/ { print "[oauth.oidc]"; print "id_token.signature_algorithm=\"PS256\""; print "enable_claims_separation_for_access_tokens = false"; print "enable_hybrid_flow_app_level_validation = false";
+#in_block = 1; next; }
+#/^$/ { in_block = 0; }
+#!in_block { print $0; }
+#' "$BACKUP_TOML" > "$DEPLOYMENT_TOML"
 
-DEPLOYMENT_TOML="$TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml"
-BACKUP_TOML="deployment.toml.bak"
+# Filename of the config file to update
+CONFIG_FILE="$TEST_HOME/wso2is-7.0.0/repository/conf/deployment.toml"
 
+sed -i -e  's|username = ""|username = "is_admin@wso2.com"|g' ${CONFIG_FILE}
+sed -i -e 's|password = ""|password = "wso2123"|g' ${CONFIG_FILE}
+sed -i -e 's|base_url = ""|base_url = "http://localhost:9446/api/financialservices/uk/consent/endpoints"|g' ${CONFIG_FILE}
+sed -i -e 's|allowed_extensions = \["post_token_generation"\]|extension_types = \["pre-consent-generation", "post-consent-generation", "pre-consent-retrieval", "pre-consent-revocation", "pre-consent-authorization", "consent-validation", "pre-user-authorization", "post-user-authorization", "pre-id-token-generation"\]|g' ${CONFIG_FILE}
 
-# Backup the original file
-cp "$DEPLOYMENT_TOML" "$BACKUP_TOML"
-
-
-# Replace specific sections using awk
-awk '
-BEGIN { in_block = 0; }
-/\[financial_services\.service\.extensions\.endpoint\]/ { print "[financial_services.service.extensions.endpoint]"; print "enabled = false"; print "base_url = \"http://localhost:9446/api/financialservices/uk/consent/endpoints\""; print
-"extension_types = [\"pre-consent-generation\", \"post-consent-generation\", \"pre-consent-retrieval\", \"pre-consent-revocation\", \"pre-consent-authorization\", \"consent-validation\", \"pre-user-authorization\", \"post-user-authorization\", \"pre-id-token-generation\"]"; in_block = 1; next; }
-/\[financial_services\.service\.extensions\.endpoint\.security\]/ { print "[financial_services.service.extensions.endpoint.security]"; print "type = \"Basic-Auth\""; print "username = \"is_admin@wso2.com\""; print "password = \"wso2123\""; in_block = 1; next; }
-/\[oauth\.oidc\]/ { print "[oauth.oidc]"; print "id_token.signature_algorithm=\"PS256\""; print "enable_claims_separation_for_access_tokens = false"; print "enable_hybrid_flow_app_level_validation = false";
-in_block = 1; next; }
-/^$/ { in_block = 0; }
-!in_block { print $0; }
-' "$BACKUP_TOML" > "$DEPLOYMENT_TOML"
 
 
 echo "deployment.toml has been updated in place and a backup is saved as deployment.toml.bak."
@@ -408,12 +422,24 @@ cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
 #
 echo '======================= Build the Test framework ======================='
 mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-#
+
+if [ $? -eq 0 ]; then
+  echo "Build succeeded"
+else
+  echo "Build failed"
+  exit 1  # To stop the pipeline if the build fails
+fi
 #
 echo '======================= API Publish and Subscribe Step ======================='
 cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
 mvn clean test -X
-MVNSTATE=$?
+
+if [ $? -eq 0 ]; then
+  echo "Build succeeded"
+else
+  echo "Build failed"
+  exit 1  # To stop the pipeline if the build fails
+fi
 
 
 echo '======================= DCR ======================='
@@ -655,7 +681,7 @@ EOF
 # Send the email with mutt
 mutt -e "set content_type=text/html" \
   -s "Accelerator 4 M3 Test Reports" \
-  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" $DEPLOYMENT_TOML \
+  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" $DEPLOYMENT_TOML $ACCELERATION_INTEGRATION_TESTS_CONFIG \
   -- sajeenthiran@wso2.com < "$EMAIL_BODY"
 
 sleep 20
