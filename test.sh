@@ -681,7 +681,7 @@ EOF
 # Send the email with mutt
 mutt -e "set content_type=text/html" \
   -s "Accelerator 4 M3 Test Reports" \
-  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" "$DEPLOYMENT_TOML" "$ACCELERATION_INTEGRATION_TESTS_CONFIG" \
+  -a "$API_PUBLISH" "$DCR" "$CONSENT" "$TOKEN" "$EVENT_NOTIFICATION" "$CONFIG_FILE" "$ACCELERATION_INTEGRATION_TESTS_CONFIG" \
   -- sajeenthiran@wso2.com < "$EMAIL_BODY"
 
 sleep 20
