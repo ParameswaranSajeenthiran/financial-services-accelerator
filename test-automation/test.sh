@@ -554,7 +554,7 @@ EOF
 XT_FILE="${LOG_FILE%.log}.txt"
 
 # Convert .log to .txt (just a copy with new extension)
-cp "${RUNNER_HOME}/wso2.log" "${RUNNER_HOME}/wso2ServerLogs.txt"
+#cp "${RUNNER_HOME}/wso2.log" "${RUNNER_HOME}/wso2ServerLogs.txt"
 
 # Send the email with mutt
 mutt -e "set content_type=text/html" \

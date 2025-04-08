@@ -26,68 +26,6 @@ class AuthorizeAPIStepTests {
         return Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
     }
 
-//
-
-
-    static Response createStandardApplication (String applicationName) {
-        return   RestAssured.given().contentType("application/json")
-                .relaxedHTTPSValidation()
-                .urlEncodingEnabled(true)
-                .baseUri(configuration.getISServerUrl())
-                .basePath("/api/server/v1/applications")
-                .header("Authorization", "Basic ${encodeCredentials(configuration.getISAdminUserName(),configuration.getISAdminPassword())}")
-                .body("""
-                    {
-                    "name": "${applicationName}",
-                    "advancedConfigurations": {
-                        "skipLogoutConsent": true,
-                        "skipLoginConsent": true
-                    },
-                    "templateId": "custom-application-oidc",
-                    "associatedRoles": {
-                        "allowedAudience": "APPLICATION",
-                        "roles": []
-                    },
-                    "inboundProtocolConfiguration": {
-                        "oidc": {
-                            "grantTypes": [
-                                "client_credentials"
-                            ],
-                            "isFAPIApplication": true
-                        }
-                    }
-                }
-                    """).post()
-    }
-
-/**
- * get application
- *
- */
-    static Response getApplication( String applicationId){
-        return RestAssured.given().contentType("application/json")
-                .relaxedHTTPSValidation()
-                .urlEncodingEnabled(true).baseUri(configuration.getISServerUrl()).basePath(
-                "/api/server/v1/applications/{applicationId}")
-                .pathParam("applicationId",applicationId)
-                .header("Authorization",
-                        "Basic ${encodeCredentials(configuration.getISAdminUserName(),configuration.getISAdminPassword())}")
-                .get();
-    }
-
-    static Response dcrGet( String clientId){
-        return RestAssured.given().contentType("application/json")
-                .relaxedHTTPSValidation()
-                .urlEncodingEnabled(true).baseUri(configuration.getISServerUrl()).basePath(
-                "/api/identity/oauth2/dcr/v1.1/register")
-                .queryParam("client-id",clientId)
-                .header("Authorization",
-                        "Basic ${encodeCredentials(configuration.getISAdminUserName(),configuration.getISAdminPassword())}")
-                .get();
-    }
-
-
-
 
 /**
  * create an API resource
@@ -138,27 +76,6 @@ class AuthorizeAPIStepTests {
                     """).post()
      }
 
-    static Response authorizeAPI(String apiResourceId, String applicationId) {
-        return  RestAssured.given().contentType("application/json")
-                .relaxedHTTPSValidation()
-                .urlEncodingEnabled(true)
-                .baseUri(configuration.getISServerUrl())
-                .basePath("/api/server/v1/applications/{applicationId}/authorized-apis") // Set base path
-                .pathParam("applicationId", applicationId) // Set path parameter
-                .header("Authorization", "Basic aXNfYWRtaW5Ad3NvMi5jb206d3NvMjEyMw==")
-                .body("""
-                {
-                    "id": "${apiResourceId}",
-                    "policyIdentifier": "RBAC",
-                    "scopes": [
-                        "accounts",
-                        "payments",
-                        "fundsconfirmations"
-                    ]
-                }
-                """).post()
-    }
-
 
     @BeforeTest
     void setup() {
@@ -174,11 +91,7 @@ class AuthorizeAPIStepTests {
         print(response.prettyPrint())
 
         apiResourceId = response.header("Location").split("/").last()
-
-        print(response.getBody().prettyPrint())
-
         // assert status
-
         Assert.assertEquals( response.statusCode(), 201)
 
     }
@@ -197,7 +110,6 @@ class AuthorizeAPIStepTests {
             Assert.fail("Client registration failed with status code: " + registrationResponse.statusCode())
         }
         File xmlFile = new File(System.getProperty("user.dir").toString().concat("/../../../accelerator-test-framework/src/main/resources/TestConfiguration.xml"))
-//        print(xmlFile)
         TestUtil.writeXMLContent(xmlFile.toString(), "Application", "ClientID", clientId,
                 0)
         TestUtil.writeXMLContent(xmlFile.toString(), "Application", "ClientSecret", clientSecret,
