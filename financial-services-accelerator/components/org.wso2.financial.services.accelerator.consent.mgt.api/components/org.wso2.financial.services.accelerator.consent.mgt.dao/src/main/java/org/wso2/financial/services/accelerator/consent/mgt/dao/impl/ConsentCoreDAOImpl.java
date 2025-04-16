@@ -274,13 +274,12 @@ public class ConsentCoreDAOImpl implements ConsentCoreDAO {
                 throw new ConsentDataRetrievalException(String.format("Error occurred while retrieving " +
                         "detailed consent resource for consent ID : %s", consentID), e);
             }
-        } catch (SQLException  | JsonProcessingException e) {
+        } catch (SQLException | JsonProcessingException e) {
             log.error(ConsentMgtDAOConstants.DETAILED_CONSENT_RESOURCE_RETRIEVE_ERROR_MSG, e);
             throw new ConsentDataRetrievalException(ConsentMgtDAOConstants
                     .DETAILED_CONSENT_RESOURCE_RETRIEVE_ERROR_MSG, e);
         }
     }
-
 
 
     @Override
@@ -1573,6 +1572,42 @@ public class ConsentCoreDAOImpl implements ConsentCoreDAO {
             log.error("Error while searching consents eligible for expiration", e);
             throw new ConsentDataRetrievalException("Error while updating searching consents eligible for" +
                     " expiration", e);
+        }
+    }
+
+    @Override
+    public void deleteConsent(Connection connection, String consentID) {
+
+        List<String> deleteStatements = sqlStatements.getDeleteConsentCascadeStatements();
+
+        try {
+            connection.setAutoCommit(false); // Begin transaction
+
+            for (String query : deleteStatements) {
+                try (PreparedStatement ps = connection.prepareStatement(query)) {
+                    ps.setString(1, consentID);
+                    int result = ps.executeUpdate();
+                    log.debug("Executed delete query, affected rows: " + result);
+                }
+            }
+
+            connection.commit();
+            log.debug(String.format("Successfully deleted consent and related records for ID: %s",
+                    consentID.replaceAll("[\r\n]", "")));
+
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                log.error("Transaction rolled back due to error while deleting consent", e);
+            } catch (SQLException rollbackEx) {
+                log.error("Error during rollback after failed consent deletion", rollbackEx);
+            }
+        } finally {
+            try {
+                connection.setAutoCommit(true); // Reset autocommit
+            } catch (SQLException e) {
+                log.error("Failed to reset autocommit to true", e);
+            }
         }
     }
 

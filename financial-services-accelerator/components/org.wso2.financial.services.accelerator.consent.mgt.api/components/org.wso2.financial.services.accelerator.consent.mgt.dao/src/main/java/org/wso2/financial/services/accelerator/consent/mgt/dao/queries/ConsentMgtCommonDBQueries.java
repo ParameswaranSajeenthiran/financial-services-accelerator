@@ -20,6 +20,9 @@ package org.wso2.financial.services.accelerator.consent.mgt.dao.queries;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The common database queries used by the consent management DAO layer.
  */
@@ -367,4 +370,20 @@ public class ConsentMgtCommonDBQueries {
                 " ON     CA.CONSENT_ID = OBC.CONSENT_ID " +
                 " WHERE  CA.ATT_KEY = ? AND OBC.CURRENT_STATUS IN " + statusesEligibleForExpirationCondition;
     }
+
+    public List<String> getDeleteConsentCascadeStatements() {
+        List<String> statements = new ArrayList<>();
+
+        statements.add("DELETE FROM FS_CONSENT_ATTRIBUTE WHERE CONSENT_ID = ?");
+        statements.add("DELETE FROM FS_CONSENT_MAPPING WHERE AUTH_ID IN (" +
+                "SELECT AUTH_ID FROM FS_CONSENT_AUTH_RESOURCE WHERE CONSENT_ID = ?)");
+        statements.add("DELETE FROM FS_CONSENT_AUTH_RESOURCE WHERE CONSENT_ID = ?");
+        statements.add("DELETE FROM FS_CONSENT_STATUS_AUDIT WHERE CONSENT_ID = ?");
+        statements.add("DELETE FROM FS_CONSENT WHERE CONSENT_ID = ?");
+
+        return statements;
+    }
+
+
+
 }

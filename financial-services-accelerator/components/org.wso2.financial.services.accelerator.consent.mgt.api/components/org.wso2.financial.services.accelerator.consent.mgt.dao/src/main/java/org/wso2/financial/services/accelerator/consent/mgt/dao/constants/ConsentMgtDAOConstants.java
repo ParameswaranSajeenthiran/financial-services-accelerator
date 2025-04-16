@@ -6,7 +6,7 @@
  * in compliance with the License.
  * You may obtain a copy of the License at
  * <p>
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * <p>
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -20,7 +20,6 @@ package org.wso2.financial.services.accelerator.consent.mgt.dao.constants;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 
 /**
@@ -93,24 +92,27 @@ public class ConsentMgtDAOConstants {
     public static final String TABLE_FS_CONSENT_FILE = "FS_CONSENT_FILE";
 
     //Numbers are assigned to each consent DB table & used as the reference for each table when storing CA history
-public static final Map<String, String> TABLES_MAP = new HashMap<>();
-static {
-    TABLES_MAP.put(TABLE_FS_CONSENT, "01");
-    TABLES_MAP.put(TABLE_FS_CONSENT_AUTH_RESOURCE, "02");
-    TABLES_MAP.put(TABLE_FS_CONSENT_MAPPING, "03");
-    TABLES_MAP.put(TABLE_FS_CONSENT_ATTRIBUTE, "04");
-    TABLES_MAP.put(TABLE_FS_CONSENT_FILE, "05");
-}
+    public static final Map<String, String> TABLES_MAP = new HashMap<>();
 
-public static final Map<String, String> COLUMNS_MAP = new HashMap<>();
-static {
-    COLUMNS_MAP.put(CONSENT_IDS, "CONSENT_ID");
-    COLUMNS_MAP.put(CLIENT_IDS, "CLIENT_ID");
-    COLUMNS_MAP.put(CONSENT_TYPES, "CONSENT_TYPE");
-    COLUMNS_MAP.put(ORG_ID, "ORG_ID");
-    COLUMNS_MAP.put(CONSENT_STATUSES, "CURRENT_STATUS");
-    COLUMNS_MAP.put(USER_IDS, "OCAR.USER_ID");
-}
+    static {
+        TABLES_MAP.put(TABLE_FS_CONSENT, "01");
+        TABLES_MAP.put(TABLE_FS_CONSENT_AUTH_RESOURCE, "02");
+        TABLES_MAP.put(TABLE_FS_CONSENT_MAPPING, "03");
+        TABLES_MAP.put(TABLE_FS_CONSENT_ATTRIBUTE, "04");
+        TABLES_MAP.put(TABLE_FS_CONSENT_FILE, "05");
+    }
+
+    public static final Map<String, String> COLUMNS_MAP = new HashMap<>();
+
+    static {
+        COLUMNS_MAP.put(CONSENT_IDS, "CONSENT_ID");
+        COLUMNS_MAP.put(CLIENT_IDS, "CLIENT_ID");
+        COLUMNS_MAP.put(CONSENT_TYPES, "CONSENT_TYPE");
+        COLUMNS_MAP.put(ORG_ID, "ORG_ID");
+        COLUMNS_MAP.put(CONSENT_STATUSES, "CURRENT_STATUS");
+        COLUMNS_MAP.put(USER_IDS, "OCAR.USER_ID");
+    }
+
     //Error Messages
     public static final String CONSENT_RESOURCE_STORE_ERROR_MSG = "Error occurred while storing consent resource in " +
             "the database";
@@ -161,5 +163,7 @@ static {
             "audit records";
     public static final String CONSENT_AMENDMENT_HISTORY_RETRIEVE_ERROR_MSG = "Error occurred while retrieving " +
             "consent amendment history records from the database for the given consent ID";
+    public static final Object CONSENT_DELETE_ERROR_MSG =
+            "Error occurred while deleting consent resource from the database";
 
 }

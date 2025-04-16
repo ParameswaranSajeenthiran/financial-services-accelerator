@@ -20,6 +20,7 @@ import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.Author
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.BulkConsentStatusUpdateResource;
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.ConsentResourceDTO;
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.ConsentResponse;
+import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.ConsentRevokeResource;
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.ConsentStatusUpdateResource;
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.ReauthorizeResource;
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.Resource;
@@ -264,27 +265,13 @@ public class ConsentAPIImplTests {
 
         // Act
         Response
-                response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth, exclusiveConsent);
+                response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth);
 
         // Assert
         assertNotNull(response);
         assertEquals(response.getStatus(), Response.Status.CREATED.getStatusCode());
     }
 
-    @Test
-    public void testConsentPostExclusiveConsent() throws
-            Exception {
-        // Arrange
-        ConsentResourceDTO consentResourceDTO = mock(ConsentResourceDTO.class);
-        String orgInfo = "org123";
-        boolean isImplicitAuth = true;
-        boolean exclusiveConsent = true; // Trigger exclusive consent path
-
-        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth, exclusiveConsent);
-
-        assertNotNull(response);
-        assertEquals(response.getStatus(), Response.Status.NOT_IMPLEMENTED.getStatusCode());
-    }
 
     @Test
     public void testConsentPostMissingConsentFrequency() throws
@@ -307,7 +294,7 @@ public class ConsentAPIImplTests {
                 eq(isImplicitAuth))).thenReturn(detailedConsentResource);
 
         // Act
-        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth, exclusiveConsent);
+        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth);
 
         // Assert
         assertNotNull(response);
@@ -330,7 +317,7 @@ public class ConsentAPIImplTests {
         when(consentResourceDTO.getAuthorizationResources()).thenReturn(new ArrayList<>());
 
         // Act
-        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth, exclusiveConsent);
+        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth);
 
         // Assert
         assertNotNull(response);
@@ -363,7 +350,7 @@ public class ConsentAPIImplTests {
                 eq(isImplicitAuth))).thenReturn(detailedConsentResource);
 
         // Act
-        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth, exclusiveConsent);
+        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth);
 
         // Assert
         assertNotNull(response);
@@ -402,7 +389,7 @@ public class ConsentAPIImplTests {
 
         // Act
         Response response = consentAPIImpl.consentGet(orgInfo, consentType, consentStatus,
-                userID, fromTimeValue, toTimeValue, limitValue, offsetValue);
+                userID, ConsentAPITestData.testClientID, fromTimeValue, toTimeValue, limitValue, offsetValue);
 
         // Assert
         assertNotNull(response);
@@ -442,7 +429,7 @@ public class ConsentAPIImplTests {
 
         // Act
         Response response = consentAPIImpl.consentGet(orgInfo, consentType, consentStatus,
-                userID, fromTimeValue, toTimeValue, limitValue, offsetValue);
+                userID,ConsentAPITestData.testClientID, fromTimeValue, toTimeValue, limitValue, offsetValue);
 
         // Assert
         assertNotNull(response);
@@ -482,7 +469,7 @@ public class ConsentAPIImplTests {
 
         // Act
         Response response = consentAPIImpl.consentGet(orgInfo, consentType, consentStatus,
-                userID, fromTimeValue, toTimeValue, limitValue, offsetValue);
+                userID,ConsentAPITestData.testClientID, fromTimeValue, toTimeValue, limitValue, offsetValue);
 
         // Assert
         assertNotNull(response);
@@ -519,7 +506,7 @@ public class ConsentAPIImplTests {
 
         // Act
         Response response = consentAPIImpl.consentGet(orgInfo, consentType, consentStatus,
-                userID, fromTimeValue, toTimeValue, limitValue, offsetValue);
+                userID, ConsentAPITestData.testClientID, fromTimeValue, toTimeValue, limitValue, offsetValue);
 
         // Assert
         assertNotNull(response);
@@ -559,7 +546,7 @@ public class ConsentAPIImplTests {
 
         // Act
         Response response = consentAPIImpl.consentGet(orgInfo, consentType, consentStatus,
-                userID, fromTimeValue, toTimeValue, limitValue, offsetValue);
+                userID, ConsentAPITestData.testClientID, fromTimeValue, toTimeValue, limitValue, offsetValue);
 
         // Assert
         assertNotNull(response);
@@ -782,7 +769,7 @@ public class ConsentAPIImplTests {
         when(mockedConsentCoreServiceImpl.getConsent(consentID, false)).thenReturn(consentResource);
 
 
-        Response response = consentAPIImpl.consentConsentIdDelete(consentID, orgInfo, userID);
+        Response response = consentAPIImpl.consentConsentIdDelete(consentID, orgInfo);
         assertEquals(ConsentAPITestUtils.parseErrorMessage(response), ConsentConstant.ORG_MISMATCH);
     }
 
@@ -802,7 +789,7 @@ public class ConsentAPIImplTests {
 
         // Act & Assert
 
-        Response response = consentAPIImpl.consentConsentIdDelete(consentID, orgInfo, userID);
+        Response response = consentAPIImpl.consentConsentIdDelete(consentID, orgInfo);
 
         assertEquals(ConsentAPITestUtils.parseErrorMessage(response),
                 ConsentCoreServiceConstants.DATA_RETRIEVE_ERROR_MSG);
@@ -826,16 +813,72 @@ public class ConsentAPIImplTests {
 
         doThrow(new ConsentMgtException(Response.Status.BAD_REQUEST,
                 ConsentCoreServiceConstants.CONSENT_UPDATE_DETAILS_MISSING_ERROR)).
-                when(mockedConsentCoreServiceImpl).revokeConsent(any(), any(), any(), anyBoolean());
+                when(mockedConsentCoreServiceImpl).deleteConsent(any());
 
         // Act
-        Response response = consentAPIImpl.consentConsentIdDelete(consentID, orgInfo, userID);
+        Response response = consentAPIImpl.consentConsentIdDelete(consentID, orgInfo);
 
         // Assert
         assertNotNull(response);
         assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
         assertEquals(ConsentAPITestUtils.parseErrorMessage(response),
                 ConsentCoreServiceConstants.CONSENT_UPDATE_DETAILS_MISSING_ERROR);
+
+    }
+
+    // Test for consentRevokeConsentIdPut
+    @Test
+    public void testConsentRevokeConsentIdPutSuccess() throws
+            ConsentMgtException {
+        // Arrange
+        String consentID = sampleConsentID;
+        String orgInfo = "orgXYZ";
+        String userID = "user456";
+        ConsentRevokeResource updateResource = new ConsentRevokeResource();
+        updateResource.setReason("User request");
+        updateResource.setUserId(userID);
+
+        ConsentResource consentResource = new ConsentResource();
+        consentResource.setOrgID(orgInfo);
+
+        when(mockedConsentCoreServiceImpl.getConsent(consentID, false)).thenReturn(consentResource);
+
+
+        doReturn(true).when(mockedConsentCoreServiceImpl).revokeConsentWithReason(any(), any(), any(), any());
+
+        // Act
+        Response response = consentAPIImpl.consentRevokeConsentIdPut(consentID, orgInfo, updateResource);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+    }
+
+    // missing orgInfo
+    @Test
+    public void testConsentRevokeConsentIdPutMissingOrgInfo() throws
+            ConsentMgtException {
+        // Arrange
+        String consentID = sampleConsentID;
+        String orgInfo = null;
+        String userID = "user456";
+        ConsentRevokeResource updateResource = new ConsentRevokeResource();
+        updateResource.setReason("User request");
+        updateResource.setUserId(userID);
+
+        ConsentResource consentResource = new ConsentResource();
+        consentResource.setOrgID(orgInfo);
+
+        when(mockedConsentCoreServiceImpl.getConsent(consentID, false)).thenReturn(consentResource);
+        doReturn(true).when(mockedConsentCoreServiceImpl).revokeConsentWithReason(any(), any(), any(), any());
+        // Act
+        Response response = consentAPIImpl.consentRevokeConsentIdPut(consentID, orgInfo, updateResource);
+        // Assert
+        assertNotNull(response);
+        assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+
+        assertEquals(ConsentAPITestUtils.parseErrorMessage(response),
+                ConsentCoreServiceConstants.ORGANIZATION_MISMATCH_ERROR_MSG);
 
     }
 
@@ -1240,13 +1283,10 @@ public class ConsentAPIImplTests {
         doReturn(consentResource).when(mockedConsentCoreServiceImpl).getConsent(any(), anyBoolean());
         when(consentResource.getOrgID()).thenReturn(orgInfo); // Simulate mismatch
 
-        doReturn(true).when(mockedConsentCoreServiceImpl).revokeConsent(any(),
-                any(),
-                any(),
-                anyBoolean());
+        doReturn(true).when(mockedConsentCoreServiceImpl).deleteConsent(any());
 
         // Act
-        Response response = consentAPIImpl.consentConsentIdDelete(consentID, orgInfo, userID);
+        Response response = consentAPIImpl.consentConsentIdDelete(consentID, orgInfo);
 
         // Assert
         assertNotNull(response);
@@ -1278,7 +1318,7 @@ public class ConsentAPIImplTests {
                 eq(isImplicitAuth))).thenReturn(detailedConsentResource);
 
         // Act
-        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth, exclusiveConsent);
+        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth);
 
         // Assert
         assertNotNull(response);
@@ -1324,7 +1364,7 @@ public class ConsentAPIImplTests {
         DetailedConsentResource detailedConsentResource = ConsentAPITestData.getStoredDetailedConsentResource();
         when(mockedConsentCoreServiceImpl.createAuthorizableConsentWithBulkAuth(any(), any(),
                 eq(isImplicitAuth))).thenReturn(detailedConsentResource);
-        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth, exclusiveConsent);
+        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth);
 
         // Assert
         assertNotNull(response);
@@ -1349,7 +1389,7 @@ public class ConsentAPIImplTests {
         when(mockedConsentCoreServiceImpl.createAuthorizableConsentWithBulkAuth(any(), any(),
                 eq(isImplicitAuth))).thenThrow(new ConsentMgtException(Response.Status.BAD_REQUEST,
                 ConsentCoreServiceConstants.CANNOT_PROCEED_WITH_IMPLICIT_AUTH));
-        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth, exclusiveConsent);
+        Response response = consentAPIImpl.consentPost(consentResourceDTO, orgInfo, isImplicitAuth);
 
         // Assert
         assertNotNull(response);

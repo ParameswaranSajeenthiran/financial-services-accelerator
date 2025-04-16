@@ -137,4 +137,6 @@ public class ConsentCoreServiceConstants {
             " validity period are not provided, cannot proceed";
     public static final String DETAILED_CONSENT_DATA_MISSING_ERROR_MSG = "Auth ID, user ID, account permissions map," +
             " new consent status or new consent attributes is not present, cannot proceed";
+    public static final String DATA_DELETION_ROLLBACK_ERROR_MSG = "Error occurred while deleting data. Rolling" +
+            " back the transaction";
 }

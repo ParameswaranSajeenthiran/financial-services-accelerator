@@ -370,6 +370,17 @@ public interface ConsentCoreService {
     boolean updateAccountMappingStatus(ArrayList<String> accountMappingIDs, String newMappingStatus) throws
             ConsentMgtException;
 
+
+    /**
+     *
+     * @param consentID
+     * @return
+     * @throws ConsentMgtException
+     */
+    boolean deleteConsent(String consentID)
+            throws
+            ConsentMgtException;
+
     /**
      * This method is used to revoke a consent. The following functionality contains in this method.
      *
@@ -383,6 +394,9 @@ public interface ConsentCoreService {
      * @return true is the transaction is a success, throws an exception otherwise
      * @throws ConsentMgtException thrown if any error occur in the process
      */
+
+
+
     boolean revokeConsent(String consentID, String revokedConsentStatus)
             throws
             ConsentMgtException;

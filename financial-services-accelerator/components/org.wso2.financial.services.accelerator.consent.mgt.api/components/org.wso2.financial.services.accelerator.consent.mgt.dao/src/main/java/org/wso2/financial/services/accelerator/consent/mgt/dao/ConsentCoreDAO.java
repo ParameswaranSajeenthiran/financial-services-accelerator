@@ -496,4 +496,10 @@ public interface ConsentCoreDAO {
             throws
             ConsentDataRetrievalException;
 
+    /**
+     *
+     * @param connection
+     * @param consentID
+     */
+    void deleteConsent(Connection connection, String consentID);
 }

@@ -2,13 +2,18 @@ openapi: 3.0.1
 info:
   title: Consent Management API
   description: Consent Management application API
-  version: 1.0
+  version: "1.0"
 paths:
-  /consent/authorizationResource/{authorizationId}:
+  /consent/{consentId}/authorizationResource/{authorizationId}:
     get:
       operationId: consentAuthorizationIdGet
       parameters:
         - name: authorizationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: consentId
           in: path
           required: true
           schema:
@@ -37,19 +42,15 @@ paths:
           schema:
             type: string
             default: DEFAULT_ORG
-        - name: withAuthorizationResources
+        - name: isDetailedConsentResource
+          in: query
+          schema:
+            type: boolean
+        - name: withAttributes
           in: query
           schema:
             type: boolean
             default: true
-        - name: UserId
-          in: query
-          schema:
-            type: string
-        - name: WithAttributes
-          in: query
-          schema:
-            type: boolean
       responses:
         default:
           description: default response
@@ -67,19 +68,20 @@ paths:
           in: header
           schema:
             type: string
+            default: DEFAULT_ORG
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AmendmentResource"
-        required: true
+              $ref: '#/components/schemas/AmendmentResource'
       responses:
         default:
           description: default response
           content:
             application/json: {}
     delete:
-      operationId: consentConsentIdDelete
+      operationId: consentConsentIdDelete_1
       parameters:
         - name: consentId
           in: path
@@ -90,6 +92,7 @@ paths:
           in: header
           schema:
             type: string
+            default: DEFAULT_ORG
         - name: userId
           in: query
           schema:
@@ -98,7 +101,7 @@ paths:
         default:
           description: default response
           content:
-            "*/*": {}
+            '*/*': {}
   /consent/{consentId}/history:
     get:
       operationId: consentConsentIdHistoryGet
@@ -144,6 +147,149 @@ paths:
           description: default response
           content:
             application/json: {}
+  /consent/{consentId}/status:
+    put:
+      operationId: consentConsentIdStatusPut
+      parameters:
+        - name: consentId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: OrgInfo
+          in: header
+          schema:
+            type: string
+            default: DEFAULT_ORG
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentStatusUpdateResource'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+  /consent:
+    get:
+      operationId: consentGet
+      parameters:
+        - name: OrgInfo
+          in: header
+          schema:
+            type: string
+            default: DEFAULT_ORG
+        - name: consentTypes
+          in: query
+          schema:
+            type: string
+        - name: consentStatuses
+          in: query
+          schema:
+            type: string
+        - name: clientIds
+          in: query
+          schema:
+            type: string
+        - name: userIds
+          in: query
+          schema:
+            type: string
+        - name: fromTime
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: toTime
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+    post:
+      operationId: consentPost
+      parameters:
+        - name: OrgInfo
+          in: header
+          schema:
+            type: string
+            default: DEFAULT_ORG
+        - name: isImplicitAuth
+          in: header
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentResourceDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+  /consent/{consentId}/revoke:
+    put:
+      operationId: consentRevokeConsentIdPut
+      parameters:
+        - name: consentId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: OrgInfo
+          in: header
+          schema:
+            type: string
+            default: DEFAULT_ORG
+      requestBody:
+        required: true
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/ConsentRevokeResource'
+      responses:
+        default:
+          description: default response
+          content:
+            '*/*': {}
+  /consent/status:
+    put:
+      operationId: consentStatusPut
+      parameters:
+        - name: OrgInfo
+          in: header
+          schema:
+            type: string
+            default: DEFAULT_ORG
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkConsentStatusUpdateResource'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
 components:
   schemas:
     AmendmentResource:
@@ -159,9 +305,16 @@ components:
         authorizationResources:
           type: array
           items:
-            $ref: "#/components/schemas/ReauthorizeResource"
+            $ref: '#/components/schemas/ReauthorizeResource'
         currentStatus:
           type: string
+    JSONObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+      additionalProperties:
+        type: object
     ReauthorizeResource:
       type: object
       properties:
@@ -174,14 +327,19 @@ components:
         resources:
           type: array
           items:
-            $ref: "#/components/schemas/Resource"
+            $ref: '#/components/schemas/Resource'
         userID:
           type: string
     Resource:
       type: object
       properties:
         resource:
-          type: string
+          type: object
+          properties:
+            empty:
+              type: boolean
+          additionalProperties:
+            type: object
         consentMappingStatus:
           type: string
         resourceMappingId:
@@ -211,7 +369,7 @@ components:
         resources:
           type: array
           items:
-            type: string
+            type: object
     ConsentResourceDTO:
       required:
         - clientID
@@ -240,7 +398,14 @@ components:
         authorizationResources:
           type: array
           items:
-            $ref: "#/components/schemas/AuthorizationResourceDTO"
+            $ref: '#/components/schemas/AuthorizationResourceDTO'
+    ConsentRevokeResource:
+      type: object
+      properties:
+        reason:
+          type: string
+        userID:
+          type: string
     BulkConsentStatusUpdateResource:
       type: object
       properties:

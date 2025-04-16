@@ -285,6 +285,10 @@ public class ConsentCoreServiceImpl implements ConsentCoreService {
                 log.debug(ConsentCoreServiceConstants.TRANSACTION_COMMITTED_LOG_MSG);
                 return retrievedConsentResource;
             } catch (ConsentDataRetrievalException e) {
+                if (e.getMessage().equals(ConsentMgtDAOConstants.NO_RECORDS_FOUND_ERROR_MSG)){
+                    throw  new ConsentMgtException(Response.Status.NOT_FOUND,e.getMessage());
+                }
+
                 log.error(ConsentCoreServiceConstants.DATA_RETRIEVE_ERROR_MSG, e);
                 throw new ConsentMgtException(Response.Status.INTERNAL_SERVER_ERROR,
                         ConsentCoreServiceConstants.DATA_RETRIEVE_ERROR_MSG, e);
@@ -1183,6 +1187,39 @@ public class ConsentCoreServiceImpl implements ConsentCoreService {
             DatabaseUtils.closeConnection(connection);
         }
     }
+
+
+    @Override
+    public boolean deleteConsent(String consentID) throws
+            ConsentMgtException {
+
+        if (StringUtils.isBlank(consentID)) {
+            log.error(ConsentCoreServiceConstants.CONSENT_ID_MISSING_ERROR_MSG);
+            return false;
+        }
+
+        Connection connection = DatabaseUtils.getDBConnection();
+        try {
+            ConsentCoreDAO consentCoreDAO = ConsentStoreInitializer.getInitializedConsentCoreDAOImpl();
+            // Delete consent
+            if (log.isDebugEnabled()) {
+                log.debug(String.format("Deleting the consent for ID: %s",
+                        consentID.replaceAll("[\r\n]", "")));
+            }
+            consentCoreDAO.deleteConsent(connection, consentID);
+
+            // Commit transaction
+            DatabaseUtils.commitTransaction(connection);
+            log.debug(ConsentCoreServiceConstants.TRANSACTION_COMMITTED_LOG_MSG);
+            return true;
+        } finally {
+            log.debug(ConsentCoreServiceConstants.DATABASE_CONNECTION_CLOSE_LOG_MSG);
+            DatabaseUtils.closeConnection(connection);
+        }
+    }
+
+
+
 
     @Override
     public boolean revokeConsent(String consentID, String revokedConsentStatus)
@@ -2417,6 +2454,7 @@ public class ConsentCoreServiceImpl implements ConsentCoreService {
                     consentCoreDAO.getDetailedConsentResource(connection, consentID);
 
             newDetailedConsentResource.setConsentMappingResources(updatedConsentMappingResources);
+            newDetailedConsentResource.setReceipt(consentReceipt);
 
 
 

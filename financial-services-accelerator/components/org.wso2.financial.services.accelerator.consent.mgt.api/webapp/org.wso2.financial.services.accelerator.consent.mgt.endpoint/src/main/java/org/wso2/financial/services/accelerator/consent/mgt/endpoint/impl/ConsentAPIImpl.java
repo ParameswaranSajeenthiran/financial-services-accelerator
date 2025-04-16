@@ -21,6 +21,7 @@ import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.Author
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.BulkConsentStatusUpdateResource;
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.ConsentResourceDTO;
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.ConsentResponse;
+import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.ConsentRevokeResource;
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.ConsentStatusUpdateResource;
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.model.ReauthorizeResource;
 import org.wso2.financial.services.accelerator.consent.mgt.endpoint.utils.ConsentUtils;
@@ -56,7 +57,7 @@ public class ConsentAPIImpl {
     public Response consentGet(
             String orgInfo,
             String consentType, String consentStatus
-            , String userID, long fromTimeValue, long toTimeValue, int limitValue, int offsetValue) {
+            , String userID, String clientId, long fromTimeValue, long toTimeValue, int limitValue, int offsetValue) {
 
 
         try {
@@ -76,6 +77,9 @@ public class ConsentAPIImpl {
             }
             if (userID != null) {
                 userIDs.add(userID);
+            }
+            if( clientId != null) {
+                Collections.addAll(clientIDs, clientId.split(","));
             }
 
 
@@ -136,7 +140,7 @@ public class ConsentAPIImpl {
 
     public Response consentPost(
             ConsentResourceDTO consentResourceDTO,
-            String orgInfo, boolean isImplicitAuth, boolean exclusiveConsent) {
+            String orgInfo, boolean isImplicitAuth) {
 
         try {
             //////////////  handle request //////////////
@@ -196,16 +200,10 @@ public class ConsentAPIImpl {
             ////////////// Service call //////////////
             DetailedConsentResource result = null;
 
-            if (!exclusiveConsent) {
-                result = consentCoreService.createAuthorizableConsentWithBulkAuth(consentResource,
-                        authorizations,
-                        isImplicitAuth);
+            result = consentCoreService.createAuthorizableConsentWithBulkAuth(consentResource,
+                    authorizations,
+                    isImplicitAuth);
 
-            } else {
-                //TODO : Implement exclusive consent
-                throw new ConsentMgtException(Response.Status.NOT_IMPLEMENTED, "Exclusive Consent Not yet " +
-                        "implemented");
-            }
 
             //////////////  build response //////////////
             ConsentResponse consentResponse = new ConsentResponse();
@@ -445,8 +443,7 @@ public class ConsentAPIImpl {
 
     }
 
-    public Response consentConsentIdDelete(String consentID, String orgInfo, String userID) throws
-            ConsentMgtException {
+    public Response consentConsentIdDelete(String consentID, String orgInfo) {
         try {
             ConsentResource consentResource = consentCoreService.getConsent(consentID,
                     false);
@@ -458,10 +455,40 @@ public class ConsentAPIImpl {
                         "OrgInfo does not match, please provide the correct OrgInfo");
             }
 
-            boolean result = consentCoreService.revokeConsent(consentID,
-                    "revoked",
-                    userID,
+            boolean result = consentCoreService.deleteConsent(consentID);
+            if (result) {
+
+
+                return Response.ok().entity("Consent purged").build();
+            } else {
+                return Response.serverError().build();
+
+            }
+
+
+        } catch (ConsentMgtException e) {
+            return handleConsentMgtException(e);
+        }
+
+    }
+
+    public Response consentRevokeConsentIdPut(String consentID, String orgInfo,
+                                              ConsentRevokeResource consentStatusUpdateResource) {
+        try {
+            ConsentResource consentResource = consentCoreService.getConsent(consentID,
                     false);
+
+            if (!ConsentCoreServiceUtil.validateOrgInfo(orgInfo,
+                    consentResource.getOrgID())) {
+                log.error("OrgInfo does not match");
+                throw new ConsentMgtException(Response.Status.BAD_REQUEST,
+                        "OrgInfo does not match, please provide the correct OrgInfo");
+            }
+
+            boolean result = consentCoreService.revokeConsentWithReason(consentID,
+                    "revoked",
+                    consentStatusUpdateResource.getUserId(),
+                    consentStatusUpdateResource.getReason());
             if (result) {
                 JSONObject message = new JSONObject();
                 message.put("errorMessage", "Consent Revoked");
