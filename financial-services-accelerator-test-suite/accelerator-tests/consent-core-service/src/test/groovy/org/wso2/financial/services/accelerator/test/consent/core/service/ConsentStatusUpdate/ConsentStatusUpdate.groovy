@@ -32,7 +32,7 @@ class ConsentStatusUpdate extends ConsentCoreServiceTest{
 
     }
 
-    @Test
+    @Test(priority = 99)
     void "Update consent status with non-existing consentId"() {
         consentId = CCSConsentPayload.INVALID_CONSENT_ID;
         doConsentStatusUpdate( CCSConsentPayload.statusUpdatePayload)
@@ -62,7 +62,7 @@ class ConsentStatusUpdate extends ConsentCoreServiceTest{
     @Test
     void "Update consent status without userID"() {
         doConsentStatusUpdate (TestUtil.removeKey(CCSConsentPayload.statusUpdatePayload, "userID"))
-        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_200)
+        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
     }
 
     // empty userID
@@ -81,47 +81,4 @@ class ConsentStatusUpdate extends ConsentCoreServiceTest{
 
 
 
-//
-//    void "Update consent status without consentId"() {
-//        doConsentStatusUpdate("", CCSConsentPayload.TEST_AUTHORIZATION_STATUS_A)
-//        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
-//    }
-//
-//    void "Update consent status without status"() {
-//        doConsentStatusUpdate(consentId, "")
-//        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
-//    }
-//
-//    void "Update consent status with invalid status"() {
-//        doConsentStatusUpdate(consentId, "invalidStatus")
-//        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
-//    }
-//
-//    void "Update consent status with invalid consentId"() {
-//        doConsentStatusUpdate("invalidConsentId", CCSConsentPayload.TEST_AUTHORIZATION_STATUS_A)
-//        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
-//    }
-//
-//    void "Update consent status with invalid consentId and status"() {
-//        doConsentStatusUpdate("invalidConsentId", "invalidStatus")
-//        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
-//    }
-//
-//    void "Update consent status with invalid consentId and valid status"() {
-//        doConsentStatusUpdate("invalidConsentId", CCSConsentPayload.TEST_AUTHORIZATION_STATUS_A)
-//        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
-//    }
-//
-//    void "Update consent status with valid consentId and invalid status"() {
-//        doConsentStatusUpdate(consentId, "invalidStatus")
-//        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
-//    }
-//
-//    void "Update consent status with valid consentId and valid status"() {
-//        doConsentStatusUpdate(consentId, CCSConsentPayload.TEST_AUTHORIZATION_STATUS_A)
-//        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_200)
-//    }
-//
-//    void "Update consent status with valid consentId and valid status and invalid orgInfo"() {
-//        doConsentStatusUpdateWithInvalid
 }

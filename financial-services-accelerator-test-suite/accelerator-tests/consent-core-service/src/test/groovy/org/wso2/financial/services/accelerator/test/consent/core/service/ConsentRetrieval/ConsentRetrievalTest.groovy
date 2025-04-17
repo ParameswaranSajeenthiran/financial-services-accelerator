@@ -159,21 +159,21 @@ class ConsentRetrievalTest extends ConsentCoreServiceTest {
                 CCSConsentPayload.TEST_AUTHORIZATION_TYPE_A)
 
         // parse resource from Authorization resources and validate
-        String retrievedResourceA1 = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
+        String retrievedResourceA1AccountId = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
                 CSS_AUTHORIZATION_RESOURCES +
-                "[${indexOfAuthResourceA}].resources[0].resource").toString()
-        String retrievedResourceA2 = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
+                "[${indexOfAuthResourceA}].resources[0].resource.accountID").toString()
+        String retrievedResourceA2AccountId = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
                 CSS_AUTHORIZATION_RESOURCES +
-                "[${indexOfAuthResourceA}].resources[1].resource").toString()
+                "[${indexOfAuthResourceA}].resources[1].resource.accountID").toString()
 
         // assert whether the retrieved resources includes in the expected resources
 
         ArrayList<String> expectedResourcesA = new ArrayList<String>();
-        expectedResourcesA.add(CCSConsentPayload.TEST_RESOURCE_A1);
-        expectedResourcesA.add(CCSConsentPayload.TEST_RESOURCE_A2);
+        expectedResourcesA.add(CCSConsentPayload.TEST_ACCOUNT_ID_A1);
+        expectedResourcesA.add(CCSConsentPayload.TEST_ACCOUNT_ID_A2);
 
-        Assert.assertTrue(expectedResourcesA.contains(retrievedResourceA1))
-        Assert.assertTrue(expectedResourcesA.contains(retrievedResourceA2))
+        Assert.assertTrue(expectedResourcesA.contains(retrievedResourceA1AccountId))
+        Assert.assertTrue(expectedResourcesA.contains(retrievedResourceA2AccountId))
 
 
         // auth resource B
@@ -189,21 +189,21 @@ class ConsentRetrievalTest extends ConsentCoreServiceTest {
 
         // parse resource from Authorization resources and validate
 
-        String retrievedResourceB1 = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
+        String retrievedResourceB1AccountId = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
                 CSS_AUTHORIZATION_RESOURCES +
-                "[${indexOfAuthResourceB}].resources[0].resource").toString()
-        String retrievedResourceB2 = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
+                "[${indexOfAuthResourceB}].resources[0].resource.accountID").toString()
+        String retrievedResourceB2AccountId = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
                 CSS_AUTHORIZATION_RESOURCES +
-                "[${indexOfAuthResourceB}].resources[1].resource").toString()
+                "[${indexOfAuthResourceB}].resources[1].resource.accountID").toString()
 
         // assert whether the retrieved resources includes in the expected resources
 
         ArrayList<String> expectedResources = new ArrayList<String>();
-        expectedResources.add(CCSConsentPayload.TEST_RESOURCE_B1);
-        expectedResources.add(CCSConsentPayload.TEST_RESOURCE_B2);
+        expectedResources.add(CCSConsentPayload.TEST_ACCOUNT_ID_B1);
+        expectedResources.add(CCSConsentPayload.TEST_ACCOUNT_ID_B2);
 
-        Assert.assertTrue(expectedResources.contains(retrievedResourceB1))
-        Assert.assertTrue(expectedResources.contains(retrievedResourceB2))
+        Assert.assertTrue(expectedResources.contains(retrievedResourceB1AccountId))
+        Assert.assertTrue(expectedResources.contains(retrievedResourceB2AccountId))
 
 
     }
@@ -338,21 +338,26 @@ class ConsentRetrievalTest extends ConsentCoreServiceTest {
                 CCSConsentPayload.TEST_AUTHORIZATION_TYPE_A)
 
         // parse resource from Authorization resources and validate
-        String retrievedResourceA1 = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
+        String retrievedResourceA1AccountId = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
                 CSS_AUTHORIZATION_RESOURCES +
-                "[${indexOfAuthResourceA}].resources[0].resource").toString()
-        String retrievedResourceA2 = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
+                "[${indexOfAuthResourceA}].resources[0].resource.accountID").toString()
+        String retrievedResourceA2AccountId  = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
                 CSS_AUTHORIZATION_RESOURCES +
-                "[${indexOfAuthResourceA}].resources[1].resource").toString()
+                "[${indexOfAuthResourceA}].resources[1].resource.accountID").toString()
 
         // assert whether the retrieved resources includes in the expected resources
 
         ArrayList<String> expectedResourcesA = new ArrayList<String>();
-        expectedResourcesA.add(CCSConsentPayload.TEST_RESOURCE_A1);
-        expectedResourcesA.add(CCSConsentPayload.TEST_RESOURCE_A2);
 
-        Assert.assertTrue(expectedResourcesA.contains(retrievedResourceA1))
-        Assert.assertTrue(expectedResourcesA.contains(retrievedResourceA2))
+
+
+
+
+        expectedResourcesA.add(CCSConsentPayload.TEST_ACCOUNT_ID_A1);
+        expectedResourcesA.add(CCSConsentPayload.TEST_ACCOUNT_ID_A2);
+
+        Assert.assertTrue(expectedResourcesA.contains(retrievedResourceA1AccountId))
+        Assert.assertTrue(expectedResourcesA.contains(retrievedResourceA2AccountId))
 
 
         // auth resource B
@@ -368,23 +373,23 @@ class ConsentRetrievalTest extends ConsentCoreServiceTest {
 
         // parse resource from Authorization resources and validate
 
-        String retrievedResourceB1 = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
+        String retrievedResourceB1AccountId = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
                 CSS_AUTHORIZATION_RESOURCES +
-                "[${indexOfAuthResourceB}].resources[0].resource").toString()
-        String retrievedResourceB2 = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
+                "[${indexOfAuthResourceB}].resources[0].resource.accountID").toString()
+        String retrievedResourceB2AccountId  = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.
                 CSS_AUTHORIZATION_RESOURCES +
-                "[${indexOfAuthResourceB}].resources[1].resource").toString()
+                "[${indexOfAuthResourceB}].resources[1].resource.accountID").toString()
 
 
         // assert whether the retrieved resources includes in the expected resources
 
         ArrayList<String> expectedResources = new ArrayList<String>();
-        expectedResources.add(CCSConsentPayload.TEST_RESOURCE_B1);
-        expectedResources.add(CCSConsentPayload.TEST_RESOURCE_B2);
+        expectedResources.add(CCSConsentPayload.TEST_ACCOUNT_ID_B1);
+        expectedResources.add(CCSConsentPayload.TEST_ACCOUNT_ID_B2);
 
-        Assert.assertTrue(expectedResources.contains(retrievedResourceB1))
+        Assert.assertTrue(expectedResources.contains(retrievedResourceB1AccountId))
 
-        Assert.assertTrue(expectedResources.contains(retrievedResourceB2))
+        Assert.assertTrue(expectedResources.contains(retrievedResourceB2AccountId))
 
     }
 

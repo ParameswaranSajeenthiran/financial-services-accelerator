@@ -31,7 +31,7 @@
         <!--  Sample Values: PS256-->
         <SigningAlgorithm>PS256</SigningAlgorithm>
         <!--  Sample Values: <Path to financial-open-banking>\integration-test-suite\test-artifacts -->
-        <TestArtifactLocation>{TestSuiteDirectoryPath}/financial-services-accelerator-test-suite/test-artifacts</TestArtifactLocation>
+        <TestArtifactLocation>/home/sajeenthiran/OB_/dev/repo/financial-services-accelerator/financial-services-accelerator-test-suite/test-artifacts</TestArtifactLocation>
     </Common>
 
     <!-- Server Info -->
@@ -66,7 +66,7 @@
                 <!--Absolute path + file name of JKS keystore file-->
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/DynamicDlientRegistration/
                 uk/sample-client-resources/signing-keystore/signing.jks -->
-                <Location>{TestSuiteDirectoryPath}/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp1/signing-keystore/signing.jks</Location>
+                <Location>/home/sajeenthiran/OB_/dev/repo/financial-services-accelerator/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp1/signing-keystore/signing.jks</Location>
 
                 <!--Sample Value: signing -->
                 <Alias>signing</Alias>
@@ -91,7 +91,7 @@
                     <!--Absolute path + file name of keystore file.-->
                     <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                     DynamicClientRegistration/uk/sample-client-resources/transport-keystore/transport.jks -->
-                    <Location>{TestSuiteDirectoryPath}/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp1/transport-keystore/transport.jks</Location>
+                    <Location>/home/sajeenthiran/OB_/dev/repo/financial-services-accelerator/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp1/transport-keystore/transport.jks</Location>
 
 
                     <Type>jks</Type>
@@ -109,12 +109,12 @@
 
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                 DynamicClientRegistration/uk/sample-client-resources/ssa.txt -->
-                <SSAPath>{TestSuiteDirectoryPath}/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp1/ssa.txt</SSAPath>
+                <SSAPath>/home/sajeenthiran/OB_/dev/repo/financial-services-accelerator/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp1/ssa.txt</SSAPath>
 
                 <!-- Self signed SSA for negative tests-->
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                 DynamicClientRegistration/uk/sample-client-resources/self_ssa.txt -->
-                <SelfSignedSSAPath>{TestSuiteDirectoryPath}/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp1/self_ssa.txt</SelfSignedSSAPath>
+                <SelfSignedSSAPath>/home/sajeenthiran/OB_/dev/repo/financial-services-accelerator/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp1/self_ssa.txt</SelfSignedSSAPath>
 
                 <!-- SSA SoftwareId-->
                 <!--Sample Value: oQ4KoaavpOuoE7rvQsZEOV -->
@@ -149,7 +149,7 @@
                 <!--Absolute path + file name of JKS keystore file-->
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                 DynamicClientRegistration/uk/sample-client-resources-2/signing-keystore/signing.jks -->
-                <Location>{TestSuiteDirectoryPath}/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp2/signing-keystore/signing.jks</Location>
+                <Location>/home/sajeenthiran/OB_/dev/repo/financial-services-accelerator/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp2/signing-keystore/signing.jks</Location>
 
                 <!--Sample Value: signing -->
                 <Alias>signing</Alias>
@@ -174,7 +174,7 @@
                     <!--Absolute path + file name of keystore file. -->
                     <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                     DynamicClientRegistration/uk/sample-client-resources-2/transport-keystore/transport.jks -->
-                    <Location>{TestSuiteDirectoryPath}/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp2/transport-keystore/transport.jks</Location>
+                    <Location>/home/sajeenthiran/OB_/dev/repo/financial-services-accelerator/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp2/transport-keystore/transport.jks</Location>
                     <Type>jks</Type>
 
                     <!--Sample Value: wso2carbon -->
@@ -190,7 +190,7 @@
 
                 <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/
                 DynamicClientRegistration/uk/sample-client-resources-2/ssa.txt -->
-                <SSAPath>{TestSuiteDirectoryPath}/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp2/ssa.txt</SSAPath>
+                <SSAPath>/home/sajeenthiran/OB_/dev/repo/financial-services-accelerator/financial-services-accelerator-test-suite/test-artifacts/DynamicClientRegistration/uk/tpp2/ssa.txt</SSAPath>
 
                 <!--Sample Value: 9ZzFFBxSLGEjPZogRAbvFd -->
                 <SoftwareId>9ZzFFBxSLGEjPZogRAbvFd</SoftwareId>
@@ -228,7 +228,7 @@
              <Path to financial-open-banking>/integration-test-suite/test-artifacts/client-truststore) -->
             <!--Sample Value: <Path to financial-open-banking>/integration-test-suite/test-artifacts/client-truststore/
             client-truststore.jks -->
-            <Location>{TestSuiteDirectoryPath}/financial-services-accelerator-test-suite/test-artifacts/am-certs/client-truststore.jks</Location>
+            <Location>/home/sajeenthiran/OB_/dev/repo/financial-services-accelerator/financial-services-accelerator-test-suite/test-artifacts/am-certs/client-truststore.jks</Location>
 
             <Type>jks</Type>
 
@@ -292,7 +292,7 @@
 
         <!--Sample Value from firefox: <Path to financial-open-banking>/integration-test-suite/test-artifacts/selenium-libs/geckodriver -->
         <!--Sample Value from chrome: <Path to financial-open-banking>/integration-test-suite/test-artifacts/selenium-libs/chromedriver -->
-        <WebDriverLocation>{TestSuiteDirectoryPath}/financial-services-accelerator-test-suite/test-artifacts/selenium-libs/mac/geckodriver</WebDriverLocation>
+        <WebDriverLocation>/home/sajeenthiran/OB_/dev/repo/financial-services-accelerator/financial-services-accelerator-test-suite/test-artifacts/selenium-libs/mac/geckodriver</WebDriverLocation>
     </BrowserAutomation>
 
     <ConsentApi>

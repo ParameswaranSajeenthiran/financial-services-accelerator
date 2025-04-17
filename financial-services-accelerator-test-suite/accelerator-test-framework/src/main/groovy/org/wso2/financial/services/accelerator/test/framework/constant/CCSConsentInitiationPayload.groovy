@@ -2,6 +2,7 @@ package org.wso2.financial.services.accelerator.test.framework.constant
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.json.JsonOutput
+import net.minidev.json.JSONObject
 
 import java.time.Duration
 import java.time.OffsetDateTime
@@ -46,22 +47,21 @@ class CCSConsentPayload {
     public static final String TEST_PERMISSION_A1 = "read"
     public static final String TEST_RESOURCE_A1 =
         """
-        \"{
+        {
           \"accountID\": \"${TEST_ACCOUNT_ID_A1}\",
           \"permission\": \"${TEST_PERMISSION_A1}\"
-        }\"
+        }
         """
 
     public static final String TEST_ACCOUNT_ID_A2 = "testAccountA2"
     public static final String TEST_PERMISSION_A2 = "write"
     public static final String TEST_RESOURCE_A2 =
         """
-        \"{
+        {
          \"accountID\": \"${TEST_ACCOUNT_ID_A2}\",
           \"permission\": \"${TEST_PERMISSION_A2}\"
-        }\"
+        }
         """
-
     public static final String TEST_DEFAULT_AUTHORIZATION_RESOURCE_A =
             """
             {
@@ -69,8 +69,20 @@ class CCSConsentPayload {
                       "authorizationType": "${TEST_AUTHORIZATION_TYPE_A}",
                       "userID": "${TEST_USER_ID_A}",
                       "resources":[
-                                ${JsonOutput.toJson(TEST_RESOURCE_A1).toString()},
-                                ${JsonOutput.toJson(TEST_RESOURCE_A2).toString()}                                              
+                                ${TEST_RESOURCE_A1},
+                                ${TEST_RESOURCE_A2}                                              
+                                    ]
+            }
+            """.stripIndent()
+
+    public static final String TEST_DEFAULT_AUTHORIZATION_RESOURCE_C =
+            """
+            {
+                      "authorizationStatus": "${TEST_AUTHORIZATION_STATUS_A}",
+                      "authorizationType": "${TEST_AUTHORIZATION_TYPE_A}",
+                      "userID": "${TEST_USER_ID_A}",
+                      "resources":[
+                                ${TEST_RESOURCE_A1}
                                     ]
             }
             """.stripIndent()
@@ -109,8 +121,8 @@ class CCSConsentPayload {
                   "authorizationType": "${TEST_AUTHORIZATION_TYPE_B}",
                   "userID": "${TEST_USER_ID_B}",
                   "resources": [
-                    ${JsonOutput.toJson(TEST_RESOURCE_B1).toString()},
-                    ${JsonOutput.toJson(TEST_RESOURCE_B2).toString()}
+                    ${TEST_RESOURCE_B1},
+                    ${TEST_RESOURCE_B2}
                     
                   ]
                 }
@@ -151,6 +163,23 @@ class CCSConsentPayload {
         }
         """.stripIndent()
 
+    public static String initiationPayloadWithAuthResource =
+            """
+        {
+          "clientID": "${TEST_CLIENT_ID}",
+          "consentType": "${TEST_CONSENT_TYPE}",
+          "currentStatus": "${TEST_CURRENT_STATUS}",
+          "receipt": ${TEST_RECEIPT},
+          "validityPeriod": ${TEST_VALIDITY_PERIOD} ,
+          "recurringIndicator": ${TEST_RECURRING_INDICATOR},
+          "consentAttributes": ${TEST_CONSENT_ATTRIBUTES},
+          "authorizationResources":[
+                    ${TEST_DEFAULT_AUTHORIZATION_RESOURCE_C}
+            ]
+
+          
+        }
+        """.stripIndent()
 
 
     // payload without receipt
@@ -232,6 +261,9 @@ class CCSConsentPayload {
                 ]
             }
             """
+
+    // authoirzation resources
+
 
 
     // payload for status update for a consent
@@ -316,8 +348,12 @@ class CCSConsentPayload {
                 authorizationResourceA.put("authorizationStatus", TEST_AUTHORIZATION_STATUS_A);
                 authorizationResourceA.put("authorizationType", TEST_AUTHORIZATION_TYPE_A);
                 authorizationResourceA.put("userID", userId);
-                authorizationResourceA.put("resources", Arrays.asList(TEST_RESOURCE_A1, TEST_RESOURCE_A2));
+                JSONObject resource = new JSONObject();
+                resource.put("accountID", TEST_ACCOUNT_ID_A1);
+                resource.put("permission", TEST_PERMISSION_A1);
+                authorizationResourceA.put("resources", Arrays.asList(resource));
                 authorizationResources.add(authorizationResourceA);
+
 
                 payloadMap.put("authorizationResources", authorizationResources)
                 // Update counters
@@ -325,6 +361,8 @@ class CCSConsentPayload {
                 statusCount.put(currentStatus, statusCount.getOrDefault(currentStatus, 0) + 1);
                 clientIdCount.put(clientId, clientIdCount.getOrDefault(clientId, 0) + 1);
                 userIdCount.put(userId, userIdCount.getOrDefault(userId, 0) + 1);
+
+
 
                 String combinationKey = clientId + "-" + userId + "-" + consentType + "-" + currentStatus;
                 combinationCount.put(combinationKey, combinationCount.getOrDefault(combinationKey, 0) + 1);
@@ -336,16 +374,6 @@ class CCSConsentPayload {
             }
         }
 
-        // Print the generated payloads
-//        payloads.forEach(System.out::println);
-
-        // Print occurrence counts
-//        System.out.println("\nConsent Type Counts: " + consentTypeCount);
-//        System.out.println("Status Counts: " + statusCount);
-//        System.out.println("Client ID Counts: " + clientIdCount);
-//        System.out.println("User ID Counts: " + userIdCount);
-//        System.out.println("Combination Counts: " + combinationCount);
-
        Map<String, Map<String, Integer>> payloadsWithCount = new HashMap<>();
         payloadsWithCount.put("consentTypeCount", consentTypeCount);
         payloadsWithCount.put("statusCount", statusCount);
@@ -356,5 +384,127 @@ class CCSConsentPayload {
 
         return payloadsWithCount;
     }
+    public static String queryByClientIdAndBulkStatusUpdatePayload (String clientId, String status) {
+        return """
+            {
+            "clientID": "${clientId}",     
+          "status": "${status}",
+          "reason": "${TEST_UPDATE_REASON}",
+          "userID": "${TEST_USER_ID_A}" 
+            }
+        """
+    }
+
+    public static String queryByConsentTypeAndBulkStatusUpdatePayload(String consentType, String status) {
+        return """
+            {
+            "consentType": "${consentType}",
+          "status": "${status}",     
+          "reason": "${TEST_UPDATE_REASON}",
+          "userID": "${TEST_USER_ID_A}" 
+            }
+        """
+    }
+
+
+    public static String  queryByApplicableStatusesAndBulkStatusUpdatePayload (String applicableStatus, String status) {
+        return """
+            {
+            "applicableStatusesForStateChange": ["${applicableStatus}"],
+          "status": "${status}",     
+          "reason": "${TEST_UPDATE_REASON}",
+          "userID": "${TEST_USER_ID_A}" 
+            }
+        """
+    }
+
+
+
+    public static String sampleAmendResource(String resourceMapping, String consentMappingStatus ,String resource){
+
+        return """
+        {
+            "resource": ${resource},
+            "resourceMappingId": "${resourceMapping}",
+            "consentMappingStatus": "${consentMappingStatus}"
+        }
+        """.stripIndent()
+    }
+
+    public static sampleNewResource(String resource) {
+        return """
+        {
+            "resource": ${resource}
+        }
+        """.stripIndent()
+    }
+
+    public static String sampleAmendAuthorizationResource(
+            String authorizationId, String authorizationStatus, String authorizationType,  String userId,
+            String  resources) {
+        return """
+        {
+            "authId": "${authorizationId}",
+            "authorizationStatus": "${authorizationStatus}",
+            "authorizationType": "${authorizationType}",
+            "userID": "${userId}",
+            "resources": ${resources}
+        }
+        """.stripIndent()
+    }
+
+    public static String sampleNewAmendAuthorizationResource(
+             String authorizationStatus, String authorizationType,  String userId,
+            String  resources) {
+        return """
+        {
+            "authorizationStatus": "${authorizationStatus}",
+            "authorizationType": "${authorizationType}",
+            "userID": "${userId}",
+            "resources": ${resources}
+        }
+        """.stripIndent()
+    }
+
+    public static String amendConsentPayload(String receipt, String validityPeriod, String recurringIndicator,
+                                             String consentAttributes, GString authorizationResources) {
+
+        return """
+        {
+            "currentStatus": "${TEST_CURRENT_STATUS}",
+            "receipt": ${receipt},
+            "validityPeriod": ${validityPeriod} ,
+            "consentAttributes": ${consentAttributes},
+            "authorizationResources": ${authorizationResources}
+
+        }
+        """.stripIndent()
+    }
+
+    public static String amendConsentPayloadWithoutAuthorization(String receipt, String validityPeriod,
+                                                                 String recurringIndicator,
+                                                                 String consentAttributes) {
+
+        return """
+        {
+            "currentStatus": "${TEST_CURRENT_STATUS}",
+            "receipt": ${receipt},
+            "validityPeriod": ${validityPeriod} ,
+            "consentAttributes": ${consentAttributes}
+
+        }
+        """.stripIndent()
+    }
+
+    public static String revokeConsentPayload(String reason, String userId) {
+        return """
+                {
+                "reason": "${reason}",
+                "userID": "${userId}"
+                }
+        """.stripIndent()
+    }
+
+
 
 }
