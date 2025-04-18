@@ -11,33 +11,13 @@ import java.util.Objects;
 
 @JsonTypeName("ConsentStatusUpdateResource")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen",
-        date = "2025-03-03T09:27:49.560668411+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
+        date = "2025-04-18T10:47:38.068853078+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
 public class ConsentStatusUpdateResource implements Serializable {
-    private String userID;
     private String status;
     private String reason;
+    private String userID;
 
     public ConsentStatusUpdateResource() {
-    }
-
-    /**
-     *
-     **/
-    public ConsentStatusUpdateResource userID(String userID) {
-        this.userID = userID;
-        return this;
-    }
-
-
-    @ApiModelProperty(example = "psu@wso2.com", value = "")
-    @JsonProperty("userID")
-    public String getUserId() {
-        return userID;
-    }
-
-    @JsonProperty("userID")
-    public void setUserId(String userID) {
-        this.userID = userID;
     }
 
     /**
@@ -49,7 +29,7 @@ public class ConsentStatusUpdateResource implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "revoked", value = "")
+    @ApiModelProperty(value = "")
     @JsonProperty("status")
     public String getStatus() {
         return status;
@@ -69,7 +49,7 @@ public class ConsentStatusUpdateResource implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "Revoked by ...", value = "")
+    @ApiModelProperty(value = "")
     @JsonProperty("reason")
     public String getReason() {
         return reason;
@@ -78,6 +58,26 @@ public class ConsentStatusUpdateResource implements Serializable {
     @JsonProperty("reason")
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    /**
+     *
+     **/
+    public ConsentStatusUpdateResource userID(String userID) {
+        this.userID = userID;
+        return this;
+    }
+
+
+    @ApiModelProperty(value = "")
+    @JsonProperty("userID")
+    public String getUserID() {
+        return userID;
+    }
+
+    @JsonProperty("userID")
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
 
@@ -90,14 +90,14 @@ public class ConsentStatusUpdateResource implements Serializable {
             return false;
         }
         ConsentStatusUpdateResource consentStatusUpdateResource = (ConsentStatusUpdateResource) o;
-        return Objects.equals(this.userID, consentStatusUpdateResource.userID) &&
-                Objects.equals(this.status, consentStatusUpdateResource.status) &&
-                Objects.equals(this.reason, consentStatusUpdateResource.reason);
+        return Objects.equals(this.status, consentStatusUpdateResource.status) &&
+                Objects.equals(this.reason, consentStatusUpdateResource.reason) &&
+                Objects.equals(this.userID, consentStatusUpdateResource.userID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userID, status, reason);
+        return Objects.hash(status, reason, userID);
     }
 
     @Override
@@ -105,9 +105,9 @@ public class ConsentStatusUpdateResource implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("class ConsentStatusUpdateResource {\n");
 
-        sb.append("    userID: ").append(toIndentedString(userID)).append("\n");
         sb.append("    status: ").append(toIndentedString(status)).append("\n");
         sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
+        sb.append("    userID: ").append(toIndentedString(userID)).append("\n");
         sb.append("}");
         return sb.toString();
     }

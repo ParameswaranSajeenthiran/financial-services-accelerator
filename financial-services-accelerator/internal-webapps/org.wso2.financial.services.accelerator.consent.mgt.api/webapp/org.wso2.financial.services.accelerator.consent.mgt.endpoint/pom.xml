@@ -227,7 +227,11 @@
 <!--                                            </modelPackage>-->
 <!--                                            <apiPackage>org.wso2.financial.services.accelerator.consent.mgt.endpoint.api-->
 <!--                                            </apiPackage>-->
+<!--                                            <xJavaType>true</xJavaType>-->
 <!--                                        </configOptions>-->
+<!--                                       -->
+
+
 <!--                                        <generateApis>true</generateApis>-->
 <!--                                        <generateModels>true</generateModels>-->
 <!--                                        <generateSupportingFiles>false</generateSupportingFiles>-->

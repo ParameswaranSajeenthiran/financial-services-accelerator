@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @JsonTypeName("AmendmentResource")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen",
-        date = "2025-03-03T09:27:49.560668411+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
+        date = "2025-04-18T10:47:38.068853078+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
 public class AmendmentResource implements Serializable {
     private String receipt;
     private Integer validityPeriod;
@@ -55,7 +55,7 @@ public class AmendmentResource implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "3600", value = "")
+    @ApiModelProperty(value = "")
     @JsonProperty("validityPeriod")
     public Integer getValidityPeriod() {
         return validityPeriod;
@@ -75,7 +75,7 @@ public class AmendmentResource implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "{\"key1\":\"value1\"}", value = "")
+    @ApiModelProperty(value = "")
     @JsonProperty("consentAttributes")
     public Object getConsentAttributes() {
         return consentAttributes;
@@ -132,7 +132,7 @@ public class AmendmentResource implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "awaitingAuthorization", value = "")
+    @ApiModelProperty(value = "")
     @JsonProperty("currentStatus")
     public String getCurrentStatus() {
         return currentStatus;

@@ -31,7 +31,6 @@ import javax.ws.rs.core.Response;
 public class ConsentUtils {
 
 
-
     /**
      * Validate the consent ID.
      *
@@ -42,7 +41,6 @@ public class ConsentUtils {
         return (Pattern.matches(ConsentConstant.UUID_REGEX,
                 consentId));
     }
-
 
 
     public static Map<String, String> convertToMap(Object obj) throws
@@ -87,7 +85,7 @@ public class ConsentUtils {
                                                              AuthorizationResourceDTO authorizationResourceDTO) {
         authorizationResource.setAuthorizationType(authorizationResourceDTO.getAuthorizationType());
         authorizationResource.setAuthorizationStatus(authorizationResourceDTO.getAuthorizationStatus());
-        authorizationResource.setUserID(authorizationResourceDTO.getUserId());
+        authorizationResource.setUserID(authorizationResourceDTO.getUserID());
     }
 
     /**
@@ -95,10 +93,10 @@ public class ConsentUtils {
      */
     public static void copyPropertiesToAuthorizationResource(AuthorizationResource authorizationResource,
                                                              ReauthorizeResource authorizationResourceDTO) {
-        authorizationResource.setAuthorizationID(authorizationResourceDTO.getAuthorizationId());
+        authorizationResource.setAuthorizationID(authorizationResourceDTO.getAuthId());
         authorizationResource.setAuthorizationType(authorizationResourceDTO.getAuthorizationType());
         authorizationResource.setAuthorizationStatus(authorizationResourceDTO.getAuthorizationStatus());
-        authorizationResource.setUserID(authorizationResourceDTO.getUserId());
+        authorizationResource.setUserID(authorizationResourceDTO.getUserID());
         ArrayList<ConsentMappingResource> consentMappingResources = new ArrayList<>();
         for (Resource resource : authorizationResourceDTO.getResources()) {
             ConsentMappingResource consentMappingResource = new ConsentMappingResource();
@@ -120,7 +118,7 @@ public class ConsentUtils {
                                                           AuthorizationResource authorizationResource,
                                                           ArrayList<ConsentMappingResource> consentMappingResources) {
         authorizationResourceResponseResponse.setAuthId(authorizationResource.getAuthorizationID());
-        authorizationResourceResponseResponse.setUserId(authorizationResource.getUserID());
+        authorizationResourceResponseResponse.setUserID(authorizationResource.getUserID());
         authorizationResourceResponseResponse.setAuthorizationStatus(authorizationResource.getAuthorizationStatus());
         authorizationResourceResponseResponse.setAuthorizationType(authorizationResource.getAuthorizationType());
 

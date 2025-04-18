@@ -16,15 +16,15 @@ import javax.validation.constraints.NotNull;
 
 @JsonTypeName("DetailedConsentResource")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen",
-        date = "2025-03-03T09:27:49.560668411+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
+        date = "2025-04-18T10:47:38.068853078+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
 public class DetailedConsentResource implements Serializable {
-    private String consentID;
     private String clientID;
     private String consentType;
     private String currentStatus;
     private Object receipt;
     private Integer validityPeriod;
     private Boolean recurringIndicator;
+    private String consentID;
     private Object consentAttributes;
     private @Valid List<@Valid AuthResponse> authorizationResources = new ArrayList<>();
     private Integer createdTime;
@@ -53,33 +53,13 @@ public class DetailedConsentResource implements Serializable {
     /**
      *
      **/
-    public DetailedConsentResource consentID(String consentID) {
-        this.consentID = consentID;
-        return this;
-    }
-
-
-    @ApiModelProperty(example = "604d9278-4c3b-45d5-b3bb-1e428acdf1ec", value = "")
-    @JsonProperty("consentID")
-    public String getConsentID() {
-        return consentID;
-    }
-
-    @JsonProperty("consentID")
-    public void setConsentID(String consentID) {
-        this.consentID = consentID;
-    }
-
-    /**
-     *
-     **/
     public DetailedConsentResource clientID(String clientID) {
         this.clientID = clientID;
         return this;
     }
 
 
-    @ApiModelProperty(example = "TUwYBlObBMmu7zvDnnhs96rZHxka", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "clientID")
     @NotNull public String getClientID() {
         return clientID;
@@ -99,7 +79,7 @@ public class DetailedConsentResource implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "Accounts", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "consentType")
     @NotNull public String getConsentType() {
         return consentType;
@@ -119,7 +99,7 @@ public class DetailedConsentResource implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "awaitingAuthorisation", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "currentStatus")
     @NotNull public String getCurrentStatus() {
         return currentStatus;
@@ -159,7 +139,7 @@ public class DetailedConsentResource implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "3600", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "validityPeriod")
     @NotNull public Integer getValidityPeriod() {
         return validityPeriod;
@@ -188,6 +168,26 @@ public class DetailedConsentResource implements Serializable {
     @JsonProperty(required = true, value = "recurringIndicator")
     public void setRecurringIndicator(Boolean recurringIndicator) {
         this.recurringIndicator = recurringIndicator;
+    }
+
+    /**
+     *
+     **/
+    public DetailedConsentResource consentID(String consentID) {
+        this.consentID = consentID;
+        return this;
+    }
+
+
+    @ApiModelProperty(value = "")
+    @JsonProperty("consentID")
+    public String getConsentID() {
+        return consentID;
+    }
+
+    @JsonProperty("consentID")
+    public void setConsentID(String consentID) {
+        this.consentID = consentID;
     }
 
     /**
@@ -297,13 +297,13 @@ public class DetailedConsentResource implements Serializable {
             return false;
         }
         DetailedConsentResource detailedConsentResource = (DetailedConsentResource) o;
-        return Objects.equals(this.consentID, detailedConsentResource.consentID) &&
-                Objects.equals(this.clientID, detailedConsentResource.clientID) &&
+        return Objects.equals(this.clientID, detailedConsentResource.clientID) &&
                 Objects.equals(this.consentType, detailedConsentResource.consentType) &&
                 Objects.equals(this.currentStatus, detailedConsentResource.currentStatus) &&
                 Objects.equals(this.receipt, detailedConsentResource.receipt) &&
                 Objects.equals(this.validityPeriod, detailedConsentResource.validityPeriod) &&
                 Objects.equals(this.recurringIndicator, detailedConsentResource.recurringIndicator) &&
+                Objects.equals(this.consentID, detailedConsentResource.consentID) &&
                 Objects.equals(this.consentAttributes, detailedConsentResource.consentAttributes) &&
                 Objects.equals(this.authorizationResources, detailedConsentResource.authorizationResources) &&
                 Objects.equals(this.createdTime, detailedConsentResource.createdTime) &&
@@ -312,8 +312,8 @@ public class DetailedConsentResource implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(consentID, clientID, consentType, currentStatus, receipt, validityPeriod,
-                recurringIndicator, consentAttributes, authorizationResources, createdTime, updatedTime);
+        return Objects.hash(clientID, consentType, currentStatus, receipt, validityPeriod, recurringIndicator,
+                consentID, consentAttributes, authorizationResources, createdTime, updatedTime);
     }
 
     @Override
@@ -321,13 +321,13 @@ public class DetailedConsentResource implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("class DetailedConsentResource {\n");
 
-        sb.append("    consentID: ").append(toIndentedString(consentID)).append("\n");
         sb.append("    clientID: ").append(toIndentedString(clientID)).append("\n");
         sb.append("    consentType: ").append(toIndentedString(consentType)).append("\n");
         sb.append("    currentStatus: ").append(toIndentedString(currentStatus)).append("\n");
         sb.append("    receipt: ").append(toIndentedString(receipt)).append("\n");
         sb.append("    validityPeriod: ").append(toIndentedString(validityPeriod)).append("\n");
         sb.append("    recurringIndicator: ").append(toIndentedString(recurringIndicator)).append("\n");
+        sb.append("    consentID: ").append(toIndentedString(consentID)).append("\n");
         sb.append("    consentAttributes: ").append(toIndentedString(consentAttributes)).append("\n");
         sb.append("    authorizationResources: ").append(toIndentedString(authorizationResources)).append("\n");
         sb.append("    createdTime: ").append(toIndentedString(createdTime)).append("\n");

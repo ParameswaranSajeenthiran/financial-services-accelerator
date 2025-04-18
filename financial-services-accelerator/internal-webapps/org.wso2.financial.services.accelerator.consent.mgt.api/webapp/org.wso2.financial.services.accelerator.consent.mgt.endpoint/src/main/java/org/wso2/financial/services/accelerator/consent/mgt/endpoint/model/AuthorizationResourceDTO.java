@@ -14,9 +14,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 
-@JsonTypeName("AuthResource")
+@JsonTypeName("AuthorizationResourceDTO")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen",
-        date = "2025-03-03T09:27:49.560668411+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
+        date = "2025-04-18T10:47:38.068853078+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
 public class AuthorizationResourceDTO implements Serializable {
     private String authorizationStatus;
     private String authorizationType;
@@ -31,7 +31,7 @@ public class AuthorizationResourceDTO implements Serializable {
             @JsonProperty(required = true, value = "authorizationStatus") String authorizationStatus,
             @JsonProperty(required = true, value = "authorizationType") String authorizationType,
             @JsonProperty(required = true, value = "userID") String userID
-                       ) {
+                                   ) {
         this.authorizationStatus = authorizationStatus;
         this.authorizationType = authorizationType;
         this.userID = userID;
@@ -46,7 +46,7 @@ public class AuthorizationResourceDTO implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "created", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "authorizationStatus")
     @NotNull public String getAuthorizationStatus() {
         return authorizationStatus;
@@ -66,7 +66,7 @@ public class AuthorizationResourceDTO implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "authorization", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "authorizationType")
     @NotNull public String getAuthorizationType() {
         return authorizationType;
@@ -86,14 +86,14 @@ public class AuthorizationResourceDTO implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "psu@wso2.com", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "userID")
-    @NotNull public String getUserId() {
+    @NotNull public String getUserID() {
         return userID;
     }
 
     @JsonProperty(required = true, value = "userID")
-    public void setUserId(String userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
@@ -108,7 +108,7 @@ public class AuthorizationResourceDTO implements Serializable {
 
     @ApiModelProperty(value = "")
     @JsonProperty("resources")
-    @Valid public List<Object> getResources() {
+    public List<Object> getResources() {
         return resources;
     }
 
@@ -117,7 +117,7 @@ public class AuthorizationResourceDTO implements Serializable {
         this.resources = resources;
     }
 
-    public AuthorizationResourceDTO addResourcesItem(String resourcesItem) {
+    public AuthorizationResourceDTO addResourcesItem(Object resourcesItem) {
         if (this.resources == null) {
             this.resources = new ArrayList<>();
         }
@@ -126,7 +126,7 @@ public class AuthorizationResourceDTO implements Serializable {
         return this;
     }
 
-    public AuthorizationResourceDTO removeResourcesItem(ResourcePermission resourcesItem) {
+    public AuthorizationResourceDTO removeResourcesItem(Object resourcesItem) {
         if (resourcesItem != null && this.resources != null) {
             this.resources.remove(resourcesItem);
         }
@@ -142,11 +142,11 @@ public class AuthorizationResourceDTO implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        AuthorizationResourceDTO authResource = (AuthorizationResourceDTO) o;
-        return Objects.equals(this.authorizationStatus, authResource.authorizationStatus) &&
-                Objects.equals(this.authorizationType, authResource.authorizationType) &&
-                Objects.equals(this.userID, authResource.userID) &&
-                Objects.equals(this.resources, authResource.resources);
+        AuthorizationResourceDTO authorizationResourceDTO = (AuthorizationResourceDTO) o;
+        return Objects.equals(this.authorizationStatus, authorizationResourceDTO.authorizationStatus) &&
+                Objects.equals(this.authorizationType, authorizationResourceDTO.authorizationType) &&
+                Objects.equals(this.userID, authorizationResourceDTO.userID) &&
+                Objects.equals(this.resources, authorizationResourceDTO.resources);
     }
 
     @Override

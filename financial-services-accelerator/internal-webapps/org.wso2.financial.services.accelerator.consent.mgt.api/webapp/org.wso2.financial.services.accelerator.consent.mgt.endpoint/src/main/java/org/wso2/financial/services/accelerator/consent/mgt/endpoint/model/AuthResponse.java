@@ -16,9 +16,9 @@ import javax.validation.constraints.NotNull;
 
 @JsonTypeName("AuthResponse")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen",
-        date = "2025-03-03T09:27:49.560668411+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
+        date = "2025-04-18T10:47:38.068853078+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
 public class AuthResponse implements Serializable {
-    private String authorizationId;
+    private String authId;
     private String authorizationStatus;
     private String authorizationType;
     private String userID;
@@ -29,12 +29,12 @@ public class AuthResponse implements Serializable {
 
     @JsonCreator
     public AuthResponse(
-            @JsonProperty(required = true, value = "authId") String authorizationId,
+            @JsonProperty(required = true, value = "authId") String authId,
             @JsonProperty(required = true, value = "authorizationStatus") String authorizationStatus,
             @JsonProperty(required = true, value = "authorizationType") String authorizationType,
             @JsonProperty(required = true, value = "userID") String userID
                        ) {
-        this.authorizationId = authorizationId;
+        this.authId = authId;
         this.authorizationStatus = authorizationStatus;
         this.authorizationType = authorizationType;
         this.userID = userID;
@@ -44,20 +44,20 @@ public class AuthResponse implements Serializable {
      *
      **/
     public AuthResponse authId(String authId) {
-        this.authorizationId = authId;
+        this.authId = authId;
         return this;
     }
 
 
-    @ApiModelProperty(example = "5162ab67-b4e1-4e88-b429-f0bf34fae343", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "authId")
     @NotNull public String getAuthId() {
-        return authorizationId;
+        return authId;
     }
 
     @JsonProperty(required = true, value = "authId")
     public void setAuthId(String authId) {
-        this.authorizationId = authId;
+        this.authId = authId;
     }
 
     /**
@@ -69,7 +69,7 @@ public class AuthResponse implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "created", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "authorizationStatus")
     @NotNull public String getAuthorizationStatus() {
         return authorizationStatus;
@@ -89,7 +89,7 @@ public class AuthResponse implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "authorization", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "authorizationType")
     @NotNull public String getAuthorizationType() {
         return authorizationType;
@@ -109,14 +109,14 @@ public class AuthResponse implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "psu@wso2.com", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "userID")
-    @NotNull public String getUserId() {
+    @NotNull public String getUserID() {
         return userID;
     }
 
     @JsonProperty(required = true, value = "userID")
-    public void setUserId(String userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
@@ -166,7 +166,7 @@ public class AuthResponse implements Serializable {
             return false;
         }
         AuthResponse authResponse = (AuthResponse) o;
-        return Objects.equals(this.authorizationId, authResponse.authorizationId) &&
+        return Objects.equals(this.authId, authResponse.authId) &&
                 Objects.equals(this.authorizationStatus, authResponse.authorizationStatus) &&
                 Objects.equals(this.authorizationType, authResponse.authorizationType) &&
                 Objects.equals(this.userID, authResponse.userID) &&
@@ -175,7 +175,7 @@ public class AuthResponse implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(authorizationId, authorizationStatus, authorizationType, userID, resources);
+        return Objects.hash(authId, authorizationStatus, authorizationType, userID, resources);
     }
 
     @Override
@@ -183,7 +183,7 @@ public class AuthResponse implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("class AuthResponse {\n");
 
-        sb.append("    authId: ").append(toIndentedString(authorizationId)).append("\n");
+        sb.append("    authId: ").append(toIndentedString(authId)).append("\n");
         sb.append("    authorizationStatus: ").append(toIndentedString(authorizationStatus)).append("\n");
         sb.append("    authorizationType: ").append(toIndentedString(authorizationType)).append("\n");
         sb.append("    userID: ").append(toIndentedString(userID)).append("\n");

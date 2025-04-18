@@ -14,9 +14,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 
-@JsonTypeName("ConsentResource")
+@JsonTypeName("ConsentResourceDTO")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen",
-        date = "2025-03-03T09:27:49.560668411+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
+        date = "2025-04-18T10:47:38.068853078+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
 public class ConsentResourceDTO implements Serializable {
     private String clientID;
     private String consentType;
@@ -38,7 +38,7 @@ public class ConsentResourceDTO implements Serializable {
             @JsonProperty(required = true, value = "receipt") String receipt,
             @JsonProperty(required = true, value = "validityPeriod") Integer validityPeriod,
             @JsonProperty(required = true, value = "recurringIndicator") Boolean recurringIndicator
-                          ) {
+                             ) {
         this.clientID = clientID;
         this.consentType = consentType;
         this.currentStatus = currentStatus;
@@ -56,7 +56,7 @@ public class ConsentResourceDTO implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "TUwYBlObBMmu7zvDnnhs96rZHxka", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "clientID")
     @NotNull public String getClientID() {
         return clientID;
@@ -76,7 +76,7 @@ public class ConsentResourceDTO implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "Accounts", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "consentType")
     @NotNull public String getConsentType() {
         return consentType;
@@ -96,7 +96,7 @@ public class ConsentResourceDTO implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "awaitingAuthorisation", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "currentStatus")
     @NotNull public String getCurrentStatus() {
         return currentStatus;
@@ -136,7 +136,7 @@ public class ConsentResourceDTO implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "3600", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "validityPeriod")
     @NotNull public Integer getValidityPeriod() {
         return validityPeriod;
@@ -232,15 +232,15 @@ public class ConsentResourceDTO implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ConsentResourceDTO consentResource = (ConsentResourceDTO) o;
-        return Objects.equals(this.clientID, consentResource.clientID) &&
-                Objects.equals(this.consentType, consentResource.consentType) &&
-                Objects.equals(this.currentStatus, consentResource.currentStatus) &&
-                Objects.equals(this.receipt, consentResource.receipt) &&
-                Objects.equals(this.validityPeriod, consentResource.validityPeriod) &&
-                Objects.equals(this.recurringIndicator, consentResource.recurringIndicator) &&
-                Objects.equals(this.consentAttributes, consentResource.consentAttributes) &&
-                Objects.equals(this.authorizationResources, consentResource.authorizationResources);
+        ConsentResourceDTO consentResourceDTO = (ConsentResourceDTO) o;
+        return Objects.equals(this.clientID, consentResourceDTO.clientID) &&
+                Objects.equals(this.consentType, consentResourceDTO.consentType) &&
+                Objects.equals(this.currentStatus, consentResourceDTO.currentStatus) &&
+                Objects.equals(this.receipt, consentResourceDTO.receipt) &&
+                Objects.equals(this.validityPeriod, consentResourceDTO.validityPeriod) &&
+                Objects.equals(this.recurringIndicator, consentResourceDTO.recurringIndicator) &&
+                Objects.equals(this.consentAttributes, consentResourceDTO.consentAttributes) &&
+                Objects.equals(this.authorizationResources, consentResourceDTO.authorizationResources);
     }
 
     @Override
@@ -252,7 +252,7 @@ public class ConsentResourceDTO implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class  {\n");
+        sb.append("class ConsentResourceDTO {\n");
 
         sb.append("    clientID: ").append(toIndentedString(clientID)).append("\n");
         sb.append("    consentType: ").append(toIndentedString(consentType)).append("\n");

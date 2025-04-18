@@ -8,7 +8,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
     import io.swagger.annotations.ApiResponse;
     import io.swagger.annotations.ApiResponses;
 {{/useSwaggerAnnotations}}
-import org.wso2.financial.services.accelerator.consent.mgt.endpoint.impl.ConsentMgtApiHandler;
+import org.wso2.financial.services.accelerator.consent.mgt.endpoint.impl.ConsentAPIImpl;
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -17,6 +17,7 @@ import org.wso2.financial.services.accelerator.consent.mgt.endpoint.impl.Consent
 import {{javaxPackage}}.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -41,7 +42,7 @@ import javax.ws.rs.core.Response;
     @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
 {{>generatedAnnotation}}
 public {{#interfaceOnly}}interface{{/interfaceOnly}}{{^interfaceOnly}}class{{/interfaceOnly}} {{classname}} {
-ConsentMgtApiHandler consentMgtApiHandler = new ConsentMgtApiHandler();
+ConsentAPIImpl consentApiImpl = new ConsentAPIImpl();
 
 {{#operations}}
     {{#operation}}

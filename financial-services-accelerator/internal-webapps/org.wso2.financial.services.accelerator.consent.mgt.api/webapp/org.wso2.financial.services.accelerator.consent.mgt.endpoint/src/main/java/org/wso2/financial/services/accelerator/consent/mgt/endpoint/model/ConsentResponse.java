@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 
 @JsonTypeName("ConsentResponse")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen",
-        date = "2025-03-03T09:27:49.560668411+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
+        date = "2025-04-18T10:47:38.068853078+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
 public class ConsentResponse implements Serializable {
     private String consentID;
     private String clientID;
@@ -26,7 +26,7 @@ public class ConsentResponse implements Serializable {
     private Integer validityPeriod;
     private Boolean recurringIndicator;
     private Object consentAttributes;
-    private List<@Valid AuthResponse> authorizationResources = new ArrayList<>();
+    private @Valid List<@Valid AuthResponse> authorizationResources = new ArrayList<>();
     private Integer createdTime;
     private Integer updatedTime;
 
@@ -61,7 +61,7 @@ public class ConsentResponse implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "604d9278-4c3b-45d5-b3bb-1e428acdf1ec", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "consentID")
     @NotNull public String getConsentID() {
         return consentID;
@@ -81,7 +81,7 @@ public class ConsentResponse implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "TUwYBlObBMmu7zvDnnhs96rZHxka", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "clientID")
     @NotNull public String getClientID() {
         return clientID;
@@ -101,7 +101,7 @@ public class ConsentResponse implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "Accounts", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "consentType")
     @NotNull public String getConsentType() {
         return consentType;
@@ -121,7 +121,7 @@ public class ConsentResponse implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "awaitingAuthorisation", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "currentStatus")
     @NotNull public String getCurrentStatus() {
         return currentStatus;
@@ -161,7 +161,7 @@ public class ConsentResponse implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "3600", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "validityPeriod")
     @NotNull public Integer getValidityPeriod() {
         return validityPeriod;

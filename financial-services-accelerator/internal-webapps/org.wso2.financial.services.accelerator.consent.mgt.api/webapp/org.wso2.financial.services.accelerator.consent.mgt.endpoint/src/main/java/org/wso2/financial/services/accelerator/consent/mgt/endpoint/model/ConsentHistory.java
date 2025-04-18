@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 @JsonTypeName("ConsentHistory")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen",
-        date = "2025-03-03T09:27:49.560668411+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
+        date = "2025-04-18T10:47:38.068853078+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
 public class ConsentHistory implements Serializable {
     private String historyId;
     private String consentID;
@@ -34,7 +34,7 @@ public class ConsentHistory implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "604d9278-4c3b-45d5-b3bb-1e428acdf1ec", value = "")
+    @ApiModelProperty(value = "")
     @JsonProperty("historyId")
     public String getHistoryId() {
         return historyId;
@@ -54,7 +54,7 @@ public class ConsentHistory implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "604d9278-4c3b-45d5-b3bb-1e428acdf1ec", value = "")
+    @ApiModelProperty(value = "")
     @JsonProperty("consentID")
     public String getConsentID() {
         return consentID;
@@ -94,7 +94,7 @@ public class ConsentHistory implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "amended due to ...", value = "")
+    @ApiModelProperty(value = "")
     @JsonProperty("reason")
     public String getReason() {
         return reason;

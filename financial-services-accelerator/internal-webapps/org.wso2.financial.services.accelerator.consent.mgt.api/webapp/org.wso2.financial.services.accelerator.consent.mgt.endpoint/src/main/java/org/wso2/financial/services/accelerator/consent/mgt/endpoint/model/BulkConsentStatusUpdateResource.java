@@ -14,14 +14,14 @@ import javax.validation.Valid;
 
 @JsonTypeName("BulkConsentStatusUpdateResource")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen",
-        date = "2025-03-03T09:27:49.560668411+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
+        date = "2025-04-18T10:47:38.068853078+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
 public class BulkConsentStatusUpdateResource implements Serializable {
     private String clientID;
-    private String userID;
     private String consentType;
     private @Valid ArrayList<String> applicableStatusesForStateChange = new ArrayList<>();
     private String status;
     private String reason;
+    private String userID;
 
     public BulkConsentStatusUpdateResource() {
     }
@@ -35,7 +35,7 @@ public class BulkConsentStatusUpdateResource implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "TUwYBlObBMmu7zvDnnhs96rZHxka", value = "")
+    @ApiModelProperty(value = "")
     @JsonProperty("clientID")
     public String getClientID() {
         return clientID;
@@ -49,33 +49,13 @@ public class BulkConsentStatusUpdateResource implements Serializable {
     /**
      *
      **/
-    public BulkConsentStatusUpdateResource userID(String userID) {
-        this.userID = userID;
-        return this;
-    }
-
-
-    @ApiModelProperty(example = "psu@wso2.com", value = "")
-    @JsonProperty("userID")
-    public String getUserId() {
-        return userID;
-    }
-
-    @JsonProperty("userID")
-    public void setUserId(String userID) {
-        this.userID = userID;
-    }
-
-    /**
-     *
-     **/
     public BulkConsentStatusUpdateResource consentType(String consentType) {
         this.consentType = consentType;
         return this;
     }
 
 
-    @ApiModelProperty(example = "Accounts", value = "")
+    @ApiModelProperty(value = "")
     @JsonProperty("consentType")
     public String getConsentType() {
         return consentType;
@@ -135,7 +115,7 @@ public class BulkConsentStatusUpdateResource implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "revoked", value = "")
+    @ApiModelProperty(value = "")
     @JsonProperty("status")
     public String getStatus() {
         return status;
@@ -155,7 +135,7 @@ public class BulkConsentStatusUpdateResource implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "Revoked by ...", value = "")
+    @ApiModelProperty(value = "")
     @JsonProperty("reason")
     public String getReason() {
         return reason;
@@ -164,6 +144,26 @@ public class BulkConsentStatusUpdateResource implements Serializable {
     @JsonProperty("reason")
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    /**
+     *
+     **/
+    public BulkConsentStatusUpdateResource userID(String userID) {
+        this.userID = userID;
+        return this;
+    }
+
+
+    @ApiModelProperty(value = "")
+    @JsonProperty("userID")
+    public String getUserID() {
+        return userID;
+    }
+
+    @JsonProperty("userID")
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
 
@@ -177,17 +177,17 @@ public class BulkConsentStatusUpdateResource implements Serializable {
         }
         BulkConsentStatusUpdateResource bulkConsentStatusUpdateResource = (BulkConsentStatusUpdateResource) o;
         return Objects.equals(this.clientID, bulkConsentStatusUpdateResource.clientID) &&
-                Objects.equals(this.userID, bulkConsentStatusUpdateResource.userID) &&
                 Objects.equals(this.consentType, bulkConsentStatusUpdateResource.consentType) &&
                 Objects.equals(this.applicableStatusesForStateChange,
                         bulkConsentStatusUpdateResource.applicableStatusesForStateChange) &&
                 Objects.equals(this.status, bulkConsentStatusUpdateResource.status) &&
-                Objects.equals(this.reason, bulkConsentStatusUpdateResource.reason);
+                Objects.equals(this.reason, bulkConsentStatusUpdateResource.reason) &&
+                Objects.equals(this.userID, bulkConsentStatusUpdateResource.userID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(clientID, userID, consentType, applicableStatusesForStateChange, status, reason);
+        return Objects.hash(clientID, consentType, applicableStatusesForStateChange, status, reason, userID);
     }
 
     @Override
@@ -196,12 +196,12 @@ public class BulkConsentStatusUpdateResource implements Serializable {
         sb.append("class BulkConsentStatusUpdateResource {\n");
 
         sb.append("    clientID: ").append(toIndentedString(clientID)).append("\n");
-        sb.append("    userID: ").append(toIndentedString(userID)).append("\n");
         sb.append("    consentType: ").append(toIndentedString(consentType)).append("\n");
         sb.append("    applicableStatusesForStateChange: ").append(toIndentedString(applicableStatusesForStateChange))
                 .append("\n");
         sb.append("    status: ").append(toIndentedString(status)).append("\n");
         sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
+        sb.append("    userID: ").append(toIndentedString(userID)).append("\n");
         sb.append("}");
         return sb.toString();
     }

@@ -16,14 +16,14 @@ import javax.validation.constraints.NotNull;
 
 @JsonTypeName("AmendmentResponse")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen",
-        date = "2025-03-03T09:27:49.560668411+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
+        date = "2025-04-18T10:47:38.068853078+05:30[Asia/Colombo]", comments = "Generator version: 7.12.0")
 public class AmendmentResponse implements Serializable {
     private String clientID;
     private String consentType;
-    private String currentStatus;
     private Object receipt;
     private Integer validityPeriod;
     private Boolean recurringIndicator;
+    private String currentStatus;
     private Object consentAttributes;
     private @Valid List<@Valid ReauthorizeResource> authorizationResources = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public class AmendmentResponse implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "TUwYBlObBMmu7zvDnnhs96rZHxka", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "clientID")
     @NotNull public String getClientID() {
         return clientID;
@@ -74,7 +74,7 @@ public class AmendmentResponse implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "Accounts", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "consentType")
     @NotNull public String getConsentType() {
         return consentType;
@@ -83,26 +83,6 @@ public class AmendmentResponse implements Serializable {
     @JsonProperty(required = true, value = "consentType")
     public void setConsentType(String consentType) {
         this.consentType = consentType;
-    }
-
-    /**
-     *
-     **/
-    public AmendmentResponse currentStatus(String currentStatus) {
-        this.currentStatus = currentStatus;
-        return this;
-    }
-
-
-    @ApiModelProperty(example = "awaitingAuthorization", value = "")
-    @JsonProperty("currentStatus")
-    public String getCurrentStatus() {
-        return currentStatus;
-    }
-
-    @JsonProperty("currentStatus")
-    public void setCurrentStatus(String currentStatus) {
-        this.currentStatus = currentStatus;
     }
 
     /**
@@ -134,7 +114,7 @@ public class AmendmentResponse implements Serializable {
     }
 
 
-    @ApiModelProperty(example = "3600", required = true, value = "")
+    @ApiModelProperty(required = true, value = "")
     @JsonProperty(required = true, value = "validityPeriod")
     @NotNull public Integer getValidityPeriod() {
         return validityPeriod;
@@ -163,6 +143,26 @@ public class AmendmentResponse implements Serializable {
     @JsonProperty(required = true, value = "recurringIndicator")
     public void setRecurringIndicator(Boolean recurringIndicator) {
         this.recurringIndicator = recurringIndicator;
+    }
+
+    /**
+     *
+     **/
+    public AmendmentResponse currentStatus(String currentStatus) {
+        this.currentStatus = currentStatus;
+        return this;
+    }
+
+
+    @ApiModelProperty(value = "")
+    @JsonProperty("currentStatus")
+    public String getCurrentStatus() {
+        return currentStatus;
+    }
+
+    @JsonProperty("currentStatus")
+    public void setCurrentStatus(String currentStatus) {
+        this.currentStatus = currentStatus;
     }
 
     /**
@@ -233,17 +233,17 @@ public class AmendmentResponse implements Serializable {
         AmendmentResponse amendmentResponse = (AmendmentResponse) o;
         return Objects.equals(this.clientID, amendmentResponse.clientID) &&
                 Objects.equals(this.consentType, amendmentResponse.consentType) &&
-                Objects.equals(this.currentStatus, amendmentResponse.currentStatus) &&
                 Objects.equals(this.receipt, amendmentResponse.receipt) &&
                 Objects.equals(this.validityPeriod, amendmentResponse.validityPeriod) &&
                 Objects.equals(this.recurringIndicator, amendmentResponse.recurringIndicator) &&
+                Objects.equals(this.currentStatus, amendmentResponse.currentStatus) &&
                 Objects.equals(this.consentAttributes, amendmentResponse.consentAttributes) &&
                 Objects.equals(this.authorizationResources, amendmentResponse.authorizationResources);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(clientID, consentType, currentStatus, receipt, validityPeriod, recurringIndicator,
+        return Objects.hash(clientID, consentType, receipt, validityPeriod, recurringIndicator, currentStatus,
                 consentAttributes, authorizationResources);
     }
 
@@ -254,10 +254,10 @@ public class AmendmentResponse implements Serializable {
 
         sb.append("    clientID: ").append(toIndentedString(clientID)).append("\n");
         sb.append("    consentType: ").append(toIndentedString(consentType)).append("\n");
-        sb.append("    currentStatus: ").append(toIndentedString(currentStatus)).append("\n");
         sb.append("    receipt: ").append(toIndentedString(receipt)).append("\n");
         sb.append("    validityPeriod: ").append(toIndentedString(validityPeriod)).append("\n");
         sb.append("    recurringIndicator: ").append(toIndentedString(recurringIndicator)).append("\n");
+        sb.append("    currentStatus: ").append(toIndentedString(currentStatus)).append("\n");
         sb.append("    consentAttributes: ").append(toIndentedString(consentAttributes)).append("\n");
         sb.append("    authorizationResources: ").append(toIndentedString(authorizationResources)).append("\n");
         sb.append("}");
