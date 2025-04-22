@@ -38,6 +38,7 @@
         <module>pre-configuration-step</module>
         <module>consent-management</module>
         <module>event-notification</module>
+        <module>is-setup</module>
     </modules>
 
     <dependencies>
