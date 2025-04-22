@@ -33,12 +33,12 @@
     <name>FS Accelerator IS Test Modules</name>
 
     <modules>
+        <module>is-setup</module>
         <module>dcr</module>
         <module>token</module>
         <module>pre-configuration-step</module>
         <module>consent-management</module>
         <module>event-notification</module>
-        <module>is-setup</module>
     </modules>
 
     <dependencies>

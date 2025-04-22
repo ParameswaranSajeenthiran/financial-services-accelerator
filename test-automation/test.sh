@@ -427,39 +427,46 @@ echo '======================= Build the Test framework ======================='
 mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 MVNSTATE=$((MVNSTATE+$?))
 
-echo '======================= API Publish and Subscribe Step ======================='
-cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
-mvn clean test -X
-MVNSTATE=$((MVNSTATE+$?))
 
-cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework
-
+echo '======================= Run the Test Cases ======================='
+cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests
 mvn clean install
 MVNSTATE=$((MVNSTATE+$?))
 
 
-echo '======================= DCR ======================='
-cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/dcr
-
-mvn clean test -X > ${TEST_HOME}/DCR.txt 2>&1
-MVNSTATE=$((MVNSTATE+$?))
-
-echo '======================= Token ======================='
-cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/token
-mvn clean test -X > ${TEST_HOME}/TokenTest.txt 2>&1
-MVNSTATE=$((MVNSTATE+$?))
-
-
-echo '======================= Consent Management ======================='
-cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/consent-management
-mvn clean test -X > ${TEST_HOME}/ConsentTest.txt 2>&1
-MVNSTATE=$((MVNSTATE+$?))
-
-
-echo '======================= Event Notification ======================='
-cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/event-notification
-mvn clean test -X > ${TEST_HOME}/EventNotification.txt  2>&1
-MVNSTATE=$((MVNSTATE+$?))
+#echo '======================= API Publish and Subscribe Step ======================='
+#cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/is-setup
+#mvn clean test -X
+#MVNSTATE=$((MVNSTATE+$?))
+#
+#cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-test-framework
+#
+#mvn clean install
+#MVNSTATE=$((MVNSTATE+$?))
+#
+#
+#echo '======================= DCR ======================='
+#cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/dcr
+#
+#mvn clean test -X > ${TEST_HOME}/DCR.txt 2>&1
+#MVNSTATE=$((MVNSTATE+$?))
+#
+#echo '======================= Token ======================='
+#cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/token
+#mvn clean test -X > ${TEST_HOME}/TokenTest.txt 2>&1
+#MVNSTATE=$((MVNSTATE+$?))
+#
+#
+#echo '======================= Consent Management ======================='
+#cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/consent-management
+#mvn clean test -X > ${TEST_HOME}/ConsentTest.txt 2>&1
+#MVNSTATE=$((MVNSTATE+$?))
+#
+#
+#echo '======================= Event Notification ======================='
+#cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests/event-notification
+#mvn clean test -X > ${TEST_HOME}/EventNotification.txt  2>&1
+#MVNSTATE=$((MVNSTATE+$?))
 
 
 sudo apt install -y mutt

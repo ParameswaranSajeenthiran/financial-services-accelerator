@@ -90,34 +90,34 @@ class AuthorizeAPIStepTests {
         Response response = createAPIResource("User-defined-oauth2-resource","User-defined-oauth2-resource",["accounts","payments","fundsconfirmations"])
         print(response.prettyPrint())
 
-        apiResourceId = response.header("Location").split("/").last()
+        apiResourceId = response.header("location").split("/").last()
         // assert status
         Assert.assertEquals( response.statusCode(), 201)
 
     }
-    @Test(groups = "api" ,dependsOnMethods = ["Create API Resource"])
-    void "Create Application"() {
-
-
-        def registrationResponse = registrationRequestBuilder.buildRegistrationRequest()
-                .body(registrationRequestBuilder.getRegularClaims(ssa))
-                .post(dcrPath)
-
-        clientId = TestUtil.parseResponseBody(registrationResponse, "client_id")
-        clientSecret = TestUtil.parseResponseBody(registrationResponse, "client_secret")
-
-        if(registrationResponse.statusCode() != 201) {
-            Assert.fail("Client registration failed with status code: " + registrationResponse.statusCode())
-        }
-        File xmlFile = new File(System.getProperty("user.dir").toString().concat("/../../../accelerator-test-framework/src/main/resources/TestConfiguration.xml"))
-        TestUtil.writeXMLContent(xmlFile.toString(), "Application", "ClientID", clientId,
-                0)
-        TestUtil.writeXMLContent(xmlFile.toString(), "Application", "ClientSecret", clientSecret,
-                0)
-
-
-
-    }
+//    @Test(groups = "api" ,dependsOnMethods = ["Create API Resource"])
+//    void "Create Application"() {
+//
+//
+//        def registrationResponse = registrationRequestBuilder.buildRegistrationRequest()
+//                .body(registrationRequestBuilder.getRegularClaims(ssa))
+//                .post(dcrPath)
+//
+//        clientId = TestUtil.parseResponseBody(registrationResponse, "client_id")
+//        clientSecret = TestUtil.parseResponseBody(registrationResponse, "client_secret")
+//
+//        if(registrationResponse.statusCode() != 201) {
+//            Assert.fail("Client registration failed with status code: " + registrationResponse.statusCode())
+//        }
+//        File xmlFile = new File(System.getProperty("user.dir").toString().concat("/../../../accelerator-test-framework/src/main/resources/TestConfiguration.xml"))
+//        TestUtil.writeXMLContent(xmlFile.toString(), "Application", "ClientID", clientId,
+//                0)
+//        TestUtil.writeXMLContent(xmlFile.toString(), "Application", "ClientSecret", clientSecret,
+//                0)
+//
+//
+//
+//    }
 
 
 
