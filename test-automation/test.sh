@@ -133,7 +133,11 @@ cp ${RUNNER_HOME}/test-automation/wso2update_linux $TEST_HOME/wso2is-7.0.0/bin/
 $TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PASSWORD ||  ($TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PASSWORD )
 #
 echo '======================= Moving Packs to RUNNER_HOME ======================='
-unzip financial-services-accelerator/accelerators/fs-is/target/wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
+
+zip_file_name=$(find financial-services-accelerator/accelerators/fs-is/target -maxdepth 1 -name "*.zip" -exec basename {} \;)
+echo "$zip_file_name"
+
+unzip "financial-services-accelerator/accelerators/fs-is/target/$zip_file_name" -d $TEST_HOME/wso2is-7.0.0/
 #wget https://github.com/ParameswaranSajeenthiran/files/raw/refs/heads/master/wso2-fsiam-accelerator-4.0.0-M3.zip -O wso2-fsiam-accelerator-4.0.0-M3.zip
 #unzip wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
 
@@ -241,7 +245,7 @@ keytool -import -alias issuer -file "${TEST_HOME}/OB_SandBox_PP_Issuing CA.cer" 
 
 
 echo '======================= Run merge and Config scripts ======================='
-cd $TEST_HOME/wso2is-7.0.0/wso2-fsiam-accelerator-4.0.0-M3/bin
+cd $TEST_HOME/wso2is-7.0.0/$zip_file_name/bin
 bash merge.sh
 bash configure.sh
 SQL_SCRIPT="$RUNNER_HOME/financial-services-accelerator/accelerators/fs-is/carbon-home/dbscripts/financial-services/event-notifications/mysql.sql"
