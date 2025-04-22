@@ -134,10 +134,11 @@ $TEST_HOME/wso2is-7.0.0/bin/wso2update_linux --username $USERNAME --password $PA
 #
 echo '======================= Moving Packs to RUNNER_HOME ======================='
 
-zip_file_name=$(find financial-services-accelerator/accelerators/fs-is/target -maxdepth 1 -name "*.zip" -exec basename {} \;)
+zip_file_name=$(find financial-services-accelerator/accelerators/fs-is/target -maxdepth 1 -name "*.zip" -exec basename {} .zip \;)
 echo "$zip_file_name"
 
-unzip "financial-services-accelerator/accelerators/fs-is/target/$zip_file_name" -d $TEST_HOME/wso2is-7.0.0/
+
+unzip "financial-services-accelerator/accelerators/fs-is/target/$zip_file_name.zip" -d $TEST_HOME/wso2is-7.0.0/
 #wget https://github.com/ParameswaranSajeenthiran/files/raw/refs/heads/master/wso2-fsiam-accelerator-4.0.0-M3.zip -O wso2-fsiam-accelerator-4.0.0-M3.zip
 #unzip wso2-fsiam-accelerator-4.0.0-M3.zip -d $TEST_HOME/wso2is-7.0.0/
 
