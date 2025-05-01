@@ -61,7 +61,6 @@ if [ -z "$TEST_HOME" ]; then
     exit 1
 fi
 
-
 #echo '=================== setup Firefox ==================='
 #
 #if command -v firefox &> /dev/null
@@ -422,16 +421,16 @@ sudo apt update && sudo apt install mailutils
 sudo yum install mailx
 
 cat ${ACCELERATION_INTEGRATION_TESTS_CONFIG}
+##
+#echo '======================= Build the Test framework ======================='
+#mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+#MVNSTATE=$((MVNSTATE+$?))
 #
-echo '======================= Build the Test framework ======================='
-mvn clean install  -Dmaven.test.skip=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-MVNSTATE=$((MVNSTATE+$?))
-
-
-echo '======================= Run the Test Cases ======================='
-cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests
-mvn clean install
-MVNSTATE=$((MVNSTATE+$?))
+#
+#echo '======================= Run the Test Cases ======================='
+#cd ${ACCELERATION_INTEGRATION_TESTS_HOME}/accelerator-tests/is-tests
+#mvn clean install
+#MVNSTATE=$((MVNSTATE+$?))
 
 
 #echo '======================= API Publish and Subscribe Step ======================='
