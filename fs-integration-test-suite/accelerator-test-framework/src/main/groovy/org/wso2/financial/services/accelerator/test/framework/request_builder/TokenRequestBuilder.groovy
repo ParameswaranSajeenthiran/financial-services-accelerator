@@ -455,6 +455,7 @@ class TokenRequestBuilder {
                 .addClientAssertion(payload).addRedirectUri().addClientID(clientId).getPayload()
 
         RestAssured.baseURI = configuration.getISServerUrl()
+        print(accessTokenJWT)
         Response response = FSRestAsRequestBuilder.buildRequest()
                 .contentType(ConnectorTestConstants.ACCESS_TOKEN_CONTENT_TYPE)
                 .body(accessTokenJWT)

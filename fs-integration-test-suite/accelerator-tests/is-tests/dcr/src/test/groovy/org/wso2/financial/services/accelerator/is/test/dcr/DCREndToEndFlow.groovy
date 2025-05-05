@@ -46,11 +46,15 @@ class DCREndToEndFlow extends FSConnectorTest {
 
     @BeforeClass(alwaysRun = true)
     void setup() {
+        configuration.setTppNumber(1)
 
         dcrPath = configuration.getISServerUrl() + ConnectorTestConstants.REGISTRATION_ENDPOINT
         ssa = new File(configuration.getAppDCRSSAPath()).text
         registrationRequestBuilder = new ClientRegistrationRequestBuilder()
     }
+
+
+
 
     @Test(groups = "SmokeTest")
     void "Invoke registration request structured as a JWS"() {
