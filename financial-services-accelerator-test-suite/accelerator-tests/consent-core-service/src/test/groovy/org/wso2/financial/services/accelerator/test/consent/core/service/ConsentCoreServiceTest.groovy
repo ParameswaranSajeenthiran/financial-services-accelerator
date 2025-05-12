@@ -26,7 +26,7 @@ class ConsentCoreServiceTest extends  FSConnectorTest {
                 .header("OrgInfo", CCSConsentPayload.TEST_ORG_ID)
                 .body(payload)
                 .baseUri(configuration.getCCSServerUrl())
-                .post("/consent")
+                .post(ccsConsentPath)
 
 
     }
@@ -40,7 +40,7 @@ class ConsentCoreServiceTest extends  FSConnectorTest {
         consentResponse = consentRequestBuilder.buildBasicRequest()
                 .body(payload)
                 .baseUri(configuration.getCCSServerUrl())
-                .post("/consent")
+                .post(ccsConsentPath)
 
     }
 
@@ -52,10 +52,9 @@ class ConsentCoreServiceTest extends  FSConnectorTest {
         // creation
         consentResponse = consentRequestBuilder.buildBasicRequest()
                 .header("OrgInfo",  CCSConsentPayload.TEST_ORG_ID)
-                .header("isImplicitAuth", true)
                 .body(payload)
                 .baseUri(configuration.getCCSServerUrl())
-                .post("/consent")
+                .post(ccsConsentPath)
 
 
     }
@@ -64,13 +63,11 @@ class ConsentCoreServiceTest extends  FSConnectorTest {
      * Consent Retrieval.
      * @param consentId
      */
-    void doConsentRetrieval(boolean  isDetailedConsentResource, boolean  withAttributes) {
+    void doConsentRetrieval() {
 
         //initiation
         consentResponse = consentRequestBuilder.buildBasicRequest()
                 .header("OrgInfo", CCSConsentPayload.TEST_ORG_ID)
-                .queryParam("isDetailedConsentResource", isDetailedConsentResource)
-                .queryParam("withAttributes", withAttributes)
                 .baseUri(configuration.getCCSServerUrl())
                 .get(ccsConsentPath + "/${consentId}")
 
@@ -80,12 +77,10 @@ class ConsentCoreServiceTest extends  FSConnectorTest {
      * Consent Retrieval with wrong OrgInfo.
      * @param consentId
      */
-    void doConsentRetrievalWithWrongOrgInfo(boolean  withAuthorizationResources, boolean  withAttributes) {
+    void doConsentRetrievalWithWrongOrgInfo() {
 
         consentResponse = consentRequestBuilder.buildBasicRequest()
                 .header("OrgInfo", "wrongOrgInfo")
-                .queryParam("withAuthorizationResources", withAuthorizationResources)
-                .queryParam("withAttributes", withAttributes)
                 .baseUri(configuration.getCCSServerUrl())
                 .get(ccsConsentPath + "/${consentId}")
 
@@ -96,12 +91,10 @@ class ConsentCoreServiceTest extends  FSConnectorTest {
      * Consent Retrieval.
      * @param consentId
      */
-    void doConsentRetrievalWithOutOrgInfo(boolean  withAuthorizationResources, boolean  withAttributes) {
+    void doConsentRetrievalWithOutOrgInfo() {
 
         //initiation
         consentResponse = consentRequestBuilder.buildBasicRequest()
-                .queryParam("withAuthorizationResources", withAuthorizationResources)
-                .queryParam("withAttributes", withAttributes)
                 .baseUri(configuration.getCCSServerUrl())
                 .get(ccsConsentPath + "/${consentId}")
 
@@ -160,8 +153,8 @@ class ConsentCoreServiceTest extends  FSConnectorTest {
         if (clientIds != null) queryParams.put("clientIds", clientIds);
         if (fromTime != null) queryParams.put("fromTime", fromTime);
         if (toTime != null) queryParams.put("toTime", toTime);
-        queryParams.put("offset", offset != null ? offset : "0");
-        queryParams.put("limit", limit != null ? limit : "10");
+        if (offset != null) queryParams.put("offset", offset);
+        if (limit != null) queryParams.put("limit", limit);
 
         RequestSpecification request = consentRequestBuilder.buildBasicRequest()
                 .header("OrgInfo", CCSConsentPayload.TEST_ORG_ID)
@@ -248,7 +241,7 @@ class ConsentCoreServiceTest extends  FSConnectorTest {
                 .header("OrgInfo", CCSConsentPayload.TEST_ORG_ID)
                 .body(payload)
                 .baseUri(configuration.getCCSServerUrl())
-                .put(ccsConsentPath + "/${consentId}/revoke")
+                .post(ccsConsentPath + "/${consentId}/revoke")
     }
 
 //    void doConsentHistoryRetrieval(String consentId){

@@ -63,7 +63,7 @@ class ConsentSearchTest extends  ConsentCoreServiceTest{
 
         doConsentSearch(null, null, null, clientID, null, null, null,null);
 
-        List<String> clientIDs = consentResponse.jsonPath().getList("clientID")
+        List<String> clientIDs = consentResponse.jsonPath().getList("clientId")
 
         // assert whether all are of the clientID
         Assert.assertTrue(clientIDs.every { it == clientID })
@@ -82,7 +82,7 @@ class ConsentSearchTest extends  ConsentCoreServiceTest{
 
         doConsentSearch(null, null, userID, null, null, null, null,null);
 
-        List<String> userIDs = consentResponse.jsonPath().getList("authorizationResources.userID")
+        List<String> userIDs = consentResponse.jsonPath().getList("authorizationResources.userId")
 
         // remove []
         userIDs = userIDs.collect { it[0]}

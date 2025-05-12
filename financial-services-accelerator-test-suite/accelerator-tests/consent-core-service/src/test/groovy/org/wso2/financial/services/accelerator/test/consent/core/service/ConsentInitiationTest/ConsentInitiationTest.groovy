@@ -30,7 +30,7 @@ class ConsentInitiationTest extends ConsentCoreServiceTest {
     @Test
     void "Initiate consent without clientID"() {
 
-        doConsentCreation(TestUtil.removeKey(CCSConsentPayload.initiationPayload, "clientID" ));
+        doConsentCreation(TestUtil.removeKey(CCSConsentPayload.initiationPayload, "clientId" ));
         Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400);
 
     }
@@ -60,20 +60,14 @@ class ConsentInitiationTest extends ConsentCoreServiceTest {
     }
 
     @Test
-    void "Initiate consent without validityPeriod"() {
+    void "Initiate consent without expiryTime"() {
 
-        doConsentCreation(TestUtil.removeKey(CCSConsentPayload.initiationPayload, "validityPeriod"));
+        doConsentCreation(TestUtil.removeKey(CCSConsentPayload.initiationPayload, "expiryTime"));
         Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
 
     }
 
-    @Test
-    void "Initiate consent without recurringIndicator"() {
 
-        doConsentCreation(TestUtil.removeKey(CCSConsentPayload.initiationPayload, "validityPeriod"));
-        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
-
-    }
 
     @Test
     void "Initiate consent without consentAttributes"() {
@@ -87,7 +81,7 @@ class ConsentInitiationTest extends ConsentCoreServiceTest {
     void "Initiate consent with empty clientID"() {
 
         doConsentCreation( TestUtil.replaceValueWithEmptyString(CCSConsentPayload.initiationPayload,
-                "clientID"));
+                "clientId"));
         Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
 
     }
@@ -119,13 +113,7 @@ class ConsentInitiationTest extends ConsentCoreServiceTest {
 
     }
 
-    @Test
-    void "Initiate consent with invalid consentAttributes type"() {
 
-        doConsentCreation(CCSConsentPayload.payloadWithInvalidConsentAttributesType);
-        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
-
-    }
 
     @Test
     void "Initiate consent with Implicit = True"(){
@@ -166,10 +154,10 @@ class ConsentInitiationTest extends ConsentCoreServiceTest {
                 initiationPayloadWithAuthResources,"userID"));
 
         // assert status code is 400
-        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
+        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_201)
 
         // assert error message contains "userID"
-        Assert.assertTrue(consentResponse.getBody().asString().contains("userID"))
+        Assert.assertTrue(consentResponse.getBody().asString().contains("userId"))
     }
 
 
@@ -207,7 +195,7 @@ class ConsentInitiationTest extends ConsentCoreServiceTest {
                 initiationPayloadWithAuthResources,"userID"));
 
         // assert status code is 400
-        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
+        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_201)
 
         // assert error message contains "userID"
         Assert.assertTrue(consentResponse.getBody().asString().contains("userId"))

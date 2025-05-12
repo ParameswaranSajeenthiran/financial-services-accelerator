@@ -33,7 +33,7 @@ class ConsentRevokeTest extends ConsentCoreServiceTest {
         // Revoke
         doConsentRevoke(CCSConsentPayload.revokeConsentPayload(CCSConsentPayload.TEST_UPDATE_REASON,
                 CCSConsentPayload.TEST_USER_ID_A))
-        Assert.assertEquals( consentResponse.getStatusCode() , ConnectorTestConstants.STATUS_CODE_400)
+        Assert.assertEquals( consentResponse.getStatusCode() , ConnectorTestConstants.STATUS_CODE_409)
 
     }
 

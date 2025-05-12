@@ -47,7 +47,7 @@ class ConsentPurgeTest extends ConsentCoreServiceTest {
         consentId = TestUtil.parseResponseBody(consentResponse, ConnectorTestConstants.CSS_CONSENT_ID).toString()
         doConsentPurge(consentId)
 
-        doConsentRetrieval(false, false)
+        doConsentRetrieval()
         Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_404)
     }
 

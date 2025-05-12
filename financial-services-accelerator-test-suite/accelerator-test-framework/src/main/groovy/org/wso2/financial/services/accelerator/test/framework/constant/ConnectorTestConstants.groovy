@@ -105,17 +105,17 @@ class ConnectorTestConstants {
 
     //Consent Core Service
 
-    public static final String CCS_CONSENT_PATH = "/consent"
+    public static final String CCS_CONSENT_PATH = "/consents"
     public static final String CCS_DEFAULT_ORG = "DEFAULT_ORG"
-    public static final String CSS_CONSENT_ID = "consentID"
-    public static final String CSS_USER_ID = "userID"
+    public static final String CSS_CONSENT_ID = "consentId"
+    public static final String CSS_USER_ID = "userId"
     public static final String CSS_ATTRIBUTES = "consentAttributes"
     public static final String CSS_CONSENT_TYPE = "consentType"
     public static final String CSS_CURRENT_STATUS = "currentStatus"
     public static final String CSS_RECEIPT = "receipt"
     public static final String CSS_VALIDITY_PERIOD = "validityPeriod"
     public static final String CSS_RECURRING_INDICATOR = "recurringIndicator"
-    public static final String CSS_CLIENT_ID = "clientID"
+    public static final String CSS_CLIENT_ID = "clientId"
     public static final String CSS_AUTHORIZATION_TYPE = "authorization"
     public static final String CSS_AUTHORIZATION_STATUS = "authorizationStatus"
 
@@ -257,6 +257,7 @@ class ConnectorTestConstants {
     public static final int STATUS_CODE_405 = 405;
     public static final int STATUS_CODE_406 = 406;
     public static final int STATUS_CODE_415 = 415;
+    public static final int STATUS_CODE_409 = 409;
 
     /**
      * Enum class for keeping api scopes.

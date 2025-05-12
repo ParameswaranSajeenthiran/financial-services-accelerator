@@ -13,9 +13,7 @@ class CCSConsentPayload {
     public static final String TEST_CLIENT_ID = "testClientId"
     public static final String TEST_CONSENT_TYPE = "Accounts"
     public static final String TEST_CURRENT_STATUS = "awaitingAuthorisation"
-    public static final String TEST_VALIDITY_PERIOD = (Duration.between(AccountsRequestPayloads.expirationDateTime,
-            OffsetDateTime.now()).toDays()
-    )
+    public static final long TEST_EXPIRY_TIME = ((System.currentTimeMillis())/1000)+100;
     public static final String TEST_RECURRING_INDICATOR = "true"
     public static final String TEST_CONSENT_FREQUENCY = "10"
     public static  final String TEST_ATTRIBUTE_A = "testValueA"
@@ -67,8 +65,8 @@ class CCSConsentPayload {
             {
                       "authorizationStatus": "${TEST_AUTHORIZATION_STATUS_A}",
                       "authorizationType": "${TEST_AUTHORIZATION_TYPE_A}",
-                      "userID": "${TEST_USER_ID_A}",
-                      "resources":[
+                      "userId": "${TEST_USER_ID_A}",
+                      "resource":[
                                 ${TEST_RESOURCE_A1},
                                 ${TEST_RESOURCE_A2}                                              
                                     ]
@@ -80,8 +78,8 @@ class CCSConsentPayload {
             {
                       "authorizationStatus": "${TEST_AUTHORIZATION_STATUS_A}",
                       "authorizationType": "${TEST_AUTHORIZATION_TYPE_A}",
-                      "userID": "${TEST_USER_ID_A}",
-                      "resources":[
+                      "userId": "${TEST_USER_ID_A}",
+                      "resource":[
                                 ${TEST_RESOURCE_A1}
                                     ]
             }
@@ -119,8 +117,8 @@ class CCSConsentPayload {
         {
                   "authorizationStatus": "${TEST_AUTHORIZATION_STATUS_B}",
                   "authorizationType": "${TEST_AUTHORIZATION_TYPE_B}",
-                  "userID": "${TEST_USER_ID_B}",
-                  "resources": [
+                  "userId": "${TEST_USER_ID_B}",
+                  "resource": [
                     ${TEST_RESOURCE_B1},
                     ${TEST_RESOURCE_B2}
                     
@@ -132,11 +130,11 @@ class CCSConsentPayload {
     public static String initiationPayload =
         """
         {
-          "clientID": "${TEST_CLIENT_ID}",
+          "clientId": "${TEST_CLIENT_ID}",
           "consentType": "${TEST_CONSENT_TYPE}",
           "currentStatus": "${TEST_CURRENT_STATUS}",
           "receipt": ${TEST_RECEIPT},
-          "validityPeriod": ${TEST_VALIDITY_PERIOD} ,
+          "expiryTime": ${TEST_EXPIRY_TIME} ,
           "recurringIndicator": ${TEST_RECURRING_INDICATOR},
           "consentAttributes": ${TEST_CONSENT_ATTRIBUTES}         
         }
@@ -151,11 +149,11 @@ class CCSConsentPayload {
     public static String initiationPayloadWithAuthResources =
             """
         {
-          "clientID": "${TEST_CLIENT_ID}",
+          "clientId": "${TEST_CLIENT_ID}",
           "consentType": "${TEST_CONSENT_TYPE}",
           "currentStatus": "${TEST_CURRENT_STATUS}",
           "receipt": ${TEST_RECEIPT},
-          "validityPeriod": ${TEST_VALIDITY_PERIOD} ,
+          "expiryTime": ${TEST_EXPIRY_TIME} ,
           "recurringIndicator": ${TEST_RECURRING_INDICATOR},
           "consentAttributes": ${TEST_CONSENT_ATTRIBUTES},
           "authorizationResources": ${TEST_AUTHORIZATION_RESOURCES}
@@ -166,11 +164,11 @@ class CCSConsentPayload {
     public static String initiationPayloadWithAuthResource =
             """
         {
-          "clientID": "${TEST_CLIENT_ID}",
+          "clientId": "${TEST_CLIENT_ID}",
           "consentType": "${TEST_CONSENT_TYPE}",
           "currentStatus": "${TEST_CURRENT_STATUS}",
           "receipt": ${TEST_RECEIPT},
-          "validityPeriod": ${TEST_VALIDITY_PERIOD} ,
+          "expiryTime": ${TEST_EXPIRY_TIME} ,
           "recurringIndicator": ${TEST_RECURRING_INDICATOR},
           "consentAttributes": ${TEST_CONSENT_ATTRIBUTES},
           "authorizationResources":[
@@ -186,10 +184,10 @@ class CCSConsentPayload {
     public static  String invalidPayloadWithoutReceipt =
         """
         {
-          "clientID": "${TEST_CLIENT_ID}",
+          "clientId": "${TEST_CLIENT_ID}",
           "consentType": "${TEST_CONSENT_TYPE}",
           "currentStatus": "${TEST_CURRENT_STATUS}",
-          "validityPeriod": ${(Duration.between(AccountsRequestPayloads.expirationDateTime,
+          "expiryTime": ${(Duration.between(AccountsRequestPayloads.expirationDateTime,
             OffsetDateTime.now()).toDays()
             )} ,
           "recurringIndicator": ${TEST_RECURRING_INDICATOR},
@@ -207,11 +205,11 @@ class CCSConsentPayload {
     // payloads with invalid types
     public static String payloadWithInvalidRecurringIndicatorType = """
 {
-    "clientID": "${TEST_CLIENT_ID}",
+    "clientId": "${TEST_CLIENT_ID}",
     "consentType": "${TEST_CONSENT_TYPE}",
     "currentStatus": "${TEST_CURRENT_STATUS}",
     "receipt": ${JsonOutput.toJson(AccountsRequestPayloads.initiationPayload).toString()},
-    "validityPeriod": ${(Duration.between(AccountsRequestPayloads.expirationDateTime,
+    "expiryTime": ${(Duration.between(AccountsRequestPayloads.expirationDateTime,
         OffsetDateTime.now()).toDays()
         )} ,
     "recurringIndicator": "invalid",
@@ -226,11 +224,11 @@ class CCSConsentPayload {
 
         public static String payloadWithInvalidConsentAttributesType = """
     {
-    "clientID": "${TEST_CLIENT_ID}",
+    "clientId": "${TEST_CLIENT_ID}",
     "consentType": "${TEST_CONSENT_TYPE}",
     "currentStatus": "${TEST_CURRENT_STATUS}",
     "receipt": ${JsonOutput.toJson(AccountsRequestPayloads.initiationPayload).toString()},
-    "validityPeriod": ${(Duration.between(AccountsRequestPayloads.expirationDateTime,
+    "expiryTime": ${(Duration.between(AccountsRequestPayloads.expirationDateTime,
         OffsetDateTime.now()).toDays()
         )} ,
     "recurringIndicator": ${TEST_RECURRING_INDICATOR},
@@ -247,13 +245,11 @@ class CCSConsentPayload {
     public static String payloadWithoutConsentAttributes =
             """
             {
-            "clientID": "${TEST_CLIENT_ID}",
+            "clientId": "${TEST_CLIENT_ID}",
             "consentType": "${TEST_CONSENT_TYPE}",
             "currentStatus": "${TEST_CURRENT_STATUS}",
             "receipt": ${JsonOutput.toJson(AccountsRequestPayloads.initiationPayload).toString()},
-            "validityPeriod": ${(Duration.between(AccountsRequestPayloads.expirationDateTime,
-                OffsetDateTime.now()).toDays()
-                )} ,
+            "expiryTime": ${TEST_EXPIRY_TIME} ,
             "recurringIndicator": ${TEST_RECURRING_INDICATOR},
             "authorizationResources": [
                 ${TEST_DEFAULT_AUTHORIZATION_RESOURCE_A},
@@ -262,7 +258,7 @@ class CCSConsentPayload {
             }
             """
 
-    // authoirzation resources
+    // authoirzation resource
 
 
 
@@ -275,7 +271,7 @@ class CCSConsentPayload {
         {
           "status": "${TEST_UPDATED_STATUS}",
           "reason": "${TEST_UPDATE_REASON}",
-          "userID": "${TEST_USER_ID_A}"
+          "userId": "${TEST_USER_ID_A}"
         }
         """.stripIndent()
 
@@ -284,7 +280,7 @@ class CCSConsentPayload {
         {
           "status": 4,
           "reason": "${TEST_UPDATE_REASON}",
-          "userID": "${TEST_USER_ID_A}"
+          "userId": "${TEST_USER_ID_A}"
         }
         """.stripIndent()
 
@@ -297,7 +293,10 @@ class CCSConsentPayload {
             "Balances-" + UUID.randomUUID());
     private List<String> TEST_CURRENT_STATUS_BULK = Arrays.asList("awaitingAuthorisation-" + UUID.randomUUID(),
             "authorised-"+ UUID.randomUUID(), "rejected-"+ UUID.randomUUID());
-    private static final List<Integer> TEST_VALIDITY_PERIOD_BULK = Arrays.asList(10, 20, 30);
+    private static final List<Long> TEST_EXPIRY_TIME_LIST = Arrays.asList(
+            (System.currentTimeSeconds() + 100),
+            (System.currentTimeSeconds() + 200),
+            (System.currentTimeSeconds() + 300));
     private static final List<String> TEST_RECURRING_INDICATOR_BULK = Arrays.asList("true", "false");
     private static final List<Map<String, String>> TEST_CONSENT_ATTRIBUTES_BULK = Arrays.asList(
             Collections.singletonMap("attr1", "value1"),
@@ -335,11 +334,11 @@ class CCSConsentPayload {
                 String consentType = getRandomElement(this.TEST_CONSENT_TYPE_BULK);
                 String currentStatus = getRandomElement(this.TEST_CURRENT_STATUS_BULK);
 
-                payloadMap.put("clientID", clientId);
+                payloadMap.put("clientId", clientId);
                 payloadMap.put("consentType", consentType);
                 payloadMap.put("currentStatus", currentStatus);
                 payloadMap.put("receipt", TEST_RECEIPT);
-                payloadMap.put("validityPeriod", getRandomElement(TEST_VALIDITY_PERIOD_BULK));
+                payloadMap.put("expiryTime", getRandomElement(TEST_EXPIRY_TIME_LIST));
                 payloadMap.put("recurringIndicator", getRandomElement(TEST_RECURRING_INDICATOR_BULK));
                 payloadMap.put("consentAttributes", getRandomElement(TEST_CONSENT_ATTRIBUTES_BULK));
 
@@ -347,11 +346,11 @@ class CCSConsentPayload {
                 Map authorizationResourceA = new HashMap();
                 authorizationResourceA.put("authorizationStatus", TEST_AUTHORIZATION_STATUS_A);
                 authorizationResourceA.put("authorizationType", TEST_AUTHORIZATION_TYPE_A);
-                authorizationResourceA.put("userID", userId);
+                authorizationResourceA.put("userId", userId);
                 JSONObject resource = new JSONObject();
                 resource.put("accountID", TEST_ACCOUNT_ID_A1);
                 resource.put("permission", TEST_PERMISSION_A1);
-                authorizationResourceA.put("resources", Arrays.asList(resource));
+                authorizationResourceA.put("resource", Arrays.asList(resource));
                 authorizationResources.add(authorizationResourceA);
 
 
@@ -387,10 +386,10 @@ class CCSConsentPayload {
     public static String queryByClientIdAndBulkStatusUpdatePayload (String clientId, String status) {
         return """
             {
-            "clientID": "${clientId}",     
+            "clientId": "${clientId}",     
           "status": "${status}",
           "reason": "${TEST_UPDATE_REASON}",
-          "userID": "${TEST_USER_ID_A}" 
+          "userId": "${TEST_USER_ID_A}" 
             }
         """
     }
@@ -401,7 +400,7 @@ class CCSConsentPayload {
             "consentType": "${consentType}",
           "status": "${status}",     
           "reason": "${TEST_UPDATE_REASON}",
-          "userID": "${TEST_USER_ID_A}" 
+          "userId": "${TEST_USER_ID_A}" 
             }
         """
     }
@@ -413,7 +412,7 @@ class CCSConsentPayload {
             "applicableStatusesForStateChange": ["${applicableStatus}"],
           "status": "${status}",     
           "reason": "${TEST_UPDATE_REASON}",
-          "userID": "${TEST_USER_ID_A}" 
+          "userId": "${TEST_USER_ID_A}" 
             }
         """
     }
@@ -441,39 +440,39 @@ class CCSConsentPayload {
 
     public static String sampleAmendAuthorizationResource(
             String authorizationId, String authorizationStatus, String authorizationType,  String userId,
-            String  resources) {
+            String  resource) {
         return """
         {
             "authId": "${authorizationId}",
             "authorizationStatus": "${authorizationStatus}",
             "authorizationType": "${authorizationType}",
-            "userID": "${userId}",
-            "resources": ${resources}
+            "userId": "${userId}",
+            "resource": ${resource}
         }
         """.stripIndent()
     }
 
     public static String sampleNewAmendAuthorizationResource(
              String authorizationStatus, String authorizationType,  String userId,
-            String  resources) {
+            String  resource) {
         return """
         {
             "authorizationStatus": "${authorizationStatus}",
             "authorizationType": "${authorizationType}",
-            "userID": "${userId}",
-            "resources": ${resources}
+            "userId": "${userId}",
+            "resource": ${resource}
         }
         """.stripIndent()
     }
 
-    public static String amendConsentPayload(String receipt, String validityPeriod, String recurringIndicator,
+    public static String amendConsentPayload(String receipt, String expiryTime, String recurringIndicator,
                                              String consentAttributes, GString authorizationResources) {
 
         return """
         {
             "currentStatus": "${TEST_CURRENT_STATUS}",
             "receipt": ${receipt},
-            "validityPeriod": ${validityPeriod} ,
+            "expiryTime": ${expiryTime} ,
             "consentAttributes": ${consentAttributes},
             "authorizationResources": ${authorizationResources}
 
@@ -481,7 +480,7 @@ class CCSConsentPayload {
         """.stripIndent()
     }
 
-    public static String amendConsentPayloadWithoutAuthorization(String receipt, String validityPeriod,
+    public static String amendConsentPayloadWithoutAuthorization(String receipt, String expiryTime,
                                                                  String recurringIndicator,
                                                                  String consentAttributes) {
 
@@ -489,7 +488,7 @@ class CCSConsentPayload {
         {
             "currentStatus": "${TEST_CURRENT_STATUS}",
             "receipt": ${receipt},
-            "validityPeriod": ${validityPeriod} ,
+            "expiryTime": ${expiryTime} ,
             "consentAttributes": ${consentAttributes}
 
         }
@@ -500,7 +499,7 @@ class CCSConsentPayload {
         return """
                 {
                 "reason": "${reason}",
-                "userID": "${userId}"
+                "userId": "${userId}"
                 }
         """.stripIndent()
     }

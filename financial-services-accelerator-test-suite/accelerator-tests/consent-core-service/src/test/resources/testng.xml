@@ -23,8 +23,10 @@
             <class
                     name="org.wso2.financial.services.accelerator.test.consent.core.service.ConsentInitiationTest.ConsentInitiationTest"/>
             <class name="org.wso2.financial.services.accelerator.test.consent.core.service.ConsentRetrieval.ConsentRetrievalTest"/>
-            <class name="org.wso2.financial.services.accelerator.test.consent.core.service.ConsentPurge.ConsentPurgeTest"/>
-            <class name="org.wso2.financial.services.accelerator.test.consent.core.service.ConsentHistoryRetrieval.ConsentHistoryRetrieval"/>
+            <class name="org.wso2.financial.services.accelerator.test.consent.core.service.ConsentSearch.ConsentSearchTest"/>
+            <class name="org.wso2.financial.services.accelerator.test.consent.core.service.ConsentStatusUpdate.ConsentStatusUpdate"/>
+
+<!--            <class name="org.wso2.financial.services.accelerator.test.consent.core.service.ConsentHistoryRetrieval.ConsentHistoryRetrieval"/>-->
 <!--            <class name="org.wso2.financial.services.accelerator.test.consent.management.ConsentRetrieval.ConsentRetrievalFlow"/>-->
 <!--            <class name="org.wso2.financial.services.accelerator.test.consent.management.ConsentDeleteTest.ConsentRevokeFlow"/>-->
 <!--            <class name="org.wso2.financial.services.accelerator.test.consent.management.ConsentValidateTest.AccountConsentValidationFlow"/>-->

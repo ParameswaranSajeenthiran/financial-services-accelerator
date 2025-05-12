@@ -25,7 +25,7 @@ class ConsentStatusUpdate extends ConsentCoreServiceTest{
         Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_200)
 
         // assert updated status
-        doConsentRetrieval(false, false);
+        doConsentRetrieval();
         Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_200)
         Assert.assertEquals(TestUtil.parseResponseBody(consentResponse, "currentStatus").toString(),
                 CCSConsentPayload.TEST_UPDATED_STATUS)
@@ -61,7 +61,7 @@ class ConsentStatusUpdate extends ConsentCoreServiceTest{
 
     @Test
     void "Update consent status without userID"() {
-        doConsentStatusUpdate (TestUtil.removeKey(CCSConsentPayload.statusUpdatePayload, "userID"))
+        doConsentStatusUpdate (TestUtil.removeKey(CCSConsentPayload.statusUpdatePayload, "userId"))
         Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
     }
 
@@ -69,14 +69,14 @@ class ConsentStatusUpdate extends ConsentCoreServiceTest{
     @Test
     void "Update consent status with empty userID"() {
         doConsentStatusUpdate (TestUtil.replaceValueWithEmptyString(
-                CCSConsentPayload.statusUpdatePayload, "userID"))
+                CCSConsentPayload.statusUpdatePayload, "userId"))
         Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
     }
 
     @Test
     void "Update consent status without reason"() {
         doConsentStatusUpdate (TestUtil.removeKey(CCSConsentPayload.statusUpdatePayload, "reason"))
-        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_200)
+        Assert.assertEquals(consentResponse.getStatusCode(), ConnectorTestConstants.STATUS_CODE_400)
     }
 
 
